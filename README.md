@@ -1,3 +1,2 @@
 # InstantScale
-Reads SEM image scales and cleans image with a new scale
-HELLLO
+Reads SEM images scale and creates a new smaller scale.
