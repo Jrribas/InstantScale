@@ -8,6 +8,8 @@ file_path = easygui.fileopenbox("Please select the images to process", "Instants
 file_path = pi.cleanPathFiles(file_path)
 print(file_path)
 
+
+
 for path in file_path:
     print(path)
     img = cv2.imread(path)
