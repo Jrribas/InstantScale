@@ -1,7 +1,8 @@
 import cv2
 import os
-#import pytesseract
-
+import pytesseract
+from PIL import Image, ImageFont, ImageDraw
+import numpy as np
 
 class ProcessImage:
     def getBar(img):
@@ -28,9 +29,31 @@ class ProcessImage:
                         return scale
                     k = []
 
-    def getNumber(TesseractPath, img):
+    def getNumber(TesseractPath, bar_img):
         pytesseract.pytesseract.tesseract_cmd = TesseractPath + "\\Tesseract.exe"
         TESSDATA_PREFIX = TesseractPath
+        bar_img = cv2.cvtColor(bar_img, cv2.COLOR_BGR2GRAY)
+        # Apply dilation and erosion to remove some noise
+        kernel = np.ones((1, 1), np.uint8)
+        bar_img = cv2.dilate(bar_img, kernel, iterations=1)
+        bar_img = cv2.erode(bar_img, kernel, iterations=1)
+        # Write the image after apply opencv to do some ...
+        path = 'images/threshHoldImages'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        cv2.imwrite("images/threshHoldImages/thres.png", bar_img)
+        # Recognize text with tesseract for python
+        scalenumb = pytesseract.image_to_string(Image.open("images/threshHoldImages/thres.png"))
+        scalenumb = scalenumb.split()
+
+        units = scalenumb[1]
+        scalenumb = int(scalenumb[0])
+
+        poss_units = ['nm', 'um', 'mm']
+        real_units = ['nm', 'µm', 'mm']
+
+        units = real_units[poss_units.index(units)]
+        return scalenumb,units
 
     def cleanPathFiles(path):
         for x in range(len(path)):
@@ -42,3 +65,6 @@ class ProcessImage:
             os.rename(path[x], newfile_path)
             path[x] = newfile_path
             return path
+
+    def drawScale(img):
+        pass
