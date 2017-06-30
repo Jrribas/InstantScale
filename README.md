@@ -11,4 +11,5 @@ What things you need to install the software and how to install them
 ## Example
 ### Before
 <img src="https://github.com/Warfront/InstantScale/blob/master/images/SEM1.jpg?raw=trueo" width="500">
+
 ### After
