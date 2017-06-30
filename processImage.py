@@ -3,6 +3,7 @@ import os
 import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import numpy as np
+import re
 
 class ProcessImage:
     def getBar(img):
@@ -32,6 +33,26 @@ class ProcessImage:
     def getNumber(TesseractPath, bar_img):
         pytesseract.pytesseract.tesseract_cmd = TesseractPath + "\\Tesseract.exe"
         TESSDATA_PREFIX = TesseractPath
+        path = 'images/threshHoldImages'
+        for i in range(0, 100, 10):
+            thresh = i
+            max_Value = 255
+            th, imga = cv2.threshold(bar_img, thresh, max_Value, cv2.THRESH_BINARY)
+            #lol = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
+            #cv2.imshow("thresh test",imga)
+            cv2.waitKey(0)
+            if not os.path.exists(path):
+                os.makedirs(path)
+            cv2.imwrite(path + "/thres.png", imga)
+            scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
+            print(scalenumb)
+            findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um)')
+            mo = findSize.search(scalenumb)
+
+            if mo is not None:
+                #print(mo.group(1), mo.group(2))
+                return mo.group(1), mo.group(2)
+
         bar_img = cv2.cvtColor(bar_img, cv2.COLOR_BGR2GRAY)
         # Apply dilation and erosion to remove some noise
         kernel = np.ones((1, 1), np.uint8)
