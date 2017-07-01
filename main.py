@@ -10,23 +10,41 @@ TESSDATA_PREFIX = "C:\\Program Files (x86)\\Tesseract-OCR"
 print("Selecting Images")
 file_path = easygui.fileopenbox("Please select the images to process", "Instantscale", filetypes= "*.tif", multiple=True)
 print('Cleaning File Types')
-file_path = cleanPathFiles(file_path)
 
-print("Looping Images...")
-for path in file_path:
-    print("Read Image...")
-    img = cv2.imread(path)
-    height, width, channels = img.shape
-    print("Crop Image...")
-    crop_img,bar_img = getBar(img)
-    print("Get scale bar size...")
-    scale = len(getScale(bar_img))
-    print("scale: ", str(scale))
-    print("Get scale number...")
-    scaleNumb, units = getNumber(bar_img)
-    print("Scale Text: " + scaleNumb + units)
-    print("Drawing new scale...")
-    drawScale(crop_img,scale,int(scaleNumb),units,path)
+try:
+    file_path = cleanPathFiles(file_path)
+    print("Looping Images...")
+    for path in file_path:
+        print("Read Image...")
+        img = cv2.imread(path)
+        height, width, channels = img.shape
+        print("Crop Image...")
+        crop_img,bar_img = getBar(img)
+        print("Get scale bar size...")
+        scale = len(getScale(bar_img))
+        print("scale: ", str(scale))
+        print("Get scale number...")
+        original_bar_img = bar_img
+        for i in range(0,len(bar_img[0]),50):
+            #print(i)
+            #cv2.imshow('image',bar_img)
+            #cv2.waitKey(0)
+            try:
+                scaleNumb, units = getNumber(bar_img)
+                break
+            except:
+                bar_img = original_bar_img[::,i:i+100]
+        print("Scale Text: " + scaleNumb + units)
+        print("Drawing new scale...")
+        drawScale(crop_img,scale,int(scaleNumb),units,path)
+except TypeError:
+    print("No Image Selected")
+#scaleNumb = ""
+#units = ""
+
+
+
+
 
 
 ######BUGS######

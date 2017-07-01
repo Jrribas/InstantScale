@@ -31,10 +31,12 @@ def getScale(bar_img):
                 k = []
 
 def getNumber(bar_img):
+    print("Getting Scale numbers...")
     path = 'images/HoldImages'
     kernel = np.ones((1, 1), np.uint8)
     bar_img = cv2.dilate(bar_img, kernel, iterations=1)
     bar_img = cv2.erode(bar_img, kernel, iterations=1)
+    #bar_img = bar_img[::,:100]
 
     for i in range(0, 100, 10):
         thresh = i
@@ -46,14 +48,13 @@ def getNumber(bar_img):
             os.makedirs(path)
         cv2.imwrite(path + "/thres.png", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
-        print(scalenumb)
+        #print(scalenumb)
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
         if mo is not None and mo.group(1) != '0':
             #print(mo.group(1), mo.group(2))
             return mo.group(1), mo.group(2)
-
 
 
 def cleanPathFiles(path):
@@ -93,7 +94,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
             break
 
     squareDimensions = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
-    print(squareDimensions)
+    #print(squareDimensions)
 
     path= "images/cropImages"
     if not os.path.exists(path):
@@ -129,7 +130,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
     if not os.path.exists("images_with_new_scale"):
         os.makedirs("images_with_new_scale")
     os.chdir(dirName + "/images_with_new_scale")
-    print(fileExtension)
+
     im.save(filename + '_scale' + fileExtension)
-    print("ImageSaved")
+    print("ImageSaved with name: " + filename + '_scale' + fileExtension)
     # cv2.imwrite(path[:len(path)-4] + '_scale' + path[len(path)-4:], im)
