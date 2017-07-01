@@ -5,87 +5,122 @@ from PIL import Image, ImageFont, ImageDraw
 import numpy as np
 import re
 
-class ProcessImage:
-    def getBar(img):
-        for i in reversed(range(len(img))):
-            if img[i,3][0] > 254 and img[i,3][1] > 254 and img[i,3][2] > 254 and 'startRow' not in locals():
-                startRow = i
-            if img[i,3][0] < 250 and img[i,3][1] < 250 and img[i,3][2] < 250 and 'startRow' in locals():
-                cropRow = i
-                break
-        crop_img = img[0:cropRow, 0::]
-        bar_img = img[cropRow+1:startRow, 0::]
-        return crop_img,bar_img
 
-    def getScale(bar_img):
-        scale = []
-        k = []
-        for i in range(len(bar_img)):
-            for j in range(len(bar_img[i])):
-                if bar_img[i,j][0] < 50 and bar_img[i,j][1] < 50 and bar_img[i,j][2] < 50:
-                    k.append([i,j])
-                else:
-                    if len(k) > 30:
-                        scale = k
-                        return scale
-                    k = []
+def getBar(img):
+    for i in reversed(range(len(img))):
+        if img[i,3][0] > 254 and img[i,3][1] > 254 and img[i,3][2] > 254 and 'startRow' not in locals():
+            startRow = i
+        if img[i,3][0] < 250 and img[i,3][1] < 250 and img[i,3][2] < 250 and 'startRow' in locals():
+            cropRow = i
+            break
+    crop_img = img[0:cropRow, 0::]
+    bar_img = img[cropRow+1:startRow, 0::]
+    return crop_img,bar_img
 
-    def getNumber(TesseractPath, bar_img):
-        pytesseract.pytesseract.tesseract_cmd = TesseractPath + "\\Tesseract.exe"
-        TESSDATA_PREFIX = TesseractPath
-        path = 'images/threshHoldImages'
-        for i in range(0, 100, 10):
-            thresh = i
-            max_Value = 255
-            th, imga = cv2.threshold(bar_img, thresh, max_Value, cv2.THRESH_BINARY)
-            #lol = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
-            #cv2.imshow("thresh test",imga)
-            cv2.waitKey(0)
-            if not os.path.exists(path):
-                os.makedirs(path)
-            cv2.imwrite(path + "/thres.png", imga)
-            scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
-            print(scalenumb)
-            findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um)')
-            mo = findSize.search(scalenumb)
+def getScale(bar_img):
+    scale = []
+    k = []
+    for i in range(len(bar_img)):
+        for j in range(len(bar_img[i])):
+            if bar_img[i,j][0] < 50 and bar_img[i,j][1] < 50 and bar_img[i,j][2] < 50:
+                k.append([i,j])
+            else:
+                if len(k) > 30:
+                    scale = k
+                    return scale
+                k = []
 
-            if mo is not None:
-                #print(mo.group(1), mo.group(2))
-                return mo.group(1), mo.group(2)
+def getNumber(bar_img):
+    path = 'images/HoldImages'
+    kernel = np.ones((1, 1), np.uint8)
+    bar_img = cv2.dilate(bar_img, kernel, iterations=1)
+    bar_img = cv2.erode(bar_img, kernel, iterations=1)
 
-        bar_img = cv2.cvtColor(bar_img, cv2.COLOR_BGR2GRAY)
-        # Apply dilation and erosion to remove some noise
-        kernel = np.ones((1, 1), np.uint8)
-        bar_img = cv2.dilate(bar_img, kernel, iterations=1)
-        bar_img = cv2.erode(bar_img, kernel, iterations=1)
-        # Write the image after apply opencv to do some ...
-        path = 'images/threshHoldImages'
+    for i in range(0, 100, 10):
+        thresh = i
+        max_Value = 255
+
+        th, imga = cv2.threshold(bar_img , thresh, max_Value, cv2.THRESH_BINARY)
+
         if not os.path.exists(path):
             os.makedirs(path)
-        cv2.imwrite("images/threshHoldImages/thres.png", bar_img)
-        # Recognize text with tesseract for python
-        scalenumb = pytesseract.image_to_string(Image.open("images/threshHoldImages/thres.png"))
-        scalenumb = scalenumb.split()
+        cv2.imwrite(path + "/thres.png", imga)
+        scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
+        print(scalenumb)
+        findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
+        mo = findSize.search(scalenumb)
 
-        units = scalenumb[1]
-        scalenumb = int(scalenumb[0])
+        if mo is not None and mo.group(1) != '0':
+            #print(mo.group(1), mo.group(2))
+            return mo.group(1), mo.group(2)
 
-        poss_units = ['nm', 'um', 'mm']
-        real_units = ['nm', 'µm', 'mm']
+def cleanPathFiles(path):
+    for x in range(len(path)):
+        intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
+        outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE"
+        trantab = str.maketrans(intab, outtab)
 
-        units = real_units[poss_units.index(units)]
-        return scalenumb,units
+        newfile_path = path[x].translate(trantab)
+        os.rename(path[x], newfile_path)
+        path[x] = newfile_path
+        return path
 
-    def cleanPathFiles(path):
-        for x in range(len(path)):
-            intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
-            outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE"
-            trantab = str.maketrans(intab, outtab)
+def drawScale(img,scale,scaleNumb,units,originalPath):
+    # Desenhar a escala nova
+    height, width, channels = img.shape
+    values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
+    if units == 'nm':
+        scaleNumb *= 0.001
+    elif units == 'mm':
+        scaleNumb *= 1000
+    else:
+        units = 'µm'
 
-            newfile_path = path[x].translate(trantab)
-            os.rename(path[x], newfile_path)
-            path[x] = newfile_path
-            return path
+    for val in values:
+        newScale = int(round((val * scale) / scaleNumb))
+        #print("newScale: " + str(newScale))
+        if 40 <= newScale <= 200:
+            if val < 1:
+                newScaleNumb = val * 1000
+                units = 'nm'
+            elif val > 500:
+                newScaleNumb = val / 1000
+                units = 'mm'
+            else:
+                newScaleNumb = val
+            break
 
-    def drawScale(img):
-        pass
+    squareDimensions = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
+    print(squareDimensions)
+
+    path= "images/cropImages"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    cv2.imwrite(path + "/crop_rect.png", img)
+
+    im = Image.open(path + "/crop_rect.png")
+
+    draw = ImageDraw.Draw(im)
+    draw.rectangle(squareDimensions, fill="white", outline="white")
+    lineDimensions = [x + y for x, y in zip(squareDimensions, [10,15,-10,-55])]
+    draw.line(lineDimensions, fill='Black', width=10)
+
+    fontsize = 40
+    font = ImageFont.truetype("arial.ttf", fontsize)
+    scaletext = [str(newScaleNumb) + ' ' + units]
+    w, h = draw.textsize(scaletext[0], font)
+
+    draw.text(((((squareDimensions[2]-squareDimensions[0])/2) - w/2) + squareDimensions[0], squareDimensions[1] + 20), scaletext[0], font=font, fill='Black')
+    del draw
+
+    # print(path[:len(path)-4] + '_scale' + path[len(path)-4:])
+    filename, fileExtension = os.path.splitext(os.path.basename(originalPath))
+    dirName = os.path.dirname(originalPath)
+    os.chdir(dirName)
+    if not os.path.exists("images_with_new_scale"):
+        os.makedirs("images_with_new_scale")
+    os.chdir(dirName + "/images_with_new_scale")
+    print(fileExtension)
+    im.save(filename + '_scale' + fileExtension)
+    print("ImageSaved")
+    # cv2.imwrite(path[:len(path)-4] + '_scale' + path[len(path)-4:], im)
