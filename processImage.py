@@ -54,6 +54,8 @@ def getNumber(bar_img):
             #print(mo.group(1), mo.group(2))
             return mo.group(1), mo.group(2)
 
+
+
 def cleanPathFiles(path):
     for x in range(len(path)):
         intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
@@ -77,14 +79,14 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
         units = 'µm'
 
     for val in values:
-        newScale = int(round((val * scale) / scaleNumb))
+        newScale = round((val * scale) / scaleNumb)
         #print("newScale: " + str(newScale))
         if 40 <= newScale <= 200:
             if val < 1:
-                newScaleNumb = val * 1000
+                newScaleNumb = int(val * 1000)
                 units = 'nm'
             elif val > 500:
-                newScaleNumb = val / 1000
+                newScaleNumb = int(val / 1000)
                 units = 'mm'
             else:
                 newScaleNumb = val
@@ -99,20 +101,27 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
     cv2.imwrite(path + "/crop_rect.png", img)
 
     im = Image.open(path + "/crop_rect.png")
-
     draw = ImageDraw.Draw(im)
-    draw.rectangle(squareDimensions, fill="white", outline="white")
-    lineDimensions = [x + y for x, y in zip(squareDimensions, [10,15,-10,-55])]
-    draw.line(lineDimensions, fill='Black', width=10)
 
     fontsize = 40
     font = ImageFont.truetype("arial.ttf", fontsize)
-    scaletext = [str(newScaleNumb) + ' ' + units]
-    w, h = draw.textsize(scaletext[0], font)
+    scaletext = str(newScaleNumb) + ' ' + units
 
-    draw.text(((((squareDimensions[2]-squareDimensions[0])/2) - w/2) + squareDimensions[0], squareDimensions[1] + 20), scaletext[0], font=font, fill='Black')
+    w, h = draw.textsize(scaletext, font)
+
+    textDimensions = [x + y for x, y in zip(squareDimensions, [+newScale-w,0,0,0])]
+    if newScale > w:
+        draw.rectangle(squareDimensions, fill="white", outline="white")
+        draw.text(((((squareDimensions[2]-squareDimensions[0])/2) - w/2) + squareDimensions[0], squareDimensions[1] + 20), scaletext, font=font, fill='Black')
+        draw.line([((squareDimensions[2]-squareDimensions[0])/2) - newScale/2 + squareDimensions[0], squareDimensions[1] + 15, squareDimensions[0] +  ((squareDimensions[2]-squareDimensions[0])/2) + newScale/2, squareDimensions[1] + 15], fill='Black', width=10)
+    else:
+        draw.rectangle(textDimensions, fill="white", outline="white")
+        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 20), scaletext, font=font, fill='Black')
+        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=10)
+    #lineDimensions = [x + y for x, y in zip(squareDimensions, [10,15,-10,-55])]
+
+
     del draw
-
     # print(path[:len(path)-4] + '_scale' + path[len(path)-4:])
     filename, fileExtension = os.path.splitext(os.path.basename(originalPath))
     dirName = os.path.dirname(originalPath)

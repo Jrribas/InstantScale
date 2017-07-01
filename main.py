@@ -27,3 +27,9 @@ for path in file_path:
     print("Scale Text: " + scaleNumb + units)
     print("Drawing new scale...")
     drawScale(crop_img,scale,int(scaleNumb),units,path)
+
+
+######BUGS######
+
+#ele cria pasta iamgens dentro de images_with_new_scale
+#imagem 5.tif
