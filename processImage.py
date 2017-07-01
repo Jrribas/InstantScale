@@ -2,9 +2,8 @@ import cv2
 import os
 import pytesseract
 from PIL import Image, ImageFont, ImageDraw
-import numpy as np
 import re
-
+#import numpy as np
 
 def getBar(img):
     for i in reversed(range(len(img))):
@@ -33,9 +32,9 @@ def getScale(bar_img):
 def getNumber(bar_img):
     print("Getting Scale numbers...")
     path = 'images/HoldImages'
-    kernel = np.ones((1, 1), np.uint8)
-    bar_img = cv2.dilate(bar_img, kernel, iterations=1)
-    bar_img = cv2.erode(bar_img, kernel, iterations=1)
+    #kernel = np.ones((1, 1), np.uint8)
+    #bar_img = cv2.dilate(bar_img, kernel, iterations=1)
+    #bar_img = cv2.erode(bar_img, kernel, iterations=1)
     #bar_img = bar_img[::,:100]
 
     for i in range(0, 100, 10):

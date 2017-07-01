@@ -39,8 +39,8 @@ try:
         drawScale(crop_img,scale,int(scaleNumb),units,path)
 except TypeError:
     print("No Image Selected")
-#scaleNumb = ""
-#units = ""
+
+
 
 
 
@@ -50,4 +50,3 @@ except TypeError:
 ######BUGS######
 
 #ele cria pasta iamgens dentro de images_with_new_scale
-#imagem 5.tif
