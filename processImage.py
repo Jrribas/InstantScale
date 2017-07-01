@@ -3,7 +3,7 @@ import os
 import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
-#import numpy as np
+#mport numpy as np
 
 def getBar(img):
     for i in reversed(range(len(img))):
