@@ -1,8 +1,14 @@
 import easygui
 import cv2
 import pytesseract
-import os
 from processImage import *
+
+
+# Select Tesseract.exe path
+# file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
+
+# pytesseract.pytesseract.tesseract_cmd = file_path
+# TESSDATA_PREFIX = file_path[:len(file_path)-14]
 
 
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files (x86)\\Tesseract-OCR\\Tesseract.exe"
