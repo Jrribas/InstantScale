@@ -1,9 +1,9 @@
 import cv2
 import os
-from pytesseract
+import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
-#mport numpy as np
+#import numpy as np
 
 def getBar(img):
     for i in reversed(range(len(img))):
@@ -81,7 +81,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
     for val in values:
         newScale = round((val * scale) / scaleNumb)
         #print("newScale: " + str(newScale))
-        if 40 <= newScale <= 200:
+        if 60 <= newScale <= 200:
             if val < 1:
                 newScaleNumb = int(val * 1000)
                 units = 'nm'
@@ -92,8 +92,8 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
                 newScaleNumb = val
             break
 
-    squareDimensions = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
-    #print(squareDimensions)
+    sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
+    #print(sD)
 
     path= "images/cropImages"
     if not os.path.exists(path):
@@ -109,16 +109,16 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
 
     w, h = draw.textsize(scaletext, font)
 
-    textDimensions = [x + y for x, y in zip(squareDimensions, [+newScale-w,0,0,0])]
+    textDimensions = [x + y for x, y in zip(sD, [+newScale-w,0,0,0])]
     if newScale > w:
-        draw.rectangle(squareDimensions, fill="white", outline="white")
-        draw.text(((((squareDimensions[2]-squareDimensions[0])/2) - w/2) + squareDimensions[0], squareDimensions[1] + 20), scaletext, font=font, fill='Black')
-        draw.line([((squareDimensions[2]-squareDimensions[0])/2) - newScale/2 + squareDimensions[0], squareDimensions[1] + 15, squareDimensions[0] +  ((squareDimensions[2]-squareDimensions[0])/2) + newScale/2, squareDimensions[1] + 15], fill='Black', width=10)
+        draw.rectangle(sD, fill="white", outline="white")
+        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 20), scaletext, font=font, fill='Black')
+        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15], fill='Black', width=10)
     else:
         draw.rectangle(textDimensions, fill="white", outline="white")
         draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 20), scaletext, font=font, fill='Black')
         draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=10)
-    #lineDimensions = [x + y for x, y in zip(squareDimensions, [10,15,-10,-55])]
+    #lineDimensions = [x + y for x, y in zip(sD, [10,15,-10,-55])]
 
 
     del draw
