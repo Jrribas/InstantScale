@@ -3,17 +3,12 @@ Reads SEM images scale, crops the white bar, and creates a new smaller scale on 
 
 ## Getting Started
 
-1- Click on the button "Clone or Download" followed by "Dowload Zip";
-
-2- Extract to a folder of your choice;
-
-3- Go to the folder "dist" and install "tesseract-ocr-setup-4.00.00dev.exe";
-
-4- Now you have two choices, install InstantScale on your computer and then run it or just run the pre-extracted build without the need to further install;
-
-4.1- To run the pre-extracted, go to the folder "InstantScale\build\exe.win-amd64-3.6" and click "InstantScale.exe";
-
-4.2- To run setup, go to the folder "InstantScale\dist" and click "InstantScale-0.1-amd64.msi";
+1. Click on the button "Clone or Download" followed by "Dowload Zip";
+2. Extract to a folder of your choice;
+3. Go to the folder "dist" and install "tesseract-ocr-setup-4.00.00dev.exe";
+4. Now you have two choices, install InstantScale on your computer and then run it or just run the pre-extracted build without the need to further install;
+    1. To run the pre-extracted, go to the folder "InstantScale\build\exe.win-amd64-3.6" and click "InstantScale.exe";
+    2. To run setup, go to the folder "InstantScale\dist" and click "InstantScale-0.1-amd64.msi"; 
 
 
 ### Prerequisites
