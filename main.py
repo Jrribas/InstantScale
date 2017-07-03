@@ -4,8 +4,14 @@ import pytesseract
 import os
 from processImage import *
 
+
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files (x86)\\Tesseract-OCR\\Tesseract.exe"
 TESSDATA_PREFIX = "C:\\Program Files (x86)\\Tesseract-OCR"
+
+f = open( 'TesseractPath.py', 'w' )
+f.write( 'path' )
+f.close()
+
 
 print("Selecting Images")
 file_path = easygui.fileopenbox("Please select the images to process", "Instantscale", filetypes= "*.tif", multiple=True)
