@@ -1,6 +1,6 @@
 from cx_Freeze import setup, Executable
 import os
-import numpy as np
+
 
 os.environ['TCL_LIBRARY'] = r'C:\Users\Farinha\Anaconda3\tcl\tcl8.6'
 os.environ['TK_LIBRARY'] = r'C:\Users\Farinha\Anaconda3\tcl\tk8.6'
