@@ -92,7 +92,17 @@ def drawScale(img,scale,scaleNumb,units,originalPath,position):
                 newScaleNumb = val
             break
 
-    sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
+    if position == 0:
+        sD = [round(width*0.0235) , round(height*0.9636)-70, (round(width*0.0235) + newScale) + 20, round(height*0.9636)] # X0,Y0,X1,Y1
+    elif position == 1:
+        sD = [(round(width*0.9765) - newScale) - 20, round(height*0.9636)-70, round(width*0.9765), round(height*0.9636)] # X0,Y0,X1,Y1
+    elif position == 2:
+        sD = [round(width*0.0235) , round(height*0.0364), (round(width*0.0235) + newScale) + 20, round(height*0.0364) + 70] # X0,Y0,X1,Y1
+    else:
+        sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
+
+
+
     #print(sD)
 
     path= "images/cropImages"
@@ -108,8 +118,12 @@ def drawScale(img,scale,scaleNumb,units,originalPath,position):
     scaletext = str(newScaleNumb) + ' ' + units
 
     w, h = draw.textsize(scaletext, font)
+    if position == 0 or position == 2:
+        textDimensions = [x + y for x, y in zip(sD, [0,0,-newScale +w,0])]
+    else:
+        textDimensions = [x + y for x, y in zip(sD, [+newScale-w,0,0,0])]
 
-    textDimensions = [x + y for x, y in zip(sD, [+newScale-w,0,0,0])]
+
     if newScale > w:
         draw.rectangle(sD, fill="white", outline="white")
         draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 20), scaletext, font=font, fill='Black')
