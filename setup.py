@@ -14,6 +14,4 @@ setup(name='InstantScale',
     version = '0.1',
     description='Parse stuff',
     options = {"build_exe": {"includes": includes, "include_files": include_files, "packages": packages}},
-    executables = [Executable("main.py",targetName="InstantScale.exe")]
-    shortcutName="DTI Playlist",
-    shortcutDir="DesktopFolder",)
+    executables = [Executable("main.py",targetName="InstantScale.exe", shortcutName="InstantScale", shortcutDir="DesktopFolder")])
