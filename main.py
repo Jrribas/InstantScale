@@ -5,19 +5,18 @@ from processImage import *
 
 
 # Select Tesseract.exe path
-# file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
-
-# pytesseract.pytesseract.tesseract_cmd = file_path
-# TESSDATA_PREFIX = file_path[:len(file_path)-14]
-
-
-pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files (x86)\\Tesseract-OCR\\Tesseract.exe"
-TESSDATA_PREFIX = "C:\\Program Files (x86)\\Tesseract-OCR"
-
-f = open( 'TesseractPath.py', 'w' )
-f.write( 'path' )
+f = open( 'TesseractPath.txt', 'r' )
+file_path = f.read()
 f.close()
+if file_path == '':
+    file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
+    f = open('TesseractPath.txt', 'w')
+    f.write(file_path)
+    f.close()
 
+
+pytesseract.pytesseract.tesseract_cmd = file_path
+TESSDATA_PREFIX = os.path.dirname(file_path)
 
 print("Selecting Images")
 file_path = easygui.fileopenbox("Please select the images to process", "Instantscale", filetypes= "*.tif", multiple=True)
