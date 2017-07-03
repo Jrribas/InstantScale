@@ -29,9 +29,8 @@ def getScale(bar_img):
                     return scale
                 k = []
 
-def getNumber(bar_img):
+def getNumber(bar_img,exePath):
     print("Getting Scale numbers...")
-
     path = 'images/HoldImages'
     #kernel = np.ones((1, 1), np.uint8)
     #bar_img = cv2.dilate(bar_img, kernel, iterations=1)
@@ -41,13 +40,16 @@ def getNumber(bar_img):
     for i in range(0, 100, 10):
         thresh = i
         max_Value = 255
-
         th, imga = cv2.threshold(bar_img , thresh, max_Value, cv2.THRESH_BINARY)
-        os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+        os.chdir(exePath)
+
         if not os.path.exists(path):
             os.makedirs(path)
+
         cv2.imwrite(path + "/thres.png", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
+
         #print(scalenumb)
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
@@ -68,7 +70,7 @@ def cleanPathFiles(path):
         path[x] = newfile_path
         return path
 
-def drawScale(img,scale,scaleNumb,units,originalPath,position):
+def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position):
     # Desenhar a escala nova
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
@@ -105,7 +107,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,position):
 
 
     #print(sD)
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    os.chdir(exePath)
     path= "images/cropImages"
     if not os.path.exists(path):
         os.makedirs(path)

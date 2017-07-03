@@ -1,26 +1,48 @@
 import easygui
 import cv2
 import pytesseract
+from PIL import Image
 from processImage import *
 
+exePath = os.getcwd()
 
-if not os.path.isfile('TesseractPath.txt'):
-    f = open("TesseractPath.txt", "wb")
+def tesseractPath(failed=False):
+    #SELECT PATH TO TESSERACT FOLDER AND SAVE
+    if not os.path.isfile('TesseractPath.txt'):
+        f = open("TesseractPath.txt", "wb")
+        f.close()
+
+    f = open( 'TesseractPath.txt', 'r' )
+    file_path = f.read()
     f.close()
+    if file_path == '':
+        print("Select path to tesseract exe, by default on Program Files (x86)\Tesseract-OCR")
+        file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
+        f = open('TesseractPath.txt', 'w')
+        f.write(file_path)
+        f.close()
 
-# Select Tesseract.exe path
-f = open( 'TesseractPath.txt', 'r' )
-file_path = f.read()
-f.close()
-if file_path == '':
-    file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
-    f = open('TesseractPath.txt', 'w')
-    f.write(file_path)
-    f.close()
+    elif failed == True:
+        #Clean txt
+        file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
+        with open('TesseractPath.txt', "w"):
+            pass
+        f = open('TesseractPath.txt', 'w')
+        f.write(file_path)
+        f.close()
 
+    pytesseract.pytesseract.tesseract_cmd = file_path
+    TESSDATA_PREFIX = os.path.dirname(file_path)
 
-pytesseract.pytesseract.tesseract_cmd = file_path
-TESSDATA_PREFIX = os.path.dirname(file_path)
+file_path = tesseractPath()
+
+#TEST TESSERACT
+try:
+    pytesseract.image_to_string(Image.open(r'pytesseract\test.png'))
+except:
+    print("Tesseract failed to Load Try Again")
+    tesseractPath(True)
+
 
 print("Selecting Images")
 file_path = easygui.fileopenbox("Please select the images to process", "Instantscale", filetypes= "*.tif", multiple=True)
@@ -33,6 +55,7 @@ while position not in list(range(4)):
     except:
         pass
 
+#MAIN PART
 try:
     file_path = cleanPathFiles(file_path)
     print("Looping Images...")
@@ -52,12 +75,16 @@ try:
             #cv2.imshow('image',bar_img)
             #cv2.waitKey(0)
             try:
-                scaleNumb, units = getNumber(bar_img)
+                scaleNumb, units = getNumber(bar_img, exePath)
                 break
             except:
+                print("Failed - croping image bar")
                 bar_img = original_bar_img[::,i:i+100]
         print("Scale Text: " + scaleNumb + units)
         print("Drawing new scale...")
-        drawScale(crop_img,scale,int(scaleNumb),units,path,position)
+        drawScale(crop_img,scale,int(scaleNumb),units,path,exePath,position)
 except TypeError:
     print("No Image Selected")
+
+print("All done")
+input("Press Enter to exit...")
