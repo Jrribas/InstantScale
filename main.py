@@ -11,6 +11,13 @@ print("Selecting Images")
 file_path = easygui.fileopenbox("Please select the images to process", "Instantscale", filetypes= "*.tif", multiple=True)
 print('Cleaning File Types')
 
+position = None
+while position not in list(range(4)):
+    try:
+        position =  int(input("Where do you want to place the scale? (Bottom Left - 0, Bottom Right - 1, Top Left - 2, Top Right - 3)"))
+    except:
+        pass
+
 try:
     file_path = cleanPathFiles(file_path)
     print("Looping Images...")
@@ -36,7 +43,7 @@ try:
                 bar_img = original_bar_img[::,i:i+100]
         print("Scale Text: " + scaleNumb + units)
         print("Drawing new scale...")
-        drawScale(crop_img,scale,int(scaleNumb),units,path)
+        drawScale(crop_img,scale,int(scaleNumb),units,path,position)
 except TypeError:
     print("No Image Selected")
 
