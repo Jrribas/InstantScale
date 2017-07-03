@@ -1,7 +1,7 @@
 import easygui
 import cv2
 import pytesseract
-
+import os
 from processImage import *
 
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files (x86)\\Tesseract-OCR\\Tesseract.exe"
@@ -46,14 +46,3 @@ try:
         drawScale(crop_img,scale,int(scaleNumb),units,path,position)
 except TypeError:
     print("No Image Selected")
-
-
-
-
-
-
-
-
-######BUGS######
-
-#ele cria pasta iamgens dentro de images_with_new_scale

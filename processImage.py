@@ -31,6 +31,7 @@ def getScale(bar_img):
 
 def getNumber(bar_img):
     print("Getting Scale numbers...")
+
     path = 'images/HoldImages'
     #kernel = np.ones((1, 1), np.uint8)
     #bar_img = cv2.dilate(bar_img, kernel, iterations=1)
@@ -42,7 +43,7 @@ def getNumber(bar_img):
         max_Value = 255
 
         th, imga = cv2.threshold(bar_img , thresh, max_Value, cv2.THRESH_BINARY)
-
+        os.chdir(os.path.dirname(os.path.realpath(__file__)))
         if not os.path.exists(path):
             os.makedirs(path)
         cv2.imwrite(path + "/thres.png", imga)
@@ -104,7 +105,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,position):
 
 
     #print(sD)
-
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
     path= "images/cropImages"
     if not os.path.exists(path):
         os.makedirs(path)
@@ -146,4 +147,3 @@ def drawScale(img,scale,scaleNumb,units,originalPath,position):
 
     im.save(filename + '_scale' + fileExtension)
     print("ImageSaved with name: " + filename + '_scale' + fileExtension)
-
