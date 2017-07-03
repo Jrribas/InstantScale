@@ -9,7 +9,7 @@ Reads SEM images scale, crops the white bar, and creates a new smaller scale on 
 4. Now you the only thing left is to install InstantScale on your computer. Go to the folder "InstantScale\dist" and click "InstantScale-0.1-amd64.msi"; 
 5. Run as Administrator the InstanScale.exe
 
-ps.: To unnistall just delete the folder where was installed.
+note: To unnistall just run the installer again.
 
 ### Prerequisites
 
