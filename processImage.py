@@ -132,4 +132,4 @@ def drawScale(img,scale,scaleNumb,units,originalPath):
 
     im.save(filename + '_scale' + fileExtension)
     print("ImageSaved with name: " + filename + '_scale' + fileExtension)
-    # cv2.imwrite(path[:len(path)-4] + '_scale' + path[len(path)-4:], im)
+
