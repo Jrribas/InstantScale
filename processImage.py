@@ -67,7 +67,7 @@ def cleanPathFiles(path):
         path[x] = newfile_path
         return path
 
-def drawScale(img,scale,scaleNumb,units,originalPath):
+def drawScale(img,scale,scaleNumb,units,originalPath,position):
     # Desenhar a escala nova
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
