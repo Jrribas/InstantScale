@@ -6,10 +6,7 @@ from processImage import *
 
 if not os.path.isfile('TesseractPath.txt'):
     f = open("TesseractPath.txt", "wb")
-    f.write("");
     f.close()
-# Close opend file
-fo.close()
 
 # Select Tesseract.exe path
 f = open( 'TesseractPath.txt', 'r' )
