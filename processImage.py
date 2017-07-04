@@ -5,6 +5,7 @@ from PIL import Image, ImageFont, ImageDraw
 import re
 #import numpy as np
 import shutil
+from pprint import pprint
 
 
 def getBar(img):
@@ -83,11 +84,11 @@ def cleanPathFiles(Cpath):
 
         new_filename = filename.translate(trantab)
         
-        path = 'C:\\Temp\\' + new_filename + fileExtension
-        os.rename('C:\\Temp\\' + filename + fileExtension, path)
+        Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
+        os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
         
         
-        return path
+        return Cpath
 
 def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     # Desenhar a escala nova

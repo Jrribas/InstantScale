@@ -75,7 +75,7 @@ if is_admin():
         
         if type(file_path1) is str:
             file_path1 = [file_path1]
-            
+        
         for x in range(len(file_path1)):
             print("Read Image...")
             img = cv2.imread(file_path1[x])
