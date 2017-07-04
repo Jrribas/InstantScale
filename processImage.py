@@ -4,6 +4,8 @@ import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
 #import numpy as np
+import shutil
+
 
 def getBar(img):
     for i in reversed(range(len(img))):
@@ -49,7 +51,7 @@ def getNumber(bar_img,exePath):
 
         cv2.imwrite(path + "/thres.png", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
-
+        
         #print(scalenumb)
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
@@ -59,18 +61,35 @@ def getNumber(bar_img,exePath):
             return mo.group(1), mo.group(2)
 
 
-def cleanPathFiles(path):
-    for x in range(len(path)):
+def cleanPathFiles(Cpath):
+    if os.path.exists('C:\Temp'):
+        shutil.rmtree('C:\\Temp')
+        os.makedirs('C:\Temp')
+    else:
+        os.makedirs('C:\Temp')
+        
+    for x in Cpath:
+        path1, file = os.path.split(x)
+        
+        os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
+
+    for x in range(len(Cpath)):
+
+        filename, fileExtension = os.path.splitext(os.path.basename(Cpath[x]))
+        
         intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
         outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE"
         trantab = str.maketrans(intab, outtab)
 
-        newfile_path = path[x].translate(trantab)
-        os.rename(path[x], newfile_path)
-        path[x] = newfile_path
+        new_filename = filename.translate(trantab)
+        
+        path = 'C:\\Temp\\' + new_filename + fileExtension
+        os.rename('C:\\Temp\\' + filename + fileExtension, path)
+        
+        
         return path
 
-def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position):
+def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     # Desenhar a escala nova
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
@@ -137,15 +156,18 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position):
         draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=10)
     #lineDimensions = [x + y for x, y in zip(sD, [10,15,-10,-55])]
 
-
     del draw
-    # print(path[:len(path)-4] + '_scale' + path[len(path)-4:])
+    
     filename, fileExtension = os.path.splitext(os.path.basename(originalPath))
     dirName = os.path.dirname(originalPath)
+    print(dirName, filename)
     os.chdir(dirName)
     if not os.path.exists("images_with_new_scale"):
         os.makedirs("images_with_new_scale")
     os.chdir(dirName + "/images_with_new_scale")
-
+    
     im.save(filename + '_scale' + fileExtension)
     print("ImageSaved with name: " + filename + '_scale' + fileExtension)
+    
+
+        
