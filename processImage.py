@@ -3,9 +3,7 @@ import os
 import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
-#import numpy as np
 import shutil
-from pprint import pprint
 
 
 def getBar(img):
