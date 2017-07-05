@@ -4,7 +4,7 @@ import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
 import shutil
-from pprint import pprint 
+#---------------------------------------------------
 
 
 def getBar(img):
@@ -34,10 +34,6 @@ def getScale(bar_img):
 def getNumber(bar_img,exePath):
     print("Getting Scale numbers...")
     path = 'images/HoldImages'
-    #kernel = np.ones((1, 1), np.uint8)
-    #bar_img = cv2.dilate(bar_img, kernel, iterations=1)
-    #bar_img = cv2.erode(bar_img, kernel, iterations=1)
-    #bar_img = bar_img[::,:100]
 
     for i in range(0, 100, 10):
         thresh = i
@@ -52,12 +48,10 @@ def getNumber(bar_img,exePath):
         cv2.imwrite(path + "/thres.png", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
         
-        #print(scalenumb)
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
         if mo is not None and mo.group(1) != '0':
-            #print(mo.group(1), mo.group(2))
             return mo.group(1), mo.group(2)
 
 
@@ -86,8 +80,6 @@ def cleanPathFiles(path):
 
         new_filename = filename.translate(trantab)
         
-        print('ola  ' + str(x))
-        pprint(Cpath)
         Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
         os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
         
@@ -107,7 +99,6 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
 
     for val in values:
         newScale = round((val * scale) / scaleNumb)
-        #print("newScale: " + str(newScale))
         if 60 <= newScale <= 200:
             if val < 1:
                 newScaleNumb = int(val * 1000)
@@ -129,8 +120,6 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
         sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
 
 
-
-    #print(sD)
     os.chdir(exePath)
     path= "images/cropImages"
     if not os.path.exists(path):
@@ -165,7 +154,6 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     
     filename, fileExtension = os.path.splitext(os.path.basename(originalPath))
     dirName = os.path.dirname(originalPath)
-    print(dirName, filename)
     os.chdir(dirName)
     if not os.path.exists("images_with_new_scale"):
         os.makedirs("images_with_new_scale")
