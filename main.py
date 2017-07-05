@@ -70,23 +70,15 @@ if is_admin():
 
     #MAIN PART
     try:
-<<<<<<< HEAD
-=======
-        pprint(file_path)
->>>>>>> 910d9c89de48c4aea00ad642a33394999dc70963
         file_path1 = cleanPathFiles(file_path)
         print("Looping Images...")
 
         if type(file_path1) is str:
             file_path1 = [file_path1]
-<<<<<<< HEAD
 
-=======
-            
         pprint(file_path)
         pprint(file_path1)
-        
->>>>>>> 910d9c89de48c4aea00ad642a33394999dc70963
+
         for x in range(len(file_path1)):
             print("Read Image...")
             img = cv2.imread(file_path1[x])
