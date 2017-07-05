@@ -4,6 +4,7 @@ import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
 import shutil
+from pprint import pprint 
 
 
 def getBar(img):
@@ -60,32 +61,58 @@ def getNumber(bar_img,exePath):
             return mo.group(1), mo.group(2)
 
 
-def cleanPathFiles(Cpath):
+def cleanPathFiles(path):
+    
+    Cpath = [None] * len(path)
+    
     if os.path.exists('C:\Temp'):
         shutil.rmtree('C:\\Temp')
         os.makedirs('C:\Temp')
     else:
         os.makedirs('C:\Temp')
+<<<<<<< HEAD
 
     for x in Cpath:
         path1, file1 = os.path.split(x)
 
         os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file1))
+=======
+        
+    for x in path:
+        path1, file = os.path.split(x)
+        
+        os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
+>>>>>>> 910d9c89de48c4aea00ad642a33394999dc70963
 
-    for x in range(len(Cpath)):
+    for x in range(len(path)):
 
+<<<<<<< HEAD
         filename, fileExtension = os.path.splitext(os.path.basename(Cpath[x]))
 
+=======
+        filename, fileExtension = os.path.splitext(os.path.basename(path[x]))
+        
+>>>>>>> 910d9c89de48c4aea00ad642a33394999dc70963
         intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
         outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE"
         trantab = str.maketrans(intab, outtab)
 
         new_filename = filename.translate(trantab)
+<<<<<<< HEAD
 
         Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
         os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
 
 
+=======
+        
+        print('ola  ' + str(x))
+        pprint(Cpath)
+        Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
+        os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
+        
+        
+>>>>>>> 910d9c89de48c4aea00ad642a33394999dc70963
     return Cpath
 
 def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
