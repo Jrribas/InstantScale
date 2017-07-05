@@ -74,13 +74,7 @@ if is_admin():
 
         if type(file_path1) is str:
             file_path1 = [file_path1]
-<<<<<<< HEAD
 
-        pprint(file_path)
-        pprint(file_path1)
-
-            
->>>>>>> 72a13b055c5d7829db2b35e4b9ae63ac4f36d6ff
         for x in range(len(file_path1)):
             print("Read Image...")
             img = cv2.imread(file_path1[x])

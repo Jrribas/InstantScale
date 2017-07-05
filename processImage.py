@@ -4,11 +4,7 @@ import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
 import shutil
-<<<<<<< HEAD
-from pprint import pprint
-=======
-#---------------------------------------------------
->>>>>>> 72a13b055c5d7829db2b35e4b9ae63ac4f36d6ff
+
 
 
 def getBar(img):
@@ -51,12 +47,7 @@ def getNumber(bar_img,exePath):
 
         cv2.imwrite(path + "/thres.png", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
-<<<<<<< HEAD
 
-        #print(scalenumb)
-=======
-        
->>>>>>> 72a13b055c5d7829db2b35e4b9ae63ac4f36d6ff
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
@@ -89,13 +80,7 @@ def cleanPathFiles(path):
         trantab = str.maketrans(intab, outtab)
 
         new_filename = filename.translate(trantab)
-<<<<<<< HEAD
 
-        print('ola  ' + str(x))
-        pprint(Cpath)
-=======
-        
->>>>>>> 72a13b055c5d7829db2b35e4b9ae63ac4f36d6ff
         Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
         os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
 
@@ -163,7 +148,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
         draw.rectangle(textDimensions, fill="white", outline="white")
         draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 20), scaletext, font=font, fill='Black')
         draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=10)
-    #lineDimensions = [x + y for x, y in zip(sD, [10,15,-10,-55])]
+
 
     del draw
 
