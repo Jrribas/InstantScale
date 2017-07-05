@@ -6,6 +6,7 @@ from processImage import *
 import sys, ctypes
 import os
 import shutil
+from pprint import pprint
 
 exePath = os.getcwd()
 
@@ -69,12 +70,15 @@ if is_admin():
     
     #MAIN PART
     try:
-        
+        pprint(file_path)
         file_path1 = cleanPathFiles(file_path)
         print("Looping Images...")
         
         if type(file_path1) is str:
             file_path1 = [file_path1]
+            
+        pprint(file_path)
+        pprint(file_path1)
         
         for x in range(len(file_path1)):
             print("Read Image...")

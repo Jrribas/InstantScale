@@ -4,6 +4,7 @@ import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
 import shutil
+from pprint import pprint 
 
 
 def getBar(img):
@@ -60,21 +61,24 @@ def getNumber(bar_img,exePath):
             return mo.group(1), mo.group(2)
 
 
-def cleanPathFiles(Cpath):
+def cleanPathFiles(path):
+    
+    Cpath = [None] * len(path)
+    
     if os.path.exists('C:\Temp'):
         shutil.rmtree('C:\\Temp')
         os.makedirs('C:\Temp')
     else:
         os.makedirs('C:\Temp')
         
-    for x in Cpath:
+    for x in path:
         path1, file = os.path.split(x)
         
         os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
 
-    for x in range(len(Cpath)):
+    for x in range(len(path)):
 
-        filename, fileExtension = os.path.splitext(os.path.basename(Cpath[x]))
+        filename, fileExtension = os.path.splitext(os.path.basename(path[x]))
         
         intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
         outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE"
@@ -82,11 +86,13 @@ def cleanPathFiles(Cpath):
 
         new_filename = filename.translate(trantab)
         
+        print('ola  ' + str(x))
+        pprint(Cpath)
         Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
         os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
         
         
-        return Cpath
+    return Cpath
 
 def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     # Desenhar a escala nova
