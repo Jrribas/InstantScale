@@ -6,7 +6,6 @@ from processImage import *
 import sys, ctypes
 import os
 import shutil
-from pprint import pprint
 
 exePath = os.getcwd()
 
@@ -75,10 +74,13 @@ if is_admin():
 
         if type(file_path1) is str:
             file_path1 = [file_path1]
+<<<<<<< HEAD
 
         pprint(file_path)
         pprint(file_path1)
 
+            
+>>>>>>> 72a13b055c5d7829db2b35e4b9ae63ac4f36d6ff
         for x in range(len(file_path1)):
             print("Read Image...")
             img = cv2.imread(file_path1[x])
@@ -91,9 +93,6 @@ if is_admin():
             print("Get scale number...")
             original_bar_img = bar_img
             for i in range(0,len(bar_img[0]),50):
-                #print(i)
-                #cv2.imshow('image',bar_img)
-                #cv2.waitKey(0)
                 try:
                     scaleNumb, units = getNumber(bar_img, exePath)
                     break
