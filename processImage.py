@@ -50,7 +50,7 @@ def getNumber(bar_img,exePath):
 
         cv2.imwrite(path + "/thres.png", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
-        
+
         #print(scalenumb)
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
@@ -66,27 +66,27 @@ def cleanPathFiles(Cpath):
         os.makedirs('C:\Temp')
     else:
         os.makedirs('C:\Temp')
-        
+
     for x in Cpath:
-        path1, file = os.path.split(x)
-        
-        os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
+        path1, file1 = os.path.split(x)
+
+        os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file1))
 
     for x in range(len(Cpath)):
 
         filename, fileExtension = os.path.splitext(os.path.basename(Cpath[x]))
-        
+
         intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
         outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE"
         trantab = str.maketrans(intab, outtab)
 
         new_filename = filename.translate(trantab)
-        
+
         Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
         os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
-        
-        
-        return Cpath
+
+
+    return Cpath
 
 def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     # Desenhar a escala nova
@@ -156,7 +156,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     #lineDimensions = [x + y for x, y in zip(sD, [10,15,-10,-55])]
 
     del draw
-    
+
     filename, fileExtension = os.path.splitext(os.path.basename(originalPath))
     dirName = os.path.dirname(originalPath)
     print(dirName, filename)
@@ -164,9 +164,6 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     if not os.path.exists("images_with_new_scale"):
         os.makedirs("images_with_new_scale")
     os.chdir(dirName + "/images_with_new_scale")
-    
+
     im.save(filename + '_scale' + fileExtension)
     print("ImageSaved with name: " + filename + '_scale' + fileExtension)
-    
-
-        
