@@ -3,7 +3,7 @@ import cv2
 import pytesseract
 from PIL import Image
 from processImage import *
-import sys, ctypes
+import sys, ctypes 
 import os
 import shutil
 
