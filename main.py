@@ -93,7 +93,6 @@ if is_admin():
                 except:
                     print("Failed - croping image bar")
                     bar_img = original_bar_img[::,i:i+100]
-            print("Scale Text: " + scaleNumb + units)
             print("Drawing new scale...")
             drawScale(crop_img,scale,int(scaleNumb),units,file_path[x],exePath,position, file_path1[x])
     except TypeError:
