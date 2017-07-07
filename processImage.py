@@ -27,7 +27,7 @@ def tesseractPath(failed=False):
         f.close()
 
     elif failed == True:
-        file_path = filedialog.askopenfilename(initialdir = "C:" + user + "/Desktop",title = "InstantScale - Please select the Tesseract.exe file",filetypes = (("Executables","*.exe"),("all files","*.*")))
+        file_path = filedialog.askopenfilename(initialdir = "C:/",title = "InstantScale - Please select the Tesseract.exe file",filetypes = (("Executables","*.exe"),("all files","*.*")))
         with open('TesseractPath.txt', "w"):
             pass
         f = open('TesseractPath.txt', 'w')
