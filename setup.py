@@ -1,6 +1,8 @@
 from cx_Freeze import setup, Executable
 import os
 
+exePath = os.getcwd()
+
 
 os.environ['TCL_LIBRARY'] = r'C:\Users\Farinha\Anaconda3\tcl\tcl8.6'
 os.environ['TK_LIBRARY'] = r'C:\Users\Farinha\Anaconda3\tcl\tk8.6'
@@ -9,6 +11,9 @@ includes      = []
 include_files = [r"C:\Users\Farinha\Anaconda3\DLLs\tcl86t.dll", \
                  r"C:\Users\Farinha\Anaconda3\DLLs\tk86t.dll",
                  r"C:\Users\Farinha\Documents\GitHub\InstantScale\TesseractPath.txt"]
+
+buildOptions = dict(include_files = [exePath + '\\Tesseract-OCR'])
+
 packages = ["numpy","shutil"]
 
 setup(name='InstantScale',

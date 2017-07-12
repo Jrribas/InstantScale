@@ -39,8 +39,6 @@ def getNumber(bar_img,exePath):
         thresh = i
         max_Value = 255
         th, imga = cv2.threshold(bar_img , thresh, max_Value, cv2.THRESH_BINARY)
-        cv2.imshow('ola', imga)
-        cv2.wait.key(0)
 
         os.chdir(exePath)
 
@@ -49,6 +47,8 @@ def getNumber(bar_img,exePath):
 
         cv2.imwrite(path + "/thres.png", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
+        
+        print(scalenumb)
 
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
