@@ -12,6 +12,9 @@ import getpass
 Tk().withdraw()
 exePath = os.getcwd()
 user = getpass.getuser()
+tess_path = exePath + '\\Tesseract-OCR\\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = tess_path
+TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 def is_admin():
     try:
@@ -22,16 +25,6 @@ def is_admin():
 #Check if program is running with administrator priviligies and if not restarts with it
 if is_admin():
     
-    #Asks to choose the path of Tesseract in the first execution or if the test returns error
-    file_path = pI.tesseractPath()
-
-    #Test Tesseract
-    try:
-        pytesseract.image_to_string(Image.open(r'pytesseract\test.png'))
-    except:
-        print("Tesseract failed to Load Try Again")
-        pI.tesseractPath(True)
-
     #Asks to select images
     print("Selecting Images")
     files = filedialog.askopenfilenames(initialdir = "C:/Users/" + user + "/Desktop",title = "InstantScale - Please select the images to process", filetypes = [("Image files", "*.tif *.jpg *.png"), ("Tiff images", "*.tif"), ("Jpg images", "*.jpg"), ("Png images", "*.png")])

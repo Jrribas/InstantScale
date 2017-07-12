@@ -4,40 +4,7 @@ import pytesseract
 from PIL import Image, ImageFont, ImageDraw
 import re
 import shutil
-from tkinter import filedialog
-from tkinter import Tk
 
-
-Tk().withdraw()
-
-def tesseractPath(failed=False):
-    if not os.path.isfile('TesseractPath.txt'):
-        f = open("TesseractPath.txt", "wb")
-        f.close()
-
-    f = open( 'TesseractPath.txt', 'r' )
-    file_path = f.read()
-    f.close()
-    
-    if file_path == '':
-        print("Select path to tesseract exe, by default on Program Files (x86)\Tesseract-OCR")
-        file_path = filedialog.askopenfilename(initialdir = "C:/",title = "InstantScale - Please select the Tesseract.exe file",filetypes = (("Executables","*.exe"),("all files","*.*")))
-        f = open('TesseractPath.txt', 'w')
-        f.write(file_path)
-        f.close()
-
-    elif failed == True:
-        file_path = filedialog.askopenfilename(initialdir = "C:/",title = "InstantScale - Please select the Tesseract.exe file",filetypes = (("Executables","*.exe"),("all files","*.*")))
-        with open('TesseractPath.txt', "w"):
-            pass
-        f = open('TesseractPath.txt', 'w')
-        f.write(file_path)
-        f.close()
-
-    pytesseract.pytesseract.tesseract_cmd = file_path
-    TESSDATA_PREFIX = os.path.dirname(file_path)
-    
-    return file_path
 
 
 def getBar(img):
