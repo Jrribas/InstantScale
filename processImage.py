@@ -72,6 +72,8 @@ def getNumber(bar_img,exePath):
         thresh = i
         max_Value = 255
         th, imga = cv2.threshold(bar_img , thresh, max_Value, cv2.THRESH_BINARY)
+        cv2.imshow('ola', imga)
+        cv2.wait.key(0)
 
         os.chdir(exePath)
 
