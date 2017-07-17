@@ -2,12 +2,12 @@ from cx_Freeze import setup, Executable
 import os
 
 
-os.environ['TCL_LIBRARY'] = r'C:\Users\joaor\Anaconda3\tcl\tcl8.6'
-os.environ['TK_LIBRARY'] = r'C:\Users\joaor\Anaconda3\tcl\tk8.6'
+os.environ['TCL_LIBRARY'] = r'C:\Users\Farinha\Anaconda3\tcl\tcl8.6'
+os.environ['TK_LIBRARY'] = r'C:\Users\Farinha\Anaconda3\tcl\tk8.6'
 
 includes      = []
-include_files = [r"C:\Users\joaor\Anaconda3\DLLs\tcl86t.dll", \
-                 r"C:\Users\joaor\Anaconda3\DLLs\tk86t.dll", 'Tesseract-OCR/']
+include_files = [r"C:\Users\Farinha\Anaconda3\DLLs\tcl86t.dll", \
+                 r"C:\Users\Farinha\Anaconda3\DLLs\tk86t.dll", 'Tesseract-OCR/']
 
 packages = ["numpy","shutil"]
 
