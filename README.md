@@ -1,7 +1,7 @@
 # InstantScale
 Reads SEM images scale, crops the white bar, and creates a new smaller scale on a corner of your choice.
 
-## Getting Started
+## Installation
 
 1. Go to https://github.com/Jrribas/InstantScale/releases and follow the instructions there!
 
