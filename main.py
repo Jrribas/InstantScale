@@ -51,30 +51,35 @@ if is_admin():
         #Loops through all images 
         for x in range(len(file_path1)):
             
-            
             print("Reading Image...")
             img = cv2.imread(file_path1[x])
             height, width, channels = img.shape
 
-            
             crop_img, bar_img = pI.getBar(img)
+            
+            height1, width1, channels1 = bar_img.shape
+            cv2.imwrite(exePath + "\\images\\HoldImages\\bar.tif", bar_img)
+            
+            img = Image.open(exePath + "\\images\\HoldImages\\bar.tif")
+            img1 = img.resize((width1*3, height1*3), Image.ANTIALIAS)
+            img1.save(exePath + "\\images\\HoldImages\\resize_im.tif", dpi=(600,600), quality = 100)
+            
+            bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im.tif")
+            
             print("Geting scale bar size...")
             scale = len(pI.getScale(bar_img))
-
+                
             print("Geting scale number...")
-            original_bar_img = bar_img
             
-            for i in range(0,len(bar_img[0]),50):
-                try:
-                    scaleNumb, units = pI.getNumber(bar_img, exePath)
-                    break
-                except:
-                    print("Failed - croping image bar")
-                    bar_img = original_bar_img[::,i:i+100]
-                    
-            print("Drawing new scale...")
-            pI.drawScale(crop_img,scale,int(scaleNumb),units,file_path[x],exePath,position, file_path1[x])
-            
+            scaleNumb, units = pI.getNumber(bar_img, bar_img_res, exePath)
+                
+            try:
+                print("Drawing new scale...")
+                pI.drawScale(crop_img,scale,int(scaleNumb),units,file_path[x],exePath,position, file_path1[x])
+            except:
+                print("Couldn''t get the scale number... Continuing to the next images" )
+                continue
+                
         shutil.rmtree('C:\\Temp')
         print("All done! Images saved on the folder, Images with new scale, where the original images are located.")
         input("Press Enter to exit...")
