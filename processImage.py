@@ -5,9 +5,9 @@ from PIL import Image, ImageFont, ImageDraw
 import re
 import shutil
 
-
-
 def getBar(img):
+    height, width, channels = img.shape
+    
     for i in reversed(range(len(img))):
         if img[i,3][0] > 254 and img[i,3][1] > 254 and img[i,3][2] > 254 and 'startRow' not in locals():
             startRow = i
@@ -15,7 +15,8 @@ def getBar(img):
             cropRow = i
             break
     crop_img = img[0:cropRow, 0::]
-    bar_img = img[cropRow+1:startRow, 0::]
+    bar_img = img[cropRow+1:startRow, 1:width]
+    
     return crop_img,bar_img
 
 def getScale(bar_img):
@@ -31,30 +32,71 @@ def getScale(bar_img):
                     return scale
                 k = []
 
-def getNumber(bar_img,exePath):
-    print("Getting Scale numbers...")
+def getNumber(bar_img,bar_img_res,exePath):
     path = 'images/HoldImages'
+
+    bar_img = cv2.cvtColor(bar_img, cv2.COLOR_BGR2GRAY)
+    
 
     for i in range(0, 100, 10):
         thresh = i
         max_Value = 255
-        th, imga = cv2.threshold(bar_img , thresh, max_Value, cv2.THRESH_BINARY)
+        th, imga = cv2.threshold(bar_img, thresh, max_Value, cv2.THRESH_BINARY)
 
         os.chdir(exePath)
 
         if not os.path.exists(path):
             os.makedirs(path)
 
-        cv2.imwrite(path + "/thres.png", imga)
-        scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.png"))
-
+        cv2.imwrite(path + "/thres.tif", imga)
+        scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.tif"))
+        
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
         if mo is not None and mo.group(1) != '0':
+            print(mo.group(1), mo.group(2))
             return mo.group(1), mo.group(2)
+    
+    bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
 
+    original_bar_img = bar_img_res
+    
+    for j in range(0,len(bar_img_res[0]),100):
 
+        
+        x = [69, 71, 73, 75, 77, 79, 81, 83, 85]
+        
+        for w in x:
+            bar_img_th = cv2.adaptiveThreshold(bar_img_res,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,w,4)
+            os.chdir(exePath)
+        
+            if not os.path.exists(path):
+                os.makedirs(path)
+        
+            cv2.imwrite(path + "\\thres.tif", bar_img_th)
+            scalenumb = pytesseract.image_to_string(Image.open(path + "\\thres.tif"), lang='eng')
+        
+            findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
+            mo = findSize.search(scalenumb)
+        
+            if mo is not None and mo.group(1) != '0':
+                print(mo.group(1), mo.group(2))
+                return mo.group(1), mo.group(2)
+            
+        print("Failed - croping image bar")
+        bar_img_res = original_bar_img[1:200,j:j+250]
+        
+        cv2.imwrite(exePath + "\\images\\HoldImages\\resize_im1.tif", bar_img_res)
+        temp = Image.open(exePath + "\\images\\HoldImages\\resize_im1.tif")
+
+        temp = temp.resize((600, 750), Image.ANTIALIAS)
+        
+        temp.save(exePath + "\\images\\HoldImages\\resize_im1.tif", dpi=(600,600))
+        bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im1.tif")
+        bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
+
+        
 def cleanPathFiles(path):
 
     Cpath = [None] * len(path)
@@ -64,12 +106,12 @@ def cleanPathFiles(path):
         os.makedirs('C:\Temp')
     else:
         os.makedirs('C:\Temp')
-
+        
     for x in path:
+        x = x.replace('/', '\\')
         path1, file = os.path.split(x)
-
         os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
-
+    
 
     for x in range(len(path)):
 
@@ -96,7 +138,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
         scaleNumb *= 1000
     else:
         units = 'µm'
-
+       
     for val in values:
         newScale = round((val * scale) / scaleNumb)
         if 60 <= newScale <= 200:
@@ -160,4 +202,4 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     os.chdir(dirName + "/images_with_new_scale")
 
     im.save(filename + '_scale' + fileExtension)
-    print("ImageSaved with name: " + filename + '_scale' + fileExtension)
+    print("ImageSaved with name: " + filename + '_scale' + fileExtension + "!")

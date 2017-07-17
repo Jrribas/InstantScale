@@ -1,106 +1,93 @@
-import easygui
+from tkinter import filedialog
+from tkinter import Tk
 import cv2
 import pytesseract
 from PIL import Image
-from processImage import *
+import processImage as pI
 import sys, ctypes 
 import os
 import shutil
+import getpass
 
+Tk().withdraw()
 exePath = os.getcwd()
+user = getpass.getuser()
+tess_path = exePath + '\\Tesseract-OCR\\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = tess_path
+TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 def is_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
+
+#Check if program is running with administrator priviligies and if not restarts with it
 if is_admin():
-    def tesseractPath(failed=False):
-        #SELECT PATH TO TESSERACT FOLDER AND SAVE
-        if not os.path.isfile('TesseractPath.txt'):
-            f = open("TesseractPath.txt", "wb")
-            f.close()
-
-        f = open( 'TesseractPath.txt', 'r' )
-        file_path = f.read()
-        f.close()
-        if file_path == '':
-            print("Select path to tesseract exe, by default on Program Files (x86)\Tesseract-OCR")
-            file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
-            f = open('TesseractPath.txt', 'w')
-            f.write(file_path)
-            f.close()
-
-        elif failed == True:
-            #Clean txt
-            file_path = easygui.fileopenbox("Please select the Tesseract.exe file", "Instantscale", filetypes= "*.exe")
-            with open('TesseractPath.txt', "w"):
-                pass
-            f = open('TesseractPath.txt', 'w')
-            f.write(file_path)
-            f.close()
-
-        pytesseract.pytesseract.tesseract_cmd = file_path
-        TESSDATA_PREFIX = os.path.dirname(file_path)
-
-
-
-
-    file_path = tesseractPath()
-
-    #TEST TESSERACT
-    try:
-        pytesseract.image_to_string(Image.open(r'pytesseract\test.png'))
-    except:
-        print("Tesseract failed to Load Try Again")
-        tesseractPath(True)
-
-
+    
+    #Asks to select images
     print("Selecting Images")
-    file_path = easygui.fileopenbox("Please select the images to process", "Instantscale", filetypes= "*.tif", multiple=True)
-    print('Cleaning File Types')
-
-    position = None
-    while position not in list(range(4)):
-        try:
-            position =  int(input("Where do you want to place the scale? (Bottom Left - 0, Bottom Right - 1, Top Left - 2, Top Right - 3)"))
-        except:
-            pass
-
-    #MAIN PART
-    try:
-        file_path1 = cleanPathFiles(file_path)
+    files = filedialog.askopenfilenames(initialdir = "C:/Users/" + user + "/Desktop",title = "InstantScale - Please select the images to process", filetypes = [("Image files", "*.tif *.jpg *.png"), ("Tiff images", "*.tif"), ("Jpg images", "*.jpg"), ("Png images", "*.png")])
+    file_path = list(files)
+    
+    if not file_path == []:
+        
+        #Aks to choose the location of the new scale
+        position = None
+        while position not in list(range(4)):
+            try:
+                position =  int(input("Where do you want to place the scale? (Bottom Left - 0, Bottom Right - 1, Top Left - 2, Top Right - 3)"))
+            except:
+         
+                pass
+        #----------------------------------------------------
+        #MAIN PART
+        #----------------------------------------------------
+        
+        #Copies images to a temporary folde in C:\Temp and cleans weird characters in their names
+        file_path1 = pI.cleanPathFiles(file_path)
         print("Looping Images...")
-
-        if type(file_path1) is str:
-            file_path1 = [file_path1]
-
+        
+        #Loops through all images 
         for x in range(len(file_path1)):
-            print("Read Image...")
+            
+            print("Reading Image...")
             img = cv2.imread(file_path1[x])
             height, width, channels = img.shape
-            print("Crop Image...")
-            crop_img,bar_img = getBar(img)
-            print("Get scale bar size...")
-            scale = len(getScale(bar_img))
-            print("scale: ", str(scale))
-            print("Get scale number...")
-            original_bar_img = bar_img
-            for i in range(0,len(bar_img[0]),50):
-                try:
-                    scaleNumb, units = getNumber(bar_img, exePath)
-                    break
-                except:
-                    print("Failed - croping image bar")
-                    bar_img = original_bar_img[::,i:i+100]
-            print("Drawing new scale...")
-            drawScale(crop_img,scale,int(scaleNumb),units,file_path[x],exePath,position, file_path1[x])
-    except TypeError:
+
+            crop_img, bar_img = pI.getBar(img)
+            
+            height1, width1, channels1 = bar_img.shape
+            cv2.imwrite(exePath + "\\images\\HoldImages\\bar.tif", bar_img)
+            
+            img = Image.open(exePath + "\\images\\HoldImages\\bar.tif")
+            img1 = img.resize((width1*3, height1*3), Image.ANTIALIAS)
+            img1.save(exePath + "\\images\\HoldImages\\resize_im.tif", dpi=(600,600), quality = 100)
+            
+            bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im.tif")
+            
+            print("Geting scale bar size...")
+            scale = len(pI.getScale(bar_img))
+                
+            print("Geting scale number...")
+            
+            scaleNumb, units = pI.getNumber(bar_img, bar_img_res, exePath)
+                
+            try:
+                print("Drawing new scale...")
+                pI.drawScale(crop_img,scale,int(scaleNumb),units,file_path[x],exePath,position, file_path1[x])
+            except:
+                print("Couldn''t get the scale number... Continuing to the next images" )
+                continue
+                
+        shutil.rmtree('C:\\Temp')
+        print("All done! Images saved on the folder, Images with new scale, where the original images are located.")
+        input("Press Enter to exit...")
+        
+    else:
         print("No Image Selected")
-    print("Erasing temporary images...")
-    shutil.rmtree('C:\\Temp')
-    print("All done")
-    input("Press Enter to exit...")
+        input("Press Enter to exit...")
+    
 else:
      #Re-run the program with admin rights
      ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, "", None, 1)
