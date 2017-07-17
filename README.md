@@ -3,7 +3,7 @@ Reads SEM images scale, crops the white bar, and creates a new smaller scale on 
 
 ## Getting Started
 
-1.Go to https://github.com/Jrribas/InstantScale/releases and follow the instructions there!
+1. Go to https://github.com/Jrribas/InstantScale/releases and follow the instructions there!
 
 ### Prerequisites
 
