@@ -3,7 +3,7 @@ Reads SEM images scale, crops the white bar, and creates a new smaller scale on 
 
 ## Getting Started
 
-1. Download  <a href="https://github.com/Jrribas/InstantScale/raw/master/dist/tesseract-ocr-setup-4.00.00dev.exe">tesseract-ocr-setup-4.00.00dev.exe</a> and install;
+1. Download  <a href="https://github.com/Jrribas/InstantScale/raw/master/dist/tesseract-ocr-setup-4.00.00dev.exe">tesseract-ocr-setup-4.00.00dev.exe</a> and install; (https://github.com/tesseract-ocr/ Not created by us!!)
 2. Download <a href="https://github.com/Jrribas/InstantScale/raw/master/dist/InstantScale-0.1-amd64.msi">InstantScale-0.1-amd64.msi</a> and run;
 3. Click "More info" as shown in image below and install program.
 <img src="http://i.imgur.com/uI0s4kK.png" width="400">
