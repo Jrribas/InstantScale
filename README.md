@@ -15,3 +15,12 @@ None! Tesseract already installed with the setup. (Not our creation!! Link to th
 
 ### After
 <img src="http://i.imgur.com/NdoLOkH.png" width="500">
+
+## Acknowledgments
+
+To Gabriel Souza for the beautiful SEM image above!
+
+##Creators
+
+1. João Ribas
+2. Ricardo Farinha (couldnt have done this without him)
