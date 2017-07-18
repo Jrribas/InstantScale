@@ -19,6 +19,7 @@ None! Tesseract already installed with the setup. (Not our creation!! Link to th
 ## Acknowledgments
 
 To Gabriel Souza for the beautiful SEM image above!
+And to Tesseract - OCR for making it available open source!
 
 ## Creators
 
