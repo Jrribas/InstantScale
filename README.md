@@ -20,7 +20,7 @@ None! Tesseract already installed with the setup. (Not our creation!! Link to th
 
 To Gabriel Souza for the beautiful SEM image above!
 
-##Creators
+## Creators
 
 1. João Ribas
 2. Ricardo Farinha (couldnt have done this without him)
