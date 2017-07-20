@@ -9,9 +9,16 @@ import os
 import shutil
 import getpass
 
-Tk().withdraw()
+#Tkinter parameters
+root = Tk()
+root.withdraw()
+root.iconbitmap(default='icon.ico')
+
+#Get *.exe path and username
 exePath = os.getcwd()
 user = getpass.getuser()
+
+#Tesseract parameters
 tess_path = exePath + '\\Tesseract-OCR\\tesseract.exe'
 pytesseract.pytesseract.tesseract_cmd = tess_path
 TESSDATA_PREFIX = os.path.dirname(tess_path)
@@ -51,10 +58,15 @@ if is_admin():
         #Loops through all images 
         for x in range(len(file_path1)):
             
-            print("Reading Image...")
+            print("-> Reading Image: " + file_path1[x][8::])
             img = cv2.imread(file_path1[x])
-            height, width, channels = img.shape
-
+            
+            try:
+                height, width, channels = img.shape
+            except:
+                print("Image couldn't be loaded! Check name for special characters pls...")
+                continue
+            
             crop_img, bar_img = pI.getBar(img)
             
             height1, width1, channels1 = bar_img.shape
