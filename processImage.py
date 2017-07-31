@@ -128,10 +128,11 @@ def cleanPathFiles(path):
 
     return Cpath
 
-def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
+def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale):
     # Desenhar a escala nova
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
+    #convert everything to µm
     if units == 'nm':
         scaleNumb *= 0.001
     elif units == 'mm':
@@ -141,7 +142,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
 
     for val in values:
         newScale = round((val * scale) / scaleNumb)
-        if 60 <= newScale <= 200:
+        if 20 * sizeOfScale <= newScale <= 66 * sizeOfScale:
             if val < 1:
                 newScaleNumb = int(val * 1000)
                 units = 'nm'
