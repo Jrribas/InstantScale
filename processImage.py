@@ -173,7 +173,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
     im = Image.open(path + "/crop_rect.png")
     draw = ImageDraw.Draw(im)
 
-    fontsize = 40
+    fontsize = 15 * sizeOfScale
     font = ImageFont.truetype("arial.ttf", fontsize)
     scaletext = str(newScaleNumb) + ' ' + units
 
@@ -187,7 +187,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
     if newScale > w:
         draw.rectangle(sD, fill="white", outline="white")
         draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 20), scaletext, font=font, fill='Black')
-        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15], fill='Black', width=10)
+        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15], fill='Black', width=3 * sizeOfScale)
     else:
         draw.rectangle(textDimensions, fill="white", outline="white")
         draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 20), scaletext, font=font, fill='Black')
