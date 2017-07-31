@@ -164,20 +164,20 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
     im = Image.open(path + "/crop_rect.png")
     draw = ImageDraw.Draw(im)
 
-    fontsize = 15 * sizeOfScale
+    fontsize = 13 * sizeOfScale
     font = ImageFont.truetype("arial.ttf", fontsize)
     scaletext = str(newScaleNumb) + ' ' + units
 
     w, h = draw.textsize(scaletext, font)
 
     if position == 0:
-        sD = [round(width*0.0235) , round(height*0.9636)-(20+3*sizeOfScale+h), (round(width*0.0235) + newScale) + 20, round(height*0.9636)] # X0,Y0,X1,Y1
+        sD = [round(width*0.0235) , round(height*0.9636)-(10*sizeOfScale+h), (round(width*0.0235) + newScale) + 20, round(height*0.9636)] # X0,Y0,X1,Y1
     elif position == 1:
-        sD = [(round(width*0.9765) - newScale) - 20, round(height*0.9636)-(20+3*sizeOfScale+h), round(width*0.9765), round(height*0.9636)] # X0,Y0,X1,Y1
+        sD = [(round(width*0.9765) - newScale) - 20, round(height*0.9636)-(10*sizeOfScale+h), round(width*0.9765), round(height*0.9636)] # X0,Y0,X1,Y1
     elif position == 2:
-        sD = [round(width*0.0235) , round(height*0.0364), (round(width*0.0235) + newScale) + 20, round(height*0.0364) + (20+3*sizeOfScale+h)] # X0,Y0,X1,Y1
+        sD = [round(width*0.0235) , round(height*0.0364), (round(width*0.0235) + newScale) + 20, round(height*0.0364) + (10*sizeOfScale+h)] # X0,Y0,X1,Y1
     else:
-        sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + (20+3*sizeOfScale+h)] # X0,Y0,X1,Y1
+        sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + (10*sizeOfScale+h)] # X0,Y0,X1,Y1
 
 
     if position == 0 or position == 2:
