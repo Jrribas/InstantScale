@@ -192,8 +192,8 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
         draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 5*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
     else:
         draw.rectangle(textDimensions, fill="white", outline="white")
-        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 5*sizeOfScale), scaletext, font=font, fill='Black')
-        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 7*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
+        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 7*sizeOfScale), scaletext, font=font, fill='Black')
+        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 5*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
 
 
     del draw
