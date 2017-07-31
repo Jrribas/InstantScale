@@ -154,15 +154,6 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
                 units = 'µm'
             break
 
-    if position == 0:
-        sD = [round(width*0.0235) , round(height*0.9636)-70, (round(width*0.0235) + newScale) + 20, round(height*0.9636)] # X0,Y0,X1,Y1
-    elif position == 1:
-        sD = [(round(width*0.9765) - newScale) - 20, round(height*0.9636)-70, round(width*0.9765), round(height*0.9636)] # X0,Y0,X1,Y1
-    elif position == 2:
-        sD = [round(width*0.0235) , round(height*0.0364), (round(width*0.0235) + newScale) + 20, round(height*0.0364) + 70] # X0,Y0,X1,Y1
-    else:
-        sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
-
 
     os.chdir(exePath)
     path= "images/cropImages"
@@ -178,6 +169,17 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
     scaletext = str(newScaleNumb) + ' ' + units
 
     w, h = draw.textsize(scaletext, font)
+
+    if position == 0:
+        sD = [round(width*0.0235) , round(height*0.9636)-(15+3*sizeOfScale+h), (round(width*0.0235) + newScale) + 20, round(height*0.9636)] # X0,Y0,X1,Y1
+    elif position == 1:
+        sD = [(round(width*0.9765) - newScale) - 20, round(height*0.9636)-(15+3*sizeOfScale+h), round(width*0.9765), round(height*0.9636)] # X0,Y0,X1,Y1
+    elif position == 2:
+        sD = [round(width*0.0235) , round(height*0.0364), (round(width*0.0235) + newScale) + 20, round(height*0.0364) + (15+3*sizeOfScale+h)] # X0,Y0,X1,Y1
+    else:
+        sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + (15+3*sizeOfScale+h)] # X0,Y0,X1,Y1
+
+
     if position == 0 or position == 2:
         textDimensions = [x + y for x, y in zip(sD, [0,0,-newScale +w,0])]
     else:
@@ -187,11 +189,11 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
     if newScale > w:
         draw.rectangle(sD, fill="white", outline="white")
         draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 20), scaletext, font=font, fill='Black')
-        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15], fill='Black', width=3 * sizeOfScale)
+        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15], fill='Black', width=3*sizeOfScale)
     else:
         draw.rectangle(textDimensions, fill="white", outline="white")
         draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 20), scaletext, font=font, fill='Black')
-        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=10)
+        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=3*sizeOfScale)
 
 
     del draw
