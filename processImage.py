@@ -189,11 +189,11 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
     if newScale > w:
         draw.rectangle(sD, fill="white", outline="white")
         draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 20*sizeOfScale), scaletext, font=font, fill='Black')
-        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15], fill='Black', width=3*sizeOfScale)
+        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15*sizeOfScale], fill='Black', width=3*sizeOfScale)
     else:
         draw.rectangle(textDimensions, fill="white", outline="white")
         draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 20*sizeOfScale), scaletext, font=font, fill='Black')
-        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=3*sizeOfScale)
+        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15*sizeOfScale], fill='Black', width=3*sizeOfScale)
 
 
     del draw
