@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{16F34288-25AF-446D-B644-8A24FD210B15}
 AppName=InstantScale
-AppVersion=1.0
-;AppVerName=InstantScale 1.0
+AppVersion=1.1
+;AppVerName=InstantScale 1.1
 AppPublisherURL=https://github.com/Jrribas/InstantScale
 AppSupportURL=https://github.com/Jrribas/InstantScale
 AppUpdatesURL=https://github.com/Jrribas/InstantScale
@@ -17,10 +17,11 @@ DefaultGroupName=InstantScale
 AllowNoIcons=yes
 LicenseFile=C:\Users\Farinha\Documents\GitHub\InstantScale\License.txt
 OutputDir=C:\Users\Farinha\Desktop\dist
-OutputBaseFilename=setup-InstantScale-v1
+OutputBaseFilename=setup-InstantScale-v1_1
 SetupIconFile=C:\Users\Farinha\Documents\GitHub\InstantScale\icon.ico
 Compression=lzma
 SolidCompression=yes
+PrivilegesRequired=admin
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -41,5 +42,5 @@ Name: "{group}\{cm:UninstallProgram,InstantScale}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\InstantScale"; Filename: "{app}\InstantScale.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\InstantScale.exe"; Description: "{cm:LaunchProgram,InstantScale}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\InstantScale.exe"; Description: "{cm:LaunchProgram,InstantScale}"; Flags: nowait postinstall skipifsilent runascurrentuser
 
