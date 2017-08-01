@@ -110,7 +110,7 @@ def cleanPathFiles(path):
     for x in path:
         x = x.replace('/', '\\')
         path1, file = os.path.split(x)
-        os.system ('copy "%s" "%s" > /dev/null' % (x, 'C:\\Temp\\' + file))
+        os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
 
 
     for x in range(len(path)):
