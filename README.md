@@ -1,6 +1,8 @@
 # InstantScale
 Reads SEM images scale, crops the white bar, and creates a new smaller scale on a corner of your choice.
 
+Note: This program was created to wor on the SEM images from ou university, so it may or not work for your images! But try it and if doesn´t work post in issues a image example and maybe we can help ;)
+
 ## Installation
 
 1. Go to https://github.com/Jrribas/InstantScale/releases and follow the instructions there!
@@ -26,3 +28,7 @@ And to Tesseract - OCR for making it available open source!
 
 1. João Ribas
 2. Ricardo Farinha (couldnt have done this without him)
+
+Students of Integrated Master in Micro and Nanotechnology Engineering in FCT UNL currently studying and working (respectively) in CENIMAT.
+
+<img src="http://www.cenimat.fct.unl.pt/sites/www.cenimat.fct.unl.pt/themes/cenimat_fct_unl_pt/images/logo.png" width="80"> <img src="http://www.dcm.fct.unl.pt/sites/www.dcm.fct.unl.pt/themes/dcm_fct_unl_pt_2017/images/logo.png" width="150">
