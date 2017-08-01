@@ -29,11 +29,19 @@ def is_admin():
     except:
         return False
 
+#Print welcome 
+print("")
+print("----------------------------------------------------------------------------------------")
+print("Welcome to InstantScale!")
+print("----------------------------------------------------------------------------------------")
+print("")
+		
 #Check if program is running with administrator priviligies and if not restarts with it
 if is_admin():
     while True:
         #Asks to select images
-        print("Selecting Images")
+        print("Selecting Images...")
+        print("")
         files = filedialog.askopenfilenames(initialdir = "C:/Users/" + user + "/Desktop",title = "InstantScale - Please select the images to process", filetypes = [("Image files", "*.tif *.jpg *.png"), ("Tiff images", "*.tif"), ("Jpg images", "*.jpg"), ("Png images", "*.png")])
         file_path = list(files)
 
@@ -58,11 +66,13 @@ if is_admin():
 
             #Copies images to a temporary folde in C:\Temp and cleans weird characters in their names
             file_path1 = pI.cleanPathFiles(file_path)
-            print("Looping Images...")
+            print("")
+            print("Looping Images:")
 
             #Loops through all images
             for x in range(len(file_path1)):
-
+                
+                print("")
                 print("-> Reading Image: " + file_path1[x][8::])
                 img = cv2.imread(file_path1[x])
 
@@ -98,12 +108,19 @@ if is_admin():
                     continue
 
             shutil.rmtree('C:\\Temp')
+            
+            print("")			
             print("All done! Images saved on the folder, Images with new scale, where the original images are located.")
-            input("Press Enter to restart...")
-
+            print("")
+            print("----------------------------------------------------------------------------------------")
+            print("Program created by João Ribas and Ricardo Farinha, from CENIMAT/I3N in FCT-UNL!")
+            print("----------------------------------------------------------------------------------------")
+            print("")
+            input("Press Enter to restart or close the window to exit!")
+    
         else:
             print("No Image Selected")
-            input("Press Enter to restart...")
+            input("Press Enter to restart or close the window to exit!")
 
 else:
      #Re-run the program with admin rights

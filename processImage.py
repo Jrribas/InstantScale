@@ -54,8 +54,8 @@ def getNumber(bar_img,bar_img_res,exePath):
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
-        if mo is not None and mo.group(1) != '0':
-            print(mo.group(1), mo.group(2))
+        if mo is not None and mo.group(1) != '0 ':
+            print("Scale number obtained: %s %s" %(mo.group(1),mo.group(2)))
             return mo.group(1), mo.group(2)
 
     bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
@@ -110,7 +110,7 @@ def cleanPathFiles(path):
     for x in path:
         x = x.replace('/', '\\')
         path1, file = os.path.split(x)
-        os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
+        os.system ('copy "%s" "%s" > /dev/null' % (x, 'C:\\Temp\\' + file))
 
 
     for x in range(len(path)):
