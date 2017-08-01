@@ -1,7 +1,7 @@
 # InstantScale
 Reads SEM images scale, crops the white bar, and creates a new smaller scale on a corner of your choice.
 
-Note: This program was created to wor on the SEM images from ou university, so it may or not work for your images! But try it and if doesn´t work post in issues a image example and maybe we can help ;)
+Note: This program was created to work on the SEM images from our university, so it may or not work for your images! But try it, and if doesn´t work, create a post in issues with a image example and maybe we can help ;)
 
 ## Installation
 
