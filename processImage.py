@@ -54,8 +54,8 @@ def getNumber(bar_img,bar_img_res,exePath):
         findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
-        if mo is not None and mo.group(1) != '0':
-            print(mo.group(1), mo.group(2))
+        if mo is not None and mo.group(1) != '0 ':
+            print("Scale number obtained: %s %s" %(mo.group(1),mo.group(2)))
             return mo.group(1), mo.group(2)
 
     bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
@@ -110,7 +110,7 @@ def cleanPathFiles(path):
     for x in path:
         x = x.replace('/', '\\')
         path1, file = os.path.split(x)
-        os.system ('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
+        os.system ('copy "%s" "%s" > /dev/null' % (x, 'C:\\Temp\\' + file))
 
 
     for x in range(len(path)):
@@ -128,10 +128,11 @@ def cleanPathFiles(path):
 
     return Cpath
 
-def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
+def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale):
     # Desenhar a escala nova
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
+    #convert everything to µm
     if units == 'nm':
         scaleNumb *= 0.001
     elif units == 'mm':
@@ -141,7 +142,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
 
     for val in values:
         newScale = round((val * scale) / scaleNumb)
-        if 60 <= newScale <= 200:
+        if 20 * sizeOfScale <= newScale <= 66 * sizeOfScale:
             if val < 1:
                 newScaleNumb = int(val * 1000)
                 units = 'nm'
@@ -153,15 +154,6 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
                 units = 'µm'
             break
 
-    if position == 0:
-        sD = [round(width*0.0235) , round(height*0.9636)-70, (round(width*0.0235) + newScale) + 20, round(height*0.9636)] # X0,Y0,X1,Y1
-    elif position == 1:
-        sD = [(round(width*0.9765) - newScale) - 20, round(height*0.9636)-70, round(width*0.9765), round(height*0.9636)] # X0,Y0,X1,Y1
-    elif position == 2:
-        sD = [round(width*0.0235) , round(height*0.0364), (round(width*0.0235) + newScale) + 20, round(height*0.0364) + 70] # X0,Y0,X1,Y1
-    else:
-        sD = [(round(width*0.9765) - newScale) - 20 , round(height*0.0364),round(width*0.9765), round(height*0.0364) + 70] # X0,Y0,X1,Y1
-
 
     os.chdir(exePath)
     path= "images/cropImages"
@@ -172,11 +164,22 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
     im = Image.open(path + "/crop_rect.png")
     draw = ImageDraw.Draw(im)
 
-    fontsize = 40
+    fontsize = 13 * sizeOfScale
     font = ImageFont.truetype("arial.ttf", fontsize)
     scaletext = str(newScaleNumb) + ' ' + units
 
     w, h = draw.textsize(scaletext, font)
+
+    if position == 0:
+        sD = [round(width*0.0235) , round(height*0.9636)-(20*sizeOfScale/3 + 3*sizeOfScale+h), (round(width*0.0235) + newScale) + (20*sizeOfScale/3), round(height*0.9636)] # X0,Y0,X1,Y1
+    elif position == 1:
+        sD = [(round(width*0.9765) - newScale) - (20*sizeOfScale/3), round(height*0.9636)-(20*sizeOfScale/3 + 3*sizeOfScale+h), round(width*0.9765), round(height*0.9636)] # X0,Y0,X1,Y1
+    elif position == 2:
+        sD = [round(width*0.0235) , round(height*0.0364), (round(width*0.0235) + newScale) + (20*sizeOfScale/3), round(height*0.0364) + (20*sizeOfScale/3 + 3*sizeOfScale+h)] # X0,Y0,X1,Y1
+    else:
+        sD = [(round(width*0.9765) - newScale) - (20*sizeOfScale/3) , round(height*0.0364),round(width*0.9765), round(height*0.0364) + (20*sizeOfScale/3 + 3*sizeOfScale+h)] # X0,Y0,X1,Y1
+
+
     if position == 0 or position == 2:
         textDimensions = [x + y for x, y in zip(sD, [0,0,-newScale +w,0])]
     else:
@@ -185,12 +188,12 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath):
 
     if newScale > w:
         draw.rectangle(sD, fill="white", outline="white")
-        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 20), scaletext, font=font, fill='Black')
-        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 15, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 15], fill='Black', width=10)
+        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 7*sizeOfScale), scaletext, font=font, fill='Black')
+        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 5*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
     else:
         draw.rectangle(textDimensions, fill="white", outline="white")
-        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 20), scaletext, font=font, fill='Black')
-        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 15, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 15], fill='Black', width=10)
+        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 7*sizeOfScale), scaletext, font=font, fill='Black')
+        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 5*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
 
 
     del draw

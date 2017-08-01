@@ -7,7 +7,10 @@ os.environ['TK_LIBRARY'] = r'C:\Users\Farinha\Anaconda3\tcl\tk8.6'
 
 includes      = []
 include_files = [r"C:\Users\Farinha\Anaconda3\DLLs\tcl86t.dll", \
-                 r"C:\Users\Farinha\Anaconda3\DLLs\tk86t.dll", 'Tesseract-OCR/']
+                 r"C:\Users\Farinha\Anaconda3\DLLs\tk86t.dll", \
+                 'Tesseract-OCR/',\
+                 'images/',\
+                 r"icon.ico"]
 
 packages = ["numpy","shutil"]
 
