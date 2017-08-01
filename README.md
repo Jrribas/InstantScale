@@ -31,4 +31,4 @@ And to Tesseract - OCR for making it available open source!
 
 Students of Integrated Master in Micro and Nanotechnology Engineering in FCT UNL currently studying and working (respectively) in CENIMAT.
 
-<img src="http://www.cenimat.fct.unl.pt/sites/www.cenimat.fct.unl.pt/themes/cenimat_fct_unl_pt/images/logo.png" width="80"> <img src="http://www.dcm.fct.unl.pt/sites/www.dcm.fct.unl.pt/themes/dcm_fct_unl_pt_2017/images/logo.png" width="150">
+<img src="http://www.cenimat.fct.unl.pt/sites/www.cenimat.fct.unl.pt/themes/cenimat_fct_unl_pt/images/logo.png" width="100"> <img src="http://www.dcm.fct.unl.pt/sites/www.dcm.fct.unl.pt/themes/dcm_fct_unl_pt_2017/images/logo.png" width="200">
