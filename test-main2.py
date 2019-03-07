@@ -8,8 +8,20 @@ from tkinter import Spinbox
 from tkinter import ttk
 from PIL import Image, ImageTk
 import getpass #get username
+import cv2
+import pytesseract
+import os
+
 
 user = getpass.getuser()
+#Get *.exe path and username
+exePath = os.getcwd()
+user = getpass.getuser()
+
+#Tesseract parameters
+tess_path = exePath + '\\Tesseract-OCR\\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = tess_path
+TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 ################################################
 
@@ -94,9 +106,9 @@ class InstantScale(tk.Tk):
         style = ttk.Style()
         style.theme_use('default')
         style.configure("black.Horizontal.TProgressbar", background='black')
-        bar = Progressbar(self, length=200, style='black.Horizontal.TProgressbar')
-        bar['value'] = 0
-        bar.grid(row=2, column=3, columnspan=2)
+        self.bar = Progressbar(self, length=200, style='black.Horizontal.TProgressbar')
+        self.bar['value'] = 0
+        self.bar.grid(row=2, column=3, columnspan=2)
 
         self.l3 = Label(self, text="Value")
         self.l3.grid(row=3, column=3)
@@ -151,16 +163,16 @@ class InstantScale(tk.Tk):
         self.l10 = Label(self, text="Background Color")
         self.l10.grid(row=15, column=3, columnspan=2)
 
-        self.e4 = tk.Entry(self)
-        self.e4.grid(row=16, column=3, columnspan=2)
+        self.e7 = tk.Entry(self)
+        self.e7.grid(row=16, column=3, columnspan=2)
 
         self.l11 = Label(self, text="Font Color")
         self.l11.grid(row=17, column=3, columnspan=2)
 
-        self.e4 = tk.Entry(self)
-        self.e4.grid(row=18, column=3, columnspan=2)
+        self.e8 = tk.Entry(self)
+        self.e8.grid(row=18, column=3, columnspan=2)
 
-        self.b2 = tk.Button(self, text="Preview", command=quit)
+        self.b2 = tk.Button(self, text="Preview", command=self.preview)
         self.b2.grid(row=19, column=3, columnspan=2)
 
         self.grid_rowconfigure(0, weight=1)
@@ -170,26 +182,84 @@ class InstantScale(tk.Tk):
 
     def selectImages(self):
         print("Selecting Images")
-        files = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
+        self.files = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
                                             title="InstantScale - Please select the images to process",
                                             filetypes=[("Image files", "*.tif *.jpg *.png"),
                                                        ("Tiff images", "*.tif"),
                                                        ("Jpg images", "*.jpg"),
                                                        ("Png images", "*.png")])
 
-        img = Image.open(files[0])
+        img = Image.open(self.files[0])
         img2 = img.resize((500, 500), Image.ANTIALIAS)
         img2 = ImageTk.PhotoImage(img2)
         self.panel.configure(image=img2)
         self.panel.image = img2
 
     def readScale(self):
-        print("sad")
+        self.bar['value'] = 0
+        img = cv2.imread(self.files[0])
+        height, width, channels = img.shape
+        #GET BAR
+        self.crop_img, self.bar_img, barSize = pI.getBar(img)
+        print('bar Size: ' + str(barSize))
+        barSizeRound = round(barSize)
+        self.bar['value'] = 25
+        self.e4.configure(state = 'normal')
+        self.e4.insert(tk.END,  barSizeRound)
+        self.e4.configure(state = 'disabled')
+        #things
+        
+        height1, width1, channels1 = self.bar_img.shape
+        cv2.imwrite(exePath + "\\images\\HoldImages\\bar.tif", self.bar_img)
+        
+        img = Image.open(exePath + "\\images\\HoldImages\\bar.tif")
+        img1 = img.resize((width1*3, height1*3), Image.ANTIALIAS)
+        img1.save(exePath + "\\images\\HoldImages\\resize_im.tif", dpi=(600,600), quality = 100)
 
+        self.bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im.tif")
 
+        #READ SCALE
+        self.scale = len(pI.getScale(self.bar_img))
+        print('scale: ' + str(self.scale))
+        self.bar['value'] = 50
+        self.e3.configure(state = 'normal')
+        self.e3.insert(tk.END, self.scale)
+        self.e3.configure(state = 'disabled')
+        #GET SCALE NUMBER and unit
+        self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
+        self.bar['value'] = 75
+        self.e1.configure(state = 'normal')
+        self.e1.insert(tk.END, self.scaleNumb)
+        self.e1.configure(state = 'disabled')
+        self.e2.configure(state = 'normal')
+        self.e2.insert(tk.END, self.units)
+        self.e2.configure(state = 'disabled')
+    
+    def preview(self):
+        #Bottom Left - 0, Bottom Right - 1, Top Left - 2, Top Right - 3)"
+        #"Top Left", "Top Right", "Bottom Left", "Bottom Right"
+        print("c1 get value: " + self.c1.get())
+        if self.c1.get() == "Top Left":
+            self.position = 2
+        elif self.c1.get() == "Top Right":
+            self.position = 3
+        elif self.c1.get() == "Bottom Left":
+            self.position = 0            
+        elif self.c1.get() == "Bottom Right":
+            self.position = 1
+            
+        self.sizeOfScale = int(self.spin.get())
+        
+        finalImage= pI.drawScale(self.crop_img,self.scale,int(self.scaleNumb),self.units,self.files[0],exePath,self.position, exePath,self.sizeOfScale)
+        img3 = finalImage.resize((500, 500), Image.ANTIALIAS)
+        img3 = ImageTk.PhotoImage(img3)
+        self.panel2.configure(image=img3)
+        self.panel2.image = img3
+        
+        
 if __name__ == "__main__":
 
     app = InstantScale()
-    app.geometry("1024x512")
+    app.geometry("1360x700")
     app.mainloop()
 

@@ -16,8 +16,10 @@ def getBar(img):
             break
     crop_img = img[0:cropRow, 0::]
     bar_img = img[cropRow+1:startRow, 1:width]
-
-    return crop_img,bar_img
+    barSize = (len(img)-cropRow)*100/len(img)
+    
+    
+    return crop_img,bar_img, barSize
 
 def getScale(bar_img):
     scale = []
@@ -207,3 +209,5 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
 
     im.save(filename + '_scale' + fileExtension)
     print("ImageSaved with name: " + filename + '_scale' + fileExtension + "!")
+    return im
+

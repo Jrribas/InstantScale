@@ -161,7 +161,7 @@ class MainApplication(tk.Frame):
         print(height)
         crop_img, bar_img = pI.getBar(img)
         
-        
+    
 
 
 if __name__ == "__main__":
