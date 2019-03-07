@@ -14,7 +14,11 @@ import pytesseract
 import os
 import processImage as pI
 
-
+#######TODO########
+#Scrollable window x
+#change entry to label in background and font color, and then change label background_color to color
+#change colors in the image
+#manual target scale
 
 user = getpass.getuser()
 #Get *.exe path and username
