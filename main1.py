@@ -19,7 +19,6 @@ import processImage as pI
 #change entry to label in background and font color, and then change label background_color to color
 #change colors in the image
 #manual target scale
-#change image resize ratio, so images dont lose ratio
 
 user = getpass.getuser()
 #Get *.exe path and username
@@ -210,7 +209,7 @@ class InstantScale(tk.Tk):
                                                        ("Png images", "*.png")])
 
         img = Image.open(self.files[0])
-        img2 = img.resize((500, 500), Image.ANTIALIAS)
+        img2 = img.resize((500, 375), Image.ANTIALIAS)
         img2 = ImageTk.PhotoImage(img2)
         self.panel.configure(image=img2)
         self.panel.image = img2
@@ -281,7 +280,7 @@ class InstantScale(tk.Tk):
         
         self.imageReturn= pI.drawScale(self.crop_img,self.scale,int(self.scaleNumb),self.units,self.files[0],exePath,self.position, exePath,self.sizeOfScale)
         self.finalImage = self.imageReturn
-        img3 = self.finalImage.resize((500, 500), Image.ANTIALIAS)
+        img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
 
         img3 = ImageTk.PhotoImage(img3)
         self.panel2.configure(image=img3)
