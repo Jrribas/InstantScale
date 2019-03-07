@@ -198,13 +198,17 @@ class InstantScale(tk.Tk):
 
     def readScale(self):
         self.bar['value'] = 0
+        self.update_idletasks()
         img = cv2.imread(self.files[0])
         height, width, channels = img.shape
+        self.bar['value'] = 25
+        self.update_idletasks()
         #GET BAR
         self.crop_img, self.bar_img, barSize = pI.getBar(img)
         print('bar Size: ' + str(barSize))
         barSizeRound = round(barSize)
-        self.bar['value'] = 25
+        self.bar['value'] = 50
+        self.update_idletasks()
         self.e4.configure(state = 'normal')
         self.e4.insert(tk.END,  barSizeRound)
         self.e4.configure(state = 'disabled')
@@ -222,19 +226,21 @@ class InstantScale(tk.Tk):
         #READ SCALE
         self.scale = len(pI.getScale(self.bar_img))
         print('scale: ' + str(self.scale))
-        self.bar['value'] = 50
+        self.bar['value'] = 75
+        self.update_idletasks()
         self.e3.configure(state = 'normal')
         self.e3.insert(tk.END, self.scale)
         self.e3.configure(state = 'disabled')
         #GET SCALE NUMBER and unit
         self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
-        self.bar['value'] = 75
         self.e1.configure(state = 'normal')
         self.e1.insert(tk.END, self.scaleNumb)
         self.e1.configure(state = 'disabled')
         self.e2.configure(state = 'normal')
         self.e2.insert(tk.END, self.units)
         self.e2.configure(state = 'disabled')
+        self.bar['value'] = 100
+        self.update_idletasks()
     
     def preview(self):
         #Bottom Left - 0, Bottom Right - 1, Top Left - 2, Top Right - 3)"
