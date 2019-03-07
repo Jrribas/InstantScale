@@ -6,6 +6,7 @@ from tkinter.ttk import Combobox
 from tkinter.ttk import Progressbar
 from tkinter import Spinbox
 from tkinter import ttk
+from tkinter.colorchooser import askcolor
 from PIL import Image, ImageTk
 import getpass #get username
 import cv2
@@ -59,8 +60,8 @@ def popupmsg(msg):
 class InstantScale(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.wm_title(self, "Smart Plug Monitoring")
-        # tk.Tk.iconbitmap(self, default="clienticon.ico")
+        tk.Tk.wm_title(self, "Instant Scale")
+        tk.Tk.iconbitmap(self, default="icon.ico")
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -88,9 +89,9 @@ class InstantScale(tk.Tk):
         img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
         img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
 
-        self.panel = tk.Label(self, image=img1)
+        self.panel = ttk.Label(self, image=img1)
         self.panel.image = img1
-        self.panel2 = tk.Label(self, image=img2)
+        self.panel2 = ttk.Label(self, image=img2)
         self.panel2.image = img2
         self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10)
         self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10)
@@ -101,7 +102,7 @@ class InstantScale(tk.Tk):
         self.l2.grid(row=19, column=2)
 
         ##SETIINGS BOX
-        self.b1 = tk.Button(self, text="ReadScale", command=self.readScale)
+        self.b1 = ttk.Button(self, text="ReadScale", command=self.readScale)
         self.b1.grid(row=1, column=3, columnspan=2, pady=5)
 
         style = ttk.Style()
@@ -117,22 +118,22 @@ class InstantScale(tk.Tk):
         self.l3 = Label(self, text="Unit (mm, um, nm)")
         self.l3.grid(row=3, column=4)
 
-        self.e1 = tk.Entry(self, state='disabled')
+        self.e1 = ttk.Entry(self, state='disabled')
         self.e1.grid(row=4, column=3, padx=5)
 
-        self.e2 = tk.Entry(self, state='disabled')
+        self.e2 = ttk.Entry(self, state='disabled')
         self.e2.grid(row=4, column=4, padx=5)
 
         self.l4 = Label(self, text="Scale Size (Pixels)")
         self.l4.grid(row=5, column=3, columnspan=2)
 
-        self.e3 = tk.Entry(self, state='disabled')
+        self.e3 = ttk.Entry(self, state='disabled')
         self.e3.grid(row=6, column=3, columnspan=2)
 
         self.l5 = Label(self, text="White Bar (%)")
         self.l5.grid(row=7, column=3, columnspan=2)
 
-        self.e4 = tk.Entry(self, state='disabled')
+        self.e4 = ttk.Entry(self, state='disabled')
         self.e4.grid(row=8, column=3, columnspan=2)
 
         self.l6 = Label(self, text="Target Value")
@@ -141,10 +142,10 @@ class InstantScale(tk.Tk):
         self.l7 = Label(self, text="Target Unit")
         self.l7.grid(row=9, column=4)
 
-        self.e5 = tk.Entry(self, state='disabled')
+        self.e5 = ttk.Entry(self, state='disabled')
         self.e5.grid(row=10, column=3, padx=5)
 
-        self.e6 = tk.Entry(self, state='disabled')
+        self.e6 = ttk.Entry(self, state='disabled')
         self.e6.grid(row=10, column=4, padx=5)
 
         self.l8 = Label(self, text="Scale Position")
@@ -162,24 +163,35 @@ class InstantScale(tk.Tk):
         self.spin.grid(column=3, row=14, columnspan=2)
 
         self.l10 = Label(self, text="Background Color")
-        self.l10.grid(row=15, column=3, columnspan=2)
+        self.l10.grid(row=15, column=3, columnspan=1)
 
-        self.e7 = tk.Entry(self)
-        self.e7.grid(row=16, column=3, columnspan=2)
+        self.e7 = ttk.Entry(self)
+        self.e7.grid(row=16, column=3, columnspan=1)
+
+        self.b7 = ttk.Button(self, text="Pick", command=self.colour)
+        self.b7.grid(row=16, column=4)
 
         self.l11 = Label(self, text="Font Color")
-        self.l11.grid(row=17, column=3, columnspan=2)
+        self.l11.grid(row=17, column=3, columnspan=1)
 
-        self.e8 = tk.Entry(self)
-        self.e8.grid(row=18, column=3, columnspan=2)
+        self.e8 = ttk.Entry(self)
+        self.e8.grid(row=18, column=3, columnspan=1)
 
-        self.b2 = tk.Button(self, text="Preview", command=self.preview)
+        self.b8 = ttk.Button(self, text="Pick", command=self.colour)
+        self.b8.grid(row=18, column=4)
+
+        self.b2 = ttk.Button(self, text="Preview", command=self.preview)
         self.b2.grid(row=19, column=3, columnspan=2)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(20, weight=1)
         self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(5, weight=1)
+        self.grid_columnconfigure(6, weight=1)
+
+    def colour(self):
+
+        color = askcolor()
+        print(color)
 
     def selectImages(self):
         print("Selecting Images")
@@ -203,15 +215,17 @@ class InstantScale(tk.Tk):
         height, width, channels = img.shape
         self.bar['value'] = 25
         self.update_idletasks()
+
         #GET BAR
         self.crop_img, self.bar_img, barSize = pI.getBar(img)
         print('bar Size: ' + str(barSize))
         barSizeRound = round(barSize)
         self.bar['value'] = 50
         self.update_idletasks()
-        self.e4.configure(state = 'normal')
+        self.e4.configure(state='normal')
         self.e4.insert(tk.END,  barSizeRound)
-        self.e4.configure(state = 'disabled')
+        self.e4.configure(state='disabled')
+
         #things
         
         height1, width1, channels1 = self.bar_img.shape
@@ -219,26 +233,27 @@ class InstantScale(tk.Tk):
         
         img = Image.open(exePath + "\\images\\HoldImages\\bar.tif")
         img1 = img.resize((width1*3, height1*3), Image.ANTIALIAS)
-        img1.save(exePath + "\\images\\HoldImages\\resize_im.tif", dpi=(600,600), quality = 100)
+        img1.save(exePath + "\\images\\HoldImages\\resize_im.tif", dpi=(600, 600), quality=100)
 
         self.bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im.tif")
 
         #READ SCALE
+
         self.scale = len(pI.getScale(self.bar_img))
         print('scale: ' + str(self.scale))
         self.bar['value'] = 75
         self.update_idletasks()
-        self.e3.configure(state = 'normal')
+        self.e3.configure(state='normal')
         self.e3.insert(tk.END, self.scale)
-        self.e3.configure(state = 'disabled')
-        #GET SCALE NUMBER and unit
+        self.e3.configure(state='disabled')
+        # GET SCALE NUMBER and unit
         self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
-        self.e1.configure(state = 'normal')
+        self.e1.configure(state='normal')
         self.e1.insert(tk.END, self.scaleNumb)
-        self.e1.configure(state = 'disabled')
-        self.e2.configure(state = 'normal')
+        self.e1.configure(state='disabled')
+        self.e2.configure(state='normal')
         self.e2.insert(tk.END, self.units)
-        self.e2.configure(state = 'disabled')
+        self.e2.configure(state='disabled')
         self.bar['value'] = 100
         self.update_idletasks()
     
@@ -257,7 +272,8 @@ class InstantScale(tk.Tk):
             
         self.sizeOfScale = int(self.spin.get())
         
-        finalImage= pI.drawScale(self.crop_img,self.scale,int(self.scaleNumb),self.units,self.files[0],exePath,self.position, exePath,self.sizeOfScale)
+        finalImage= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0], exePath,
+                                 self.position, exePath, self.sizeOfScale)
         img3 = finalImage.resize((500, 500), Image.ANTIALIAS)
         img3 = ImageTk.PhotoImage(img3)
         self.panel2.configure(image=img3)
