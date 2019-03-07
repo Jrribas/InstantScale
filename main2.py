@@ -14,6 +14,8 @@ from tkinter import Spinbox
 from tkinter import ttk
 from PIL import Image, ImageTk
 import getpass #get username
+import cv2
+import processImage as pI
 
 user = getpass.getuser()
 S = tk.S
@@ -25,17 +27,15 @@ class MainApplication(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.frame = tk.Frame(self.parent)  
-        # self.frame.pack(fill=tk.BOTH,expand = 1)
+        self.frame.pack(fill=tk.BOTH,expand = 1)
         
-        
-
         
         self.frame.grid_rowconfigure(0, weight=1)
         self.frame.grid_rowconfigure(20, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
         self.frame.grid_columnconfigure(5, weight=1)
         
-        self.frame.grid(sticky=tk.N+tk.E+tk.W+tk.S)
+        #self.frame.grid(sticky=tk.N+tk.E+tk.W+tk.S)
         
         #IMAGE BOX
         img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
@@ -148,20 +148,25 @@ class MainApplication(tk.Frame):
     
     def selectImages(self,panel):
         print("Selecting Images")
-        files = filedialog.askopenfilenames(initialdir = "C:/Users/" + user + "/Desktop",title = "InstantScale - Please select the images to process", 
+        self.files = filedialog.askopenfilenames(initialdir = "C:/Users/" + user + "/Desktop",title = "InstantScale - Please select the images to process", 
                                             filetypes = [("Image files", "*.tif *.jpg *.png"), 
                                                          ("Tiff images", "*.tif"), 
                                                          ("Jpg images", "*.jpg"), 
                                                          ("Png images", "*.png")])
 
-        img = Image.open(files[0])
+        img = Image.open(self.files[0])
         img2 = img.resize((500, 500), Image.ANTIALIAS)
         img2 = ImageTk.PhotoImage(img2)
         panel.configure(image = img2)
         app.mainloop()
       
-    def readScale(self):
-        print("sad")
+    def readScale(self,):
+        img = cv2.imread(self.files[0])
+        height, width, channels = img.shape
+        print(height)
+        crop_img, bar_img = pI.getBar(img)
+        
+        
 
 if __name__ == "__main__":
     app = tk.Tk()
