@@ -11,6 +11,7 @@ import getpass #get username
 import cv2
 import pytesseract
 import os
+import processImage as pI
 
 
 user = getpass.getuser()
