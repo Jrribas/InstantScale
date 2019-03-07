@@ -19,6 +19,7 @@ import processImage as pI
 #change entry to label in background and font color, and then change label background_color to color
 #change colors in the image
 #manual target scale
+#change image resize ratio, so images dont lose ratio
 
 user = getpass.getuser()
 #Get *.exe path and username
