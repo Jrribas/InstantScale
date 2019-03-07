@@ -14,6 +14,7 @@ import os
 import processImage as pI
 
 
+
 user = getpass.getuser()
 #Get *.exe path and username
 exePath = os.getcwd()
@@ -77,6 +78,7 @@ class InstantScale(tk.Tk):
         file_menu = tk.Menu(menubar, tearoff=0)
 
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
+        file_menu.add_command(label='Save As', command=lambda: self.saveFile())
         file_menu.add_command(label='Exit', command=exit)
         help_menu = Menu(menubar, tearoff=0)
         help_menu.add_command(label='version')
@@ -257,12 +259,18 @@ class InstantScale(tk.Tk):
             
         self.sizeOfScale = int(self.spin.get())
         
-        finalImage= pI.drawScale(self.crop_img,self.scale,int(self.scaleNumb),self.units,self.files[0],exePath,self.position, exePath,self.sizeOfScale)
-        img3 = finalImage.resize((500, 500), Image.ANTIALIAS)
+        self.imageReturn= pI.drawScale(self.crop_img,self.scale,int(self.scaleNumb),self.units,self.files[0],exePath,self.position, exePath,self.sizeOfScale)
+        self.finalImage = self.imageReturn
+        img3 = self.finalImage.resize((500, 500), Image.ANTIALIAS)
         img3 = ImageTk.PhotoImage(img3)
         self.panel2.configure(image=img3)
         self.panel2.image = img3
-        
+    
+    def saveFile(self):
+        file = filedialog.asksaveasfile(mode='wb', defaultextension=".png", filetypes=(("PNG file", "*.png"),("All Files", "*.*") ))
+        if file:
+            print(self.imageReturn.mode)
+            self.imageReturn.save(file)
         
 if __name__ == "__main__":
 
