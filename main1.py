@@ -81,9 +81,10 @@ class InstantScale(tk.Tk):
         
         # Image 2
         self.img2 = img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
-        self.panel2 = tk.Canvas(self, xscrollcommand=self.scrollbar2.set)
-        self.panel2.create_image(250, 187.5, image=img2)
-        self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
+
+        self.panel2 = tk.Canvas(self, xscrollcommand = self.scrollbar2.set)
+        self.image_on_panel2 = self.panel2.create_image(250,187.5,image=img2)
+        self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
 
         # Update scrollregion every time window is resized
         self.bind("<Configure>", self.update_scrollregion)
@@ -248,6 +249,7 @@ class InstantScale(tk.Tk):
         img = Image.open(self.files[0])
         img2 = img.resize((500, 375), Image.ANTIALIAS)
         self.img2 = img2 = ImageTk.PhotoImage(img2)
+
         self.panel.itemconfig(self.image_on_panel, image=img2)
 
     def readScale(self):
@@ -320,9 +322,8 @@ class InstantScale(tk.Tk):
         self.finalImage = self.imageReturn
         img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
 
-        img3 = ImageTk.PhotoImage(img3)
-        self.panel2.configure(image=img3)
-        self.panel2.image = img3
+        self.img3 = img3 = ImageTk.PhotoImage(img3)
+        self.panel2.itemconfig(self.image_on_panel2, image=img3)
     
     def saveFile(self):
         file = filedialog.asksaveasfile(mode='wb', defaultextension=".png", filetypes=(("PNG file", "*.png"),("All Files", "*.*") ))
