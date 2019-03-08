@@ -130,7 +130,7 @@ def cleanPathFiles(path):
 
     return Cpath
 
-def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale, fontColor=(0,0,0), bgColor=(255,255,255),targetValue=0, targetUnit=''):
+def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale, fontColor=(0,0,0), bgColor=(255,255,255),targetValue=0, targetUnits=''):
     
     # Desenhar a escala nova
     height, width, channels = img.shape
@@ -159,21 +159,19 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
             break
     
     #SE FOI INSERIDO TARGET VALUES 
-    """/if targetValue != 0:
-        newScaleNumb = targetValue
-        
-        if targetUnit == 'nm':
-            
-        elif targetUnit == 'mm':
-            
+    if targetValue != 0:
+        if targetUnits == 'nm':
+            val = targetValue / 1000
+        elif targetUnits == 'mm':
+            val = targetValue * 1000
         else:
-            targetUnit = 'µm'
+            targetUnits = 'µm'
+            val = targetValue
         
-        newScaleNumb = val
+        newScale = round((val * scale) / scaleNumb)
+        newScaleNumb = targetValue
+        units = targetUnits
         
-        newScale = round((val * scale) / scaleNumb)"""
-    
-    
     os.chdir(exePath)
     path= "images/cropImages"
     if not os.path.exists(path):

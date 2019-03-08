@@ -292,6 +292,7 @@ class InstantScale(tk.Tk):
         print('bar Size: ' + str(barSize))
         barSizeRound = round(barSize)
         self.e4.configure(state='normal')
+        self.e4.delete(0, tk.END)
         self.e4.insert(tk.END,  barSizeRound)
         self.e4.configure(state='disabled')
         self.bar['value'] = 50
@@ -312,6 +313,7 @@ class InstantScale(tk.Tk):
         self.scale = len(pI.getScale(self.bar_img))
         print('scale: ' + str(self.scale))
         self.e3.configure(state='normal')
+        self.e3.delete(0, tk.END)
         self.e3.insert(tk.END, self.scale)
         self.e3.configure(state='disabled')
         self.bar['value'] = 75
@@ -319,9 +321,11 @@ class InstantScale(tk.Tk):
         # GET SCALE NUMBER and unit
         self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
         self.e1.configure(state='normal')
+        self.e1.delete(0, tk.END)
         self.e1.insert(tk.END, self.scaleNumb)
         self.e1.configure(state='disabled')
         self.e2.configure(state='normal')
+        self.e2.delete(0, tk.END)
         self.e2.insert(tk.END, self.units)
         self.e2.configure(state='disabled')
         self.bar['value'] = 100
