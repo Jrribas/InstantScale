@@ -46,6 +46,8 @@ class InstantScale(tk.Tk):
         tk.Tk.wm_title(self, "Instant Scale")
         tk.Tk.iconbitmap(self, default="icon.ico")
 
+        tk.Tk.wm_minsize(self, 800, 600)
+
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
         
@@ -71,14 +73,14 @@ class InstantScale(tk.Tk):
         self.scrollbar.grid(row=20, column=1, sticky=E+W)
         self.scrollbar2 = Scrollbar(self, orient= tk.HORIZONTAL)
         self.scrollbar2.grid(row=20, column=2, sticky=E+W)
-        
+
         # Image 1
-        self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png")) 
+        self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
         self.panel = tk.Canvas(self, xscrollcommand=self.scrollbar.set)
         self.image_on_panel = self.panel.create_image(250, 187.5, image=img1)
         self.scrollbar.config(command=self.panel.xview)
         self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
-        
+
         # Image 2
         self.img2 = img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
 
@@ -159,11 +161,11 @@ class InstantScale(tk.Tk):
         self.l10 = Label(self, text="Font Color", bg="#000000", fg="#ffffff")
         self.l10.grid(row=16, column=3, rowspan=1, sticky="nsew", padx=5)
 
-        self.bgcolour_rgb = [0.0, 0.0, 0.0]
-        self.ftcolour_rgb = [255.0, 255.0, 255.0]
+        self.bgcolour_rgb = [255.0, 255.0, 255.0]
+        self.ftcolour_rgb = [0.0, 0.0, 0.0]
 
-        self.b7 = ttk.Button(self, text="Pick background color", command=lambda: self.choose_colour(0))
-        self.b7.grid(row=16, column=4, sticky="ew")
+        self.b3 = ttk.Button(self, text="Pick background color", command=lambda: self.choose_colour(0))
+        self.b3.grid(row=16, column=4, sticky="ew")
 
         contrast_ratio = 21
         self.text = tk.StringVar()
@@ -172,8 +174,8 @@ class InstantScale(tk.Tk):
         self.l11 = Label(self, textvariable=self.text, bg="#008000")
         self.l11.grid(row=17, column=3, rowspan=1, sticky="nsew", padx=5)
 
-        self.b8 = ttk.Button(self, text="Pick font color", command=lambda: self.choose_colour(1))
-        self.b8.grid(row=17, column=4, sticky="ew")
+        self.b4 = ttk.Button(self, text="Pick font color", command=lambda: self.choose_colour(1))
+        self.b4.grid(row=17, column=4, sticky="ew")
 
         self.b2 = ttk.Button(self, text="Preview", command=self.preview)
         self.b2.grid(row=19, column=3, columnspan=2)
@@ -192,7 +194,6 @@ class InstantScale(tk.Tk):
     def contrasting_text_color(self, rgb, rgb1):
 
         lumi = [0, 0]
-        temp = 0.0
 
         rgb_list = [rgb, rgb1]
         rgb_math = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
@@ -228,11 +229,13 @@ class InstantScale(tk.Tk):
 
         if label == 0:
             bgcolour = askcolor()
+            print(bgcolour)
             self.bgcolour_rgb = list(bgcolour[0])
             self.l10.config(bg=bgcolour[1])
             self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
         else:
             ftcolour = askcolor()
+            print(ftcolour)
             self.ftcolour_rgb = list(ftcolour[0])
             self.l10.config(fg=ftcolour[1])
             self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
