@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import Menu
 from tkinter import filedialog
 from tkinter import Label
+from tkinter import Scrollbar
 from tkinter.ttk import Combobox
 from tkinter.ttk import Progressbar
 from tkinter import Spinbox
@@ -40,14 +41,20 @@ S = tk.S
 
 ################################################
 
+
 class InstantScale(tk.Tk):
+
+    
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         tk.Tk.wm_title(self, "Instant Scale")
         tk.Tk.iconbitmap(self, default="icon.ico")
-
+        
+        
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
+        
+        #MENU ITEMS
 
         menubar = tk.Menu(tk.Frame(self))
         file_menu = tk.Menu(menubar, tearoff=0)
@@ -59,19 +66,35 @@ class InstantScale(tk.Tk):
         help_menu.add_command(label='version')
         menubar.add_cascade(label='File', menu=file_menu)
         menubar.add_cascade(label='About', menu=help_menu)
-
+        
         tk.Tk.config(self, menu=menubar)
+        
+        
+        #IMAGES AND SCROLLS
+        
+        #Scrollbars
+        self.scrollbar = Scrollbar(self,orient= tk.HORIZONTAL)
+        self.scrollbar.grid(row = 20, column = 1, sticky= E+W)
+        self.scrollbar2 = Scrollbar(self,orient= tk.HORIZONTAL)
+        self.scrollbar2.grid(row = 20, column = 2, sticky= E+W)
+        
+        #Image 1
+        self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png")) 
+        self.panel = tk.Canvas(self, xscrollcommand = self.scrollbar.set)
+        self.image_on_panel = self.panel.create_image(250,187.5,image=img1)
+        self.scrollbar.config(command=self.panel.xview)
+        self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
+        
+        #Image 2
+        self.img2 = img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
+        self.panel2 = tk.Canvas(self, xscrollcommand = self.scrollbar2.set)
+        self.panel2.create_image(250,187.5,image=img2)
+        self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
 
-        img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
-        img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
+        #Update scrollregion every time window is resized
+        self.bind("<Configure>", self.update_scrollregion)
 
-        self.panel = ttk.Label(self, image=img1)
-        self.panel.image = img1
-        self.panel2 = ttk.Label(self, image=img2)
-        self.panel2.image = img2
-        self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10)
-        self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10)
-
+        #Image Labels
         self.l1 = Label(self, text="Original Image", padx=5, pady=5)
         self.l1.grid(row=19, column=1)
         self.l2 = Label(self, text="Preview", padx=5, pady=5)
@@ -161,9 +184,15 @@ class InstantScale(tk.Tk):
         self.b2.grid(row=19, column=3, columnspan=2)
 
         self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(20, weight=1)
+        self.grid_rowconfigure(21, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(6, weight=1)
+        self.grid_columnconfigure(1, weight=10)
+        self.grid_columnconfigure(2, weight=10)
+        
+    def update_scrollregion(self,event):
+        self.panel.configure(scrollregion=self.panel.bbox("all"))
+        self.panel2.configure(scrollregion=self.panel2.bbox("all"))
 
     def contrasting_text_color(self, rgb, rgb1):
 
@@ -235,9 +264,10 @@ class InstantScale(tk.Tk):
 
         img = Image.open(self.files[0])
         img2 = img.resize((500, 375), Image.ANTIALIAS)
-        img2 = ImageTk.PhotoImage(img2)
-        self.panel.configure(image=img2)
-        self.panel.image = img2
+        self.img2 = img2 = ImageTk.PhotoImage(img2)
+        self.panel.itemconfig(self.image_on_panel,image=img2)
+        #self.panel.image = img2
+
 
     def readScale(self):
         self.bar['value'] = 0
