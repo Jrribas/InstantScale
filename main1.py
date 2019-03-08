@@ -37,6 +37,9 @@ S = tk.S
 
 ################################################
 
+#TODO LIST
+#Segunda imagem está com a resolução errada, se meter escala bottom nao aparece
+
 
 class InstantScale(tk.Tk):
 
@@ -160,7 +163,7 @@ class InstantScale(tk.Tk):
         self.spin = Spinbox(self, from_=1, to=20, width=5)
         self.spin.grid(column=3, row=14, columnspan=2)
 
-        self.l10 = Label(self, text="Font Color", bg="#000000", fg="#ffffff")
+        self.l10 = Label(self, text="Font Color", bg="#ffffff", fg="#000000")
         self.l10.grid(row=16, column=3, rowspan=1, sticky="nsew", padx=5)
 
         self.bgcolour_rgb = [255.0, 255.0, 255.0]
@@ -288,12 +291,11 @@ class InstantScale(tk.Tk):
         self.crop_img, self.bar_img, barSize = pI.getBar(img)
         print('bar Size: ' + str(barSize))
         barSizeRound = round(barSize)
-        self.bar['value'] = 50
-        self.update_idletasks()
         self.e4.configure(state='normal')
         self.e4.insert(tk.END,  barSizeRound)
         self.e4.configure(state='disabled')
-
+        self.bar['value'] = 50
+        self.update_idletasks()
         # things
         
         height1, width1, channels1 = self.bar_img.shape
@@ -309,11 +311,11 @@ class InstantScale(tk.Tk):
 
         self.scale = len(pI.getScale(self.bar_img))
         print('scale: ' + str(self.scale))
-        self.bar['value'] = 75
-        self.update_idletasks()
         self.e3.configure(state='normal')
         self.e3.insert(tk.END, self.scale)
         self.e3.configure(state='disabled')
+        self.bar['value'] = 75
+        self.update_idletasks()
         # GET SCALE NUMBER and unit
         self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
         self.e1.configure(state='normal')
@@ -358,10 +360,21 @@ class InstantScale(tk.Tk):
             self.fontColor = tuple(self.fontColor)
         except:
             self.fontColor = (255,255,255)
-            
+        
+        #Check if target values are inserted manualy
+
+        if self.e5.index("end") == 0:
+            self.targetValue = 0
+        else:
+            self.targetValue = int(self.e5.get())
+        if self.e6.index("end") == 0:
+            self.targetUnit =''
+        else:
+            self.targetUnit = self.e6.get()
+        
         print(self.bgColor)
         self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
-                                       exePath, self.position, exePath, self.sizeOfScale, self.fontColor, self.bgColor)
+                                       exePath, self.position, exePath, self.sizeOfScale, self.fontColor, self.bgColor,self.targetValue, self.targetUnit)
         
         self.finalImage = self.imageReturn
         self.img3 = img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
