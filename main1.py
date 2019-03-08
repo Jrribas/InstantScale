@@ -9,31 +9,28 @@ from tkinter import Spinbox
 from tkinter import ttk
 from tkinter.colorchooser import askcolor
 from PIL import Image, ImageTk
-import getpass #get username
+import getpass # get username
 import cv2
 import pytesseract
 import os
 import processImage as pI
 
 #######TODO########
-#Scrollable window x
-#change entry to label in background and font color, and then change label background_color to color
-#change colors in the image
-#manual target scale
+# Scrollable window x
+# change colors in the image
+# manual target scale
 
-user = getpass.getuser()
-#Get *.exe path and username
+# Get *.exe path and username
 exePath = os.getcwd()
 user = getpass.getuser()
 
-#Tesseract parameters
+# Tesseract parameters
 tess_path = exePath + '\\Tesseract-OCR\\tesseract.exe'
 pytesseract.pytesseract.tesseract_cmd = tess_path
 TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 ################################################
 
-NORM_FONT = ("Verdana", 10)
 E = tk.E
 W = tk.W
 N = tk.N
@@ -44,17 +41,15 @@ S = tk.S
 
 class InstantScale(tk.Tk):
 
-    
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         tk.Tk.wm_title(self, "Instant Scale")
         tk.Tk.iconbitmap(self, default="icon.ico")
-        
-        
+
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
         
-        #MENU ITEMS
+        # MENU ITEMS
 
         menubar = tk.Menu(tk.Frame(self))
         file_menu = tk.Menu(menubar, tearoff=0)
@@ -68,39 +63,38 @@ class InstantScale(tk.Tk):
         menubar.add_cascade(label='About', menu=help_menu)
         
         tk.Tk.config(self, menu=menubar)
-        
-        
-        #IMAGES AND SCROLLS
-        
-        #Scrollbars
-        self.scrollbar = Scrollbar(self,orient= tk.HORIZONTAL)
-        self.scrollbar.grid(row = 20, column = 1, sticky= E+W)
-        self.scrollbar2 = Scrollbar(self,orient= tk.HORIZONTAL)
-        self.scrollbar2.grid(row = 20, column = 2, sticky= E+W)
-        
-        #Image 1
-        self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png")) 
-        self.panel = tk.Canvas(self, xscrollcommand = self.scrollbar.set)
-        self.image_on_panel = self.panel.create_image(250,187.5,image=img1)
-        self.scrollbar.config(command=self.panel.xview)
-        self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
-        
-        #Image 2
-        self.img2 = img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
-        self.panel2 = tk.Canvas(self, xscrollcommand = self.scrollbar2.set)
-        self.panel2.create_image(250,187.5,image=img2)
-        self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
 
-        #Update scrollregion every time window is resized
+        # IMAGES AND SCROLLS
+        
+        # Scrollbars
+        self.scrollbar = Scrollbar(self, orient=tk.HORIZONTAL)
+        self.scrollbar.grid(row=20, column=1, sticky=E+W)
+        self.scrollbar2 = Scrollbar(self, orient= tk.HORIZONTAL)
+        self.scrollbar2.grid(row=20, column=2, sticky=E+W)
+        
+        # Image 1
+        self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png")) 
+        self.panel = tk.Canvas(self, xscrollcommand=self.scrollbar.set)
+        self.image_on_panel = self.panel.create_image(250, 187.5, image=img1)
+        self.scrollbar.config(command=self.panel.xview)
+        self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
+        
+        # Image 2
+        self.img2 = img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
+        self.panel2 = tk.Canvas(self, xscrollcommand=self.scrollbar2.set)
+        self.panel2.create_image(250, 187.5, image=img2)
+        self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
+
+        # Update scrollregion every time window is resized
         self.bind("<Configure>", self.update_scrollregion)
 
-        #Image Labels
+        # Image Labels
         self.l1 = Label(self, text="Original Image", padx=5, pady=5)
         self.l1.grid(row=19, column=1)
         self.l2 = Label(self, text="Preview", padx=5, pady=5)
         self.l2.grid(row=19, column=2)
 
-        ##SETIINGS BOX
+        # SETIINGS BOX
         self.b1 = ttk.Button(self, text="ReadScale", command=self.readScale)
         self.b1.grid(row=1, column=3, columnspan=2, pady=5)
 
@@ -172,7 +166,7 @@ class InstantScale(tk.Tk):
 
         contrast_ratio = 21
         self.text = tk.StringVar()
-        self.text.set("Contrast = %.2f" %contrast_ratio)
+        self.text.set("Contrast = %.2f" % contrast_ratio)
 
         self.l11 = Label(self, textvariable=self.text, bg="#008000")
         self.l11.grid(row=17, column=3, rowspan=1, sticky="nsew", padx=5)
@@ -196,39 +190,32 @@ class InstantScale(tk.Tk):
 
     def contrasting_text_color(self, rgb, rgb1):
 
-        L = [0,0]
-        d = 0.0
+        lumi = [0, 0]
+        temp = 0.0
 
         rgb_list = [rgb, rgb1]
         rgb_math = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
-        print(rgb_list)
 
         for j in range(0, 2):
 
             for i in range(0, 3):
 
-                d = rgb_list[j][i] / 255.0
+                temp = rgb_list[j][i] / 255.0
 
-                if d <= 0.03928:
-                    rgb_math[j][i] = d / 12.92
+                if temp <= 0.03928:
+                    rgb_math[j][i] = temp / 12.92
                 else:
-                    rgb_math[j][i] = ((d + 0.055) / 1.055) ** 2.4
+                    rgb_math[j][i] = ((temp + 0.055) / 1.055) ** 2.4
 
-            L[j] = 0.2126 * rgb_math[j][0] + 0.7152 * rgb_math[j][1] + 0.0722 * rgb_math[j][2]
+            lumi[j] = 0.2126 * rgb_math[j][0] + 0.7152 * rgb_math[j][1] + 0.0722 * rgb_math[j][2]
 
-        print(rgb_list)
-        print(rgb_math)
-        print(L)
-
-        if L[0] > L[1]:
-            contrast = (L[0] + 0.05) / (L[1] + 0.05)
+        if lumi[0] > lumi[1]:
+            contrast = (lumi[0] + 0.05) / (lumi[1] + 0.05)
 
         else:
-            contrast = (L[1] + 0.05) / (L[0] + 0.05)
+            contrast = (lumi[1] + 0.05) / (lumi[0] + 0.05)
 
-        self.text.set("Contrast = %.2f" %contrast)
-
-        print(contrast)
+        self.text.set("Contrast = %.2f" % contrast)
 
         if contrast >= 7:
             self.l11.config(bg="#008000")
@@ -236,22 +223,18 @@ class InstantScale(tk.Tk):
         else:
             self.l11.config(bg="#FF0000")
 
-
     def choose_colour(self, label):
 
         if label == 0:
             bgcolour = askcolor()
-            print(bgcolour)
             self.bgcolour_rgb = list(bgcolour[0])
             self.l10.config(bg=bgcolour[1])
             self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
         else:
             ftcolour = askcolor()
-            print(ftcolour)
             self.ftcolour_rgb = list(ftcolour[0])
             self.l10.config(fg=ftcolour[1])
             self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
-
 
     def selectImages(self):
         print("Selecting Images")
@@ -265,9 +248,7 @@ class InstantScale(tk.Tk):
         img = Image.open(self.files[0])
         img2 = img.resize((500, 375), Image.ANTIALIAS)
         self.img2 = img2 = ImageTk.PhotoImage(img2)
-        self.panel.itemconfig(self.image_on_panel,image=img2)
-        #self.panel.image = img2
-
+        self.panel.itemconfig(self.image_on_panel, image=img2)
 
     def readScale(self):
         self.bar['value'] = 0
@@ -277,7 +258,7 @@ class InstantScale(tk.Tk):
         self.bar['value'] = 25
         self.update_idletasks()
 
-        #GET BAR
+        # GET BAR
         self.crop_img, self.bar_img, barSize = pI.getBar(img)
         print('bar Size: ' + str(barSize))
         barSizeRound = round(barSize)
@@ -287,7 +268,7 @@ class InstantScale(tk.Tk):
         self.e4.insert(tk.END,  barSizeRound)
         self.e4.configure(state='disabled')
 
-        #things
+        # things
         
         height1, width1, channels1 = self.bar_img.shape
         cv2.imwrite(exePath + "\\images\\HoldImages\\bar.tif", self.bar_img)
@@ -298,7 +279,7 @@ class InstantScale(tk.Tk):
 
         self.bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im.tif")
 
-        #READ SCALE
+        # READ SCALE
 
         self.scale = len(pI.getScale(self.bar_img))
         print('scale: ' + str(self.scale))
@@ -319,8 +300,9 @@ class InstantScale(tk.Tk):
         self.update_idletasks()
     
     def preview(self):
-        #Bottom Left - 0, Bottom Right - 1, Top Left - 2, Top Right - 3)"
-        #"Top Left", "Top Right", "Bottom Left", "Bottom Right"
+        # Bottom Left - 0, Bottom Right - 1, Top Left - 2, Top Right - 3)"
+        # "Top Left", "Top Right", "Bottom Left", "Bottom Right"
+
         print("c1 get value: " + self.c1.get())
         if self.c1.get() == "Top Left":
             self.position = 2
@@ -333,7 +315,8 @@ class InstantScale(tk.Tk):
             
         self.sizeOfScale = int(self.spin.get())
         
-        self.imageReturn= pI.drawScale(self.crop_img,self.scale,int(self.scaleNumb),self.units,self.files[0],exePath,self.position, exePath,self.sizeOfScale)
+        self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
+                                       exePath, self.position, exePath, self.sizeOfScale)
         self.finalImage = self.imageReturn
         img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
 
@@ -346,7 +329,8 @@ class InstantScale(tk.Tk):
         if file:
             print(self.imageReturn.mode)
             self.imageReturn.save(file)
-        
+
+
 if __name__ == "__main__":
 
     app = InstantScale()
