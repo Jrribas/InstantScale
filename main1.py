@@ -16,8 +16,6 @@ import os
 import processImage as pI
 
 #######TODO########
-#Scrollable window x
-#change entry to label in background and font color, and then change label background_color to color
 #change colors in the image
 #manual target scale
 
@@ -167,8 +165,8 @@ class InstantScale(tk.Tk):
         self.bgcolour_rgb = [0.0, 0.0, 0.0]
         self.ftcolour_rgb = [255.0, 255.0, 255.0]
 
-        self.b7 = ttk.Button(self, text="Pick background color", command=lambda: self.choose_colour(0))
-        self.b7.grid(row=16, column=4, sticky="ew")
+        self.b3 = ttk.Button(self, text="Pick background color", command=lambda: self.choose_colour(0))
+        self.b3.grid(row=16, column=4, sticky="ew")
 
         contrast_ratio = 21
         self.text = tk.StringVar()
@@ -177,11 +175,14 @@ class InstantScale(tk.Tk):
         self.l11 = Label(self, textvariable=self.text, bg="#008000")
         self.l11.grid(row=17, column=3, rowspan=1, sticky="nsew", padx=5)
 
-        self.b8 = ttk.Button(self, text="Pick font color", command=lambda: self.choose_colour(1))
-        self.b8.grid(row=17, column=4, sticky="ew")
-
+        self.b4 = ttk.Button(self, text="Pick font color", command=lambda: self.choose_colour(1))
+        self.b4.grid(row=17, column=4, sticky="ew")
+        var = 0
+        self.c2 = tk.Checkbutton(self, text="Manual", variable=var)
+        self.c2.grid(row=19, column=4, sticky="ew")
+        
         self.b2 = ttk.Button(self, text="Preview", command=self.preview)
-        self.b2.grid(row=19, column=3, columnspan=2)
+        self.b2.grid(row=19, column=3)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(21, weight=1)
