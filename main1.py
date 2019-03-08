@@ -15,9 +15,6 @@ import pytesseract
 import os
 import processImage as pI
 
-#######TODO########
-#manual target scale
-
 
 # Get *.exe path and username
 exePath = os.getcwd()
@@ -38,10 +35,8 @@ S = tk.S
 ################################################
 
 #TODO LIST
-#Segunda imagem está com a resolução errada, se meter escala bottom nao aparece, mas grava a imagem de maneira certa
-#Manual white bar
-#Manual Scale Size
 #remover Save automatico
+#mudar UI de sitios
 
 
 class InstantScale(tk.Tk):
@@ -81,18 +76,17 @@ class InstantScale(tk.Tk):
 
         # Image 1
         self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
-        self.panel = tk.Canvas(self, xscrollcommand=self.scrollbar.set)
+        self.panel = tk.Canvas(self, width = self.img1.width(), height = self.img1.height(),  xscrollcommand=self.scrollbar.set)
         self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
-        self.width_panel = self.panel.winfo_width()
-        self.height_panel = self.panel.winfo_height()
-        self.image_on_panel = self.panel.create_image(self.width_panel/2, self.height_panel/2, anchor=tk.CENTER, image=img1)
+        self.image_on_panel = self.panel.create_image(0,0, anchor='nw', image=img1)
+        
         self.scrollbar.config(command=self.panel.xview)
      
         # Image 2
         self.img3 = img3 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
-        self.panel2 = tk.Canvas(self, xscrollcommand = self.scrollbar2.set)
+        self.panel2 = tk.Canvas(self, width = self.img1.width(), height = self.img1.height(), xscrollcommand = self.scrollbar2.set)
         self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
-        self.image_on_panel2 = self.panel2.create_image(250,187.5, anchor=tk.CENTER, image=img3)
+        self.image_on_panel2 = self.panel2.create_image(0,0, anchor='nw', image=img3, tags='image')
         self.scrollbar2.config(command=self.panel2.xview)
 
 
@@ -285,7 +279,7 @@ class InstantScale(tk.Tk):
         
         self.bar['value'] = 0
         self.update_idletasks()
-        img = cv2.imread(self.files[0])
+        self.img = img = cv2.imread(self.files[0])
         height, width, channels = img.shape
         self.bar['value'] = 25
         self.update_idletasks()
@@ -347,7 +341,8 @@ class InstantScale(tk.Tk):
             self.position = 0            
         elif self.c1.get() == "Bottom Right":
             self.position = 1
-            
+        
+        self.scale = int(self.e3.get())
         self.sizeOfScale = int(self.spin.get())
         self.scaleNumb = int(self.e1.get())
         self.units = self.e2.get()
@@ -378,8 +373,10 @@ class InstantScale(tk.Tk):
             self.targetUnit =''
         else:
             self.targetUnit = self.e6.get()
-        
-        print(self.bgColor)
+            
+        #CHANGE CROP SIZE
+        self.crop_img = pI.cropImage(self.img,int(self.e4.get()))
+        #DRAW IMAGE
         self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
                                        exePath, self.position, exePath, self.sizeOfScale, self.fontColor, self.bgColor,self.targetValue, self.targetUnit)
         
