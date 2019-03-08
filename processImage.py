@@ -18,8 +18,14 @@ def getBar(img):
     bar_img = img[cropRow+1:startRow, 1:width]
     barSize = (len(img)-cropRow)*100/len(img)
     
-    
     return crop_img,bar_img, barSize
+
+def cropImage(img, cropPercentage):
+    height, width, channels = img.shape
+    
+    cropRow = int((height * (100-cropPercentage)) / 100)
+    crop_image = img[0:cropRow, 0::]
+    return crop_image
 
 def getScale(bar_img):
     scale = []

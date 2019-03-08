@@ -35,7 +35,6 @@ S = tk.S
 ################################################
 
 #TODO LIST
-#Manual white bar
 #remover Save automatico
 #mudar UI de sitios
 
@@ -280,7 +279,7 @@ class InstantScale(tk.Tk):
         
         self.bar['value'] = 0
         self.update_idletasks()
-        img = cv2.imread(self.files[0])
+        self.img = img = cv2.imread(self.files[0])
         height, width, channels = img.shape
         self.bar['value'] = 25
         self.update_idletasks()
@@ -374,8 +373,9 @@ class InstantScale(tk.Tk):
             self.targetUnit =''
         else:
             self.targetUnit = self.e6.get()
-        
-        
+            
+        #CHANGE CROP SIZE
+        self.crop_img = pI.cropImage(self.img,int(self.e4.get()))
         #DRAW IMAGE
         self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
                                        exePath, self.position, exePath, self.sizeOfScale, self.fontColor, self.bgColor,self.targetValue, self.targetUnit)
