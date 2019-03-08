@@ -38,7 +38,10 @@ S = tk.S
 ################################################
 
 #TODO LIST
-#Segunda imagem está com a resolução errada, se meter escala bottom nao aparece
+#Segunda imagem está com a resolução errada, se meter escala bottom nao aparece, mas grava a imagem de maneira certa
+#Manual white bar
+#Manual Scale Size
+#remover Save automatico
 
 
 class InstantScale(tk.Tk):
@@ -381,7 +384,7 @@ class InstantScale(tk.Tk):
                                        exePath, self.position, exePath, self.sizeOfScale, self.fontColor, self.bgColor,self.targetValue, self.targetUnit)
         
         self.finalImage = self.imageReturn
-        self.img3 = img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
+        img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
         self.img3 = img3 = ImageTk.PhotoImage(img3)
         self.panel2.itemconfig(self.image_on_panel2, image=img3)
     
