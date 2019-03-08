@@ -141,7 +141,8 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
         scaleNumb *= 1000
     else:
         units = 'µm'
-
+    
+    
     for val in values:
         newScale = round((val * scale) / scaleNumb)
         if 20 * sizeOfScale <= newScale <= 66 * sizeOfScale:
@@ -155,7 +156,6 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
                 newScaleNumb = val
                 units = 'µm'
             break
-
 
     os.chdir(exePath)
     path= "images/cropImages"

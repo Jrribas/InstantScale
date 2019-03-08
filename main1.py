@@ -77,16 +77,19 @@ class InstantScale(tk.Tk):
         # Image 1
         self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
         self.panel = tk.Canvas(self, xscrollcommand=self.scrollbar.set)
-        self.image_on_panel = self.panel.create_image(250, 187.5, image=img1)
-        self.scrollbar.config(command=self.panel.xview)
         self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
-
+        self.width_panel = self.panel.winfo_width()
+        self.height_panel = self.panel.winfo_height()
+        self.image_on_panel = self.panel.create_image(self.width_panel/2, self.height_panel/2, anchor=tk.CENTER, image=img1)
+        self.scrollbar.config(command=self.panel.xview)
+     
         # Image 2
-        self.img2 = img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
-
+        self.img3 = img3 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
         self.panel2 = tk.Canvas(self, xscrollcommand = self.scrollbar2.set)
-        self.image_on_panel2 = self.panel2.create_image(250,187.5,image=img2)
         self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
+        self.image_on_panel2 = self.panel2.create_image(250,187.5, anchor=tk.CENTER, image=img3)
+        self.scrollbar2.config(command=self.panel2.xview)
+
 
         # Update scrollregion every time window is resized
         self.bind("<Configure>", self.update_scrollregion)
@@ -177,8 +180,8 @@ class InstantScale(tk.Tk):
         self.b4 = ttk.Button(self, text="Pick font color", command=lambda: self.choose_colour(1))
         self.b4.grid(row=17, column=4, sticky="ew")
 
-        var = 0
-        self.c2 = tk.Checkbutton(self, text="Manual", variable=var)
+        self.var = tk.IntVar()
+        self.c2 = tk.Checkbutton(self, text="Manual", variable=self.var, command=self.manual)
         self.c2.grid(row=19, column=4, sticky="ew")
         self.b2 = ttk.Button(self, text="Preview", command=self.preview)
         self.b2.grid(row=19, column=3)
@@ -189,7 +192,23 @@ class InstantScale(tk.Tk):
         self.grid_columnconfigure(6, weight=1)
         self.grid_columnconfigure(1, weight=10)
         self.grid_columnconfigure(2, weight=10)
-        
+    
+    def manual(self):
+        if self.var.get() == 1:
+            self.e1.configure(state='normal')
+            self.e2.configure(state='normal')
+            self.e3.configure(state='normal')
+            self.e4.configure(state='normal')
+            self.e5.configure(state='normal')
+            self.e6.configure(state='normal')
+        else:
+            self.e1.configure(state='disabled')
+            self.e2.configure(state='disabled')
+            self.e3.configure(state='disabled')
+            self.e4.configure(state='disabled')
+            self.e5.configure(state='disabled')
+            self.e6.configure(state='disabled')
+    
     def update_scrollregion(self,event):
         self.panel.configure(scrollregion=self.panel.bbox("all"))
         self.panel2.configure(scrollregion=self.panel2.bbox("all"))
@@ -255,10 +274,10 @@ class InstantScale(tk.Tk):
         img = Image.open(self.files[0])
         img2 = img.resize((500, 375), Image.ANTIALIAS)
         self.img2 = img2 = ImageTk.PhotoImage(img2)
-
         self.panel.itemconfig(self.image_on_panel, image=img2)
 
     def readScale(self):
+        
         self.bar['value'] = 0
         self.update_idletasks()
         img = cv2.imread(self.files[0])
@@ -322,12 +341,13 @@ class InstantScale(tk.Tk):
             self.position = 1
             
         self.sizeOfScale = int(self.spin.get())
-        
+        self.scaleNumb = int(self.e1.get())
+        self.units = self.e2.get()
         self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
                                        exePath, self.position, exePath, self.sizeOfScale)
+        
         self.finalImage = self.imageReturn
-        img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
-
+        self.img3 = img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
         self.img3 = img3 = ImageTk.PhotoImage(img3)
         self.panel2.itemconfig(self.image_on_panel2, image=img3)
     
