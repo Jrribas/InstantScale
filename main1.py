@@ -16,7 +16,6 @@ import os
 import processImage as pI
 
 #######TODO########
-#change colors in the image
 #manual target scale
 
 
@@ -343,8 +342,26 @@ class InstantScale(tk.Tk):
         self.sizeOfScale = int(self.spin.get())
         self.scaleNumb = int(self.e1.get())
         self.units = self.e2.get()
+        try:
+            self.bgColor = self.bgcolour_rgb
+            self.bgColor[0] = int(self.bgColor[0])
+            self.bgColor[1] = int(self.bgColor[1])
+            self.bgColor[2] = int(self.bgColor[2])
+            self.bgColor = tuple(self.bgColor)
+        except:
+            self.bgColor = (0,0,0)
+        try:
+            self.fontColor = self.ftcolour_rgb
+            self.fontColor[0] = int(self.fontColor[0])
+            self.fontColor[1] = int(self.fontColor[1])
+            self.fontColor[2] = int(self.fontColor[2])
+            self.fontColor = tuple(self.fontColor)
+        except:
+            self.fontColor = (255,255,255)
+            
+        print(self.bgColor)
         self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
-                                       exePath, self.position, exePath, self.sizeOfScale)
+                                       exePath, self.position, exePath, self.sizeOfScale, self.fontColor, self.bgColor)
         
         self.finalImage = self.imageReturn
         self.img3 = img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)

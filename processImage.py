@@ -130,7 +130,7 @@ def cleanPathFiles(path):
 
     return Cpath
 
-def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale):
+def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale, fontColor=(0,0,0), bgColor=(255,255,255)):
     # Desenhar a escala nova
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
@@ -189,13 +189,13 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
 
 
     if newScale > w:
-        draw.rectangle(sD, fill="white", outline="white")
-        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 7*sizeOfScale), scaletext, font=font, fill='Black')
-        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 5*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
+        draw.rectangle(sD, fill=bgColor, outline=bgColor)
+        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 7*sizeOfScale), scaletext, font=font, fill=fontColor)
+        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 5*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 5*sizeOfScale], fill=fontColor, width=3*sizeOfScale)
     else:
-        draw.rectangle(textDimensions, fill="white", outline="white")
-        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 7*sizeOfScale), scaletext, font=font, fill='Black')
-        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 5*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
+        draw.rectangle(textDimensions, fill=bgColor, outline=bgColor)
+        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 7*sizeOfScale), scaletext, font=font, fill=fontColor)
+        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 5*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 5*sizeOfScale], fill=fontColor, width=3*sizeOfScale)
 
 
     del draw
