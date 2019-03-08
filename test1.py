@@ -1,14 +1,30 @@
-from tkinter import *
+from tkinter.colorchooser import askcolor
 
-root = Tk()
-menu_bar = Menu(root)
+def colour():
+    color = askcolor()
+    return color
 
-def clicked(menu):
-    menu.entryconfigure(1, label="Clicked!")
 
-file_menu = Menu(menu_bar, tearoff=False)
-file_menu.add_command(label="An example item", command=lambda: clicked(file_menu))
-menu_bar.add_cascade(label="File", menu=file_menu)
+def contrasting_text_color(rgb):
 
-root.config(menu=menu_bar)
-root.mainloop()
+    for i in range(0, 3):
+        d = rgb[i] / 255.0
+
+        print(d)
+
+        if d <= 0.03928:
+            rgb[i] = d / 12.92
+        else:
+            rgb[i] = ((d + 0.055) / 1.055) ** 2.4
+
+    L = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]
+
+    return L
+
+rgbList = list(colour()[0])
+
+cenas = contrasting_text_color(rgbList)
+
+print(cenas)
+
+

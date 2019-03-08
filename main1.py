@@ -40,28 +40,6 @@ S = tk.S
 
 ################################################
 
-def popupmsg(msg):
-
-    popup = tk.Tk()
-
-    popup.wm_title("!")
-    label = ttk.Label(popup, text=msg, font=NORM_FONT)
-    label.grid(row=1, column=1, padx=2, pady=2)
-    B1 = ttk.Button(popup, text="Okay", command=popup.destroy())
-    B1.grid(row=2, column=1, padx=2, pady=2)
-
-    popup.grid_rowconfigure(0, weight=1)
-    popup.grid_rowconfigure(3, weight=1)
-    popup.grid_columnconfigure(0, weight=1)
-    popup.grid_columnconfigure(2, weight=1)
-
-    popup.mainloop()
-
-
-################################################
-
-
-
 class InstantScale(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -70,14 +48,6 @@ class InstantScale(tk.Tk):
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
-
-        menubar = tk.Menu(tk.Frame(self))
-        filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", command=lambda: popupmsg("Not supported just yet!"))
-        filemenu.add_command(label="Open", command=lambda: popupmsg("Not supported just yet!"))
-        filemenu.add_separator()
-        filemenu.add_command(label="Export Data", command=lambda: popupmsg("Not supported just yet!"))
-        menubar.add_cascade(label="File", menu=filemenu)
 
         menubar = tk.Menu(tk.Frame(self))
         file_menu = tk.Menu(menubar, tearoff=0)
@@ -168,23 +138,24 @@ class InstantScale(tk.Tk):
         self.spin = Spinbox(self, from_=1, to=20, width=5)
         self.spin.grid(column=3, row=14, columnspan=2)
 
-        self.l10 = Label(self, text="Background Color")
-        self.l10.grid(row=15, column=3, columnspan=1)
+        self.l10 = Label(self, text="Font Color", bg="#000000", fg="#ffffff")
+        self.l10.grid(row=16, column=3, rowspan=1, sticky="nsew", padx=5)
 
-        self.e7 = ttk.Entry(self)
-        self.e7.grid(row=16, column=3, columnspan=1)
+        self.bgcolour_rgb = [0.0, 0.0, 0.0]
+        self.ftcolour_rgb = [255.0, 255.0, 255.0]
 
-        self.b7 = ttk.Button(self, text="Pick", command=self.colour)
-        self.b7.grid(row=16, column=4)
+        self.b7 = ttk.Button(self, text="Pick background color", command=lambda: self.choose_colour(0))
+        self.b7.grid(row=16, column=4, sticky="ew")
 
-        self.l11 = Label(self, text="Font Color")
-        self.l11.grid(row=17, column=3, columnspan=1)
+        contrast_ratio = 21
+        self.text = tk.StringVar()
+        self.text.set("Contrast = %.2f" %contrast_ratio)
 
-        self.e8 = ttk.Entry(self)
-        self.e8.grid(row=18, column=3, columnspan=1)
+        self.l11 = Label(self, textvariable=self.text, bg="#008000")
+        self.l11.grid(row=17, column=3, rowspan=1, sticky="nsew", padx=5)
 
-        self.b8 = ttk.Button(self, text="Pick", command=self.colour)
-        self.b8.grid(row=18, column=4)
+        self.b8 = ttk.Button(self, text="Pick font color", command=lambda: self.choose_colour(1))
+        self.b8.grid(row=17, column=4, sticky="ew")
 
         self.b2 = ttk.Button(self, text="Preview", command=self.preview)
         self.b2.grid(row=19, column=3, columnspan=2)
@@ -194,19 +165,73 @@ class InstantScale(tk.Tk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(6, weight=1)
 
-    def colour(self):
+    def contrasting_text_color(self, rgb, rgb1):
 
-        color = askcolor()
-        print(color)
+        L = [0,0]
+        d = 0.0
+
+        rgb_list = [rgb, rgb1]
+        rgb_math = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+        print(rgb_list)
+
+        for j in range(0, 2):
+
+            for i in range(0, 3):
+
+                d = rgb_list[j][i] / 255.0
+
+                if d <= 0.03928:
+                    rgb_math[j][i] = d / 12.92
+                else:
+                    rgb_math[j][i] = ((d + 0.055) / 1.055) ** 2.4
+
+            L[j] = 0.2126 * rgb_math[j][0] + 0.7152 * rgb_math[j][1] + 0.0722 * rgb_math[j][2]
+
+        print(rgb_list)
+        print(rgb_math)
+        print(L)
+
+        if L[0] > L[1]:
+            contrast = (L[0] + 0.05) / (L[1] + 0.05)
+
+        else:
+            contrast = (L[1] + 0.05) / (L[0] + 0.05)
+
+        self.text.set("Contrast = %.2f" %contrast)
+
+        print(contrast)
+
+        if contrast >= 7:
+            self.l11.config(bg="#008000")
+
+        else:
+            self.l11.config(bg="#FF0000")
+
+
+    def choose_colour(self, label):
+
+        if label == 0:
+            bgcolour = askcolor()
+            print(bgcolour)
+            self.bgcolour_rgb = list(bgcolour[0])
+            self.l10.config(bg=bgcolour[1])
+            self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
+        else:
+            ftcolour = askcolor()
+            print(ftcolour)
+            self.ftcolour_rgb = list(ftcolour[0])
+            self.l10.config(fg=ftcolour[1])
+            self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
+
 
     def selectImages(self):
         print("Selecting Images")
         self.files = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
-                                            title="InstantScale - Please select the images to process",
-                                            filetypes=[("Image files", "*.tif *.jpg *.png"),
-                                                       ("Tiff images", "*.tif"),
-                                                       ("Jpg images", "*.jpg"),
-                                                       ("Png images", "*.png")])
+                                                 title="InstantScale - Please select the images to process",
+                                                 filetypes=[("Image files", "*.tif *.jpg *.png"),
+                                                            ("Tiff images", "*.tif"),
+                                                            ("Jpg images", "*.jpg"),
+                                                            ("Png images", "*.png")])
 
         img = Image.open(self.files[0])
         img2 = img.resize((500, 375), Image.ANTIALIAS)
