@@ -61,11 +61,20 @@ class ReadScale(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        self.readscale = tk.Frame(parent, bg='black', width=50, height=40, padx=3, pady=3)
-        self.readscale.grid(row=1, column=1)
+        self.readscale = tk.Frame(parent, bg="#ffffff", width=400, height=200, borderwidth=3, relief="ridge")
 
-        self.b1 = ttk.Button(self, text="ReadScale")
-        self.b1.grid(row=2, column=2, columnspan=1)
+        self.readscale.grid(row=1, column=1)
+        self.readscale.grid_propagate(False)
+
+        self.readscale.grid_rowconfigure(0, weight=1)
+        self.readscale.grid_rowconfigure(2, weight=1)
+        self.readscale.grid_columnconfigure(0, weight=1)
+        self.readscale.grid_columnconfigure(2, weight=1)
+
+        self.b1 = ttk.Button(self.readscale, text="ReadScale")
+        self.b1.grid(row=1, column=1, sticky="nsew")
+
+
 
 
 class InstantScale(tk.Tk):
@@ -84,11 +93,10 @@ class InstantScale(tk.Tk):
         self.grid_rowconfigure(2, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(2, weight=1)
-        # self.grid_columnconfigure(1, weight=10)
+
 
         menu = Menubar(self)
         readscale1 = ReadScale(self)
-        readscale1.grid(row=1, column=1)
 
         # SETIINGS BOX
 
@@ -180,6 +188,7 @@ class InstantScale(tk.Tk):
         # self.b2.grid(row=19, column=3)
         #
 
+        # self.grid_columnconfigure(1, weight=10)
         # self.grid_columnconfigure(2, weight=10)
 
 
