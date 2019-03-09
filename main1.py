@@ -43,7 +43,7 @@ class InstantScale(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.wm_title(self, "Instant Scale")
+        tk.Tk.wm_title(self, "Instant Scale v2.0")
         tk.Tk.iconbitmap(self, default="icon.ico")
 
         tk.Tk.wm_minsize(self, 800, 600)
@@ -60,7 +60,7 @@ class InstantScale(tk.Tk):
         file_menu.add_command(label='Save As', command=lambda: self.saveFile())
         file_menu.add_command(label='Exit', command=exit)
         help_menu = Menu(menubar, tearoff=0)
-        help_menu.add_command(label='version')
+        help_menu.add_command(label='version', command=lambda: About())
         menubar.add_cascade(label='File', menu=file_menu)
         menubar.add_cascade(label='About', menu=help_menu)
         
@@ -390,6 +390,43 @@ class InstantScale(tk.Tk):
         if file:
             print(self.imageReturn.mode)
             self.imageReturn.save(file)
+
+#=============================================================================
+#About Window
+#=============================================================================
+class About():
+    def __init__(self, *args, **kwargs):
+        
+        win = tk.Toplevel()
+        win.geometry("380x270")
+        win.wm_title("About Instant Scale")
+        
+        
+        la = Label(win, text="Instant Scale v2.0", font= "Verdana 16 bold")
+        la.grid(row=0, column=1)
+        
+        
+        stringAbout = "Reads SEM images scale, crops the white bar, and creates\n a new smaller scale on a corner of your choice.\n\nCopyright"
+        unicodeCopyright = u"\u00A9"
+        stringAbout2 = "Instant Scale Projects Contributors\nLicensed under the terms of the MIT License\n\nCreated by João Ribas and Ricardo Farinha.\n"
+        stringAbout3 = "For bugs reports and feature requests, please go to our Github website: \nhttps://github.com/Jrribas/InstantScale\n\n"
+        stringAbout4 = "Created on Python 3.6.4, Tkinter 8.6 on Windows\n"
+        aboutText = stringAbout+unicodeCopyright+stringAbout2+stringAbout3+stringAbout4
+        
+        lb = tk.Label(win, text=aboutText)
+        lb.grid(row=1, column=1)
+    
+        b = ttk.Button(win, text="Okay", command=win.destroy)
+        b.grid(row=2, column=1)
+        self.center(win)
+    
+    def center(self,win):
+        win.update_idletasks()
+        width = win.winfo_width()
+        height = win.winfo_height()
+        x = (win.winfo_screenwidth() // 2) - (width // 2)
+        y = (win.winfo_screenheight() // 2) - (height // 2)
+        win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
 
 if __name__ == "__main__":
