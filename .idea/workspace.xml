@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+            <state relative-caret-position="-85">
+              <caret line="7" column="64" lean-forward="true" selection-start-line="7" selection-start-column="64" selection-end-line="7" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -22,8 +22,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3842">
-              <caret line="216" selection-start-line="216" selection-end-line="218" selection-end-column="67" />
+            <state relative-caret-position="423">
+              <caret line="397" column="4" lean-forward="true" selection-start-line="397" selection-start-column="4" selection-end-line="397" selection-end-column="28" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -34,8 +34,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/testmain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="32" />
+            <state relative-caret-position="206">
+              <caret line="64" column="44" lean-forward="true" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -68,6 +68,7 @@
       <find>print</find>
       <find>#</find>
       <find>command</find>
+      <find>read</find>
     </findStrings>
     <replaceStrings>
       <replace>self</replace>
@@ -88,8 +89,8 @@
       <list>
         <option value="$PROJECT_DIR$/main2.py" />
         <option value="$PROJECT_DIR$/test-main2.py" />
-        <option value="$PROJECT_DIR$/test1.py" />
         <option value="$PROJECT_DIR$/main1.py" />
+        <option value="$PROJECT_DIR$/test1.py" />
         <option value="$PROJECT_DIR$/testmain.py" />
       </list>
     </option>
@@ -201,8 +202,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.testmain" />
-        <item itemvalue="Python.main1" />
         <item itemvalue="Python.test1" />
+        <item itemvalue="Python.main1" />
       </list>
     </recent_temporary>
   </component>
@@ -229,7 +230,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49772382" visible="true" weight="0.21235102" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -250,27 +251,34 @@
     <entry file="file://$PROJECT_DIR$/main.py" />
     <entry file="file://$PROJECT_DIR$/../backup inSc/main2.py" />
     <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/site-packages/PIL/TiffImagePlugin.py" />
-    <entry file="file://$PROJECT_DIR$/test1.py">
+    <entry file="file://$USER_HOME$/Anaconda3/envs/k36/Lib/tkinter/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+        <state relative-caret-position="176">
+          <caret line="1475" selection-start-line="1475" selection-end-line="1475" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3842">
-          <caret line="216" selection-start-line="216" selection-end-line="218" selection-end-column="67" />
+        <state relative-caret-position="423">
+          <caret line="397" column="4" lean-forward="true" selection-start-line="397" selection-start-column="4" selection-end-line="397" selection-end-column="28" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-85">
+          <caret line="7" column="64" lean-forward="true" selection-start-line="7" selection-start-column="64" selection-end-line="7" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/testmain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="32" />
+        <state relative-caret-position="206">
+          <caret line="64" column="44" lean-forward="true" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>

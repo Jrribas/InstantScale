@@ -53,8 +53,8 @@ class InstantScale(tk.Tk):
         
         # MENU ITEMS
 
-        menubar = tk.Menu(tk.Frame(self))
-        file_menu = tk.Menu(menubar, tearoff=0)
+        menubar = Menu(tk.Frame(self))
+        file_menu = Menu(menubar, tearoff=0)
 
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
         file_menu.add_command(label='Save As', command=lambda: self.saveFile())
