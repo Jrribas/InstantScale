@@ -96,30 +96,15 @@ class Images(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        self.images = tk.Frame(parent)
+        self.images = tk.Frame(self.parent, borderwidth=3, relief="ridge")
         self.images.grid(row=2, column=1)
 
         self.images.grid_rowconfigure(0, weight=1)
         self.images.grid_rowconfigure(3, weight=1)
         self.images.grid_columnconfigure(0, weight=1)
-        self.images.grid_columnconfigure(2, weight=1)
-
-        # Image 1
-        self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
-
-        self.panel = tk.Canvas(self.images, width=self.img1.width(), height=self.img1.height())
-        self.panel.grid(row=1, column=1, padx=10, pady=10, sticky="nswe")
-
-        self.image_on_panel = self.panel.create_image(0, 0, anchor='nw', image=img1)
-
-        # Image 2
-        self.img3 = img3 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
-
-        self.panel2 = tk.Canvas(self.images, width=self.img1.width(), height=self.img1.height())
-        self.panel2.grid(row=1, column=2, padx=10, pady=10, sticky="nswe")
-
-        self.image_on_panel2 = self.panel2.create_image(0, 0, anchor='nw', image=img3, tags='image')
-
+        self.images.grid_columnconfigure(3, weight=1)
+        self.images.grid_columnconfigure(1, weight=10)
+        self.images.grid_columnconfigure(2, weight=10)
 
         # Scrollbars
 
@@ -129,14 +114,35 @@ class Images(tk.Frame):
         self.scrollbar2 = Scrollbar(self.images, orient=tk.HORIZONTAL)
         self.scrollbar2.grid(row=2, column=2, sticky="ew")
 
+
+        # Image 1
+        self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
+
+        self.panel = tk.Canvas(self.images, width=self.img1.width(), height=self.img1.height(),
+                               xscrollcommand=self.scrollbar.set)
+        self.panel.grid(row=1, column=1, sticky="nswe")
+
+        self.image_on_panel = self.panel.create_image(0, 0, anchor='nw', image=img1)
+
         self.scrollbar.config(command=self.panel.xview)
+
+        # Image 2
+        self.img3 = img3 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
+
+        self.panel2 = tk.Canvas(self.images, width=self.img1.width(), height=self.img1.height(),
+                                xscrollcommand=self.scrollbar2.set)
+        self.panel2.grid(row=1, column=2, sticky="nswe")
+
+        self.image_on_panel2 = self.panel2.create_image(0, 0, anchor='nw', image=img3, tags='image')
+
         self.scrollbar2.config(command=self.panel2.xview)
 
-        self.bind("<Configure>", self.update_scrollregion)
+        self.parent.bind("<Configure>", self.update_scrollregion)
 
     def update_scrollregion(self, event):
         self.panel.configure(scrollregion=self.panel.bbox("all"))
         self.panel2.configure(scrollregion=self.panel2.bbox("all"))
+
 
 class InstantScale(tk.Tk):
 
@@ -156,105 +162,13 @@ class InstantScale(tk.Tk):
         self.grid_rowconfigure(3, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(1, weight=10)
+
 
         menu = Menubar(self)
         readscale1 = ReadScale(self)
-        images = Images(self)
+        self.images = Images(self)
 
-
-        # SETIINGS BOX
-
-
-
-
-        # self.b1 = ttk.Button(self, text="ReadScale")
-        # self.b1.grid(row=1, column=3, columnspan=2, pady=5)
-        #
-        # style = ttk.Style()
-        # style.theme_use('default')
-        # style.configure("black.Horizontal.TProgressbar", background='black')
-        # self.bar = Progressbar(self, length=200, style='black.Horizontal.TProgressbar')
-        # self.bar['value'] = 0
-        # self.bar.grid(row=2, column=3, columnspan=2)
-        #
-        # self.l3 = Label(self, text="Value")
-        # self.l3.grid(row=3, column=3)
-        #
-        # self.l3 = Label(self, text="Unit (mm, um, nm)")
-        # self.l3.grid(row=3, column=4)
-        #
-        # self.e1 = ttk.Entry(self, state='disabled')
-        # self.e1.grid(row=4, column=3, padx=5)
-        #
-        # self.e2 = ttk.Entry(self, state='disabled')
-        # self.e2.grid(row=4, column=4, padx=5)
-        #
-        # self.l4 = Label(self, text="Scale Size (Pixels)")
-        # self.l4.grid(row=5, column=3, columnspan=2)
-        #
-        # self.e3 = ttk.Entry(self, state='disabled')
-        # self.e3.grid(row=6, column=3, columnspan=2)
-        #
-        # self.l5 = Label(self, text="White Bar (%)")
-        # self.l5.grid(row=7, column=3, columnspan=2)
-        #
-        # self.e4 = ttk.Entry(self, state='disabled')
-        # self.e4.grid(row=8, column=3, columnspan=2)
-        #
-        # self.l6 = Label(self, text="Target Value")
-        # self.l6.grid(row=9, column=3)
-        #
-        # self.l7 = Label(self, text="Target Unit")
-        # self.l7.grid(row=9, column=4)
-        #
-        # self.e5 = ttk.Entry(self, state='disabled')
-        # self.e5.grid(row=10, column=3, padx=5)
-        #
-        # self.e6 = ttk.Entry(self, state='disabled')
-        # self.e6.grid(row=10, column=4, padx=5)
-        #
-        # self.l8 = Label(self, text="Scale Position")
-        # self.l8.grid(row=11, column=3, columnspan=2)
-        #
-        # self.c1 = Combobox(self)
-        # self.c1['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
-        # self.c1.current(1)  # set the selected item
-        # self.c1.grid(row=12, column=3, columnspan=2)
-        #
-        # self.l9 = Label(self, text="Size of Scale")
-        # self.l9.grid(row=13, column=3, columnspan=2)
-        #
-        # self.spin = Spinbox(self, from_=1, to=20, width=5)
-        # self.spin.grid(column=3, row=14, columnspan=2)
-        #
-        # self.l10 = Label(self, text="Font Color", bg="#ffffff", fg="#000000")
-        # self.l10.grid(row=16, column=3, rowspan=1, sticky="nsew", padx=5)
-        #
-        # self.bgcolour_rgb = [255.0, 255.0, 255.0]
-        # self.ftcolour_rgb = [0.0, 0.0, 0.0]
-        #
-        # self.b3 = ttk.Button(self, text="Pick background color")
-        # self.b3.grid(row=16, column=4, sticky="ew")
-        #
-        # contrast_ratio = 21
-        # self.text = tk.StringVar()
-        # self.text.set("Contrast = %.2f" % contrast_ratio)
-        #
-        # self.l11 = Label(self, textvariable=self.text, bg="#008000")
-        # self.l11.grid(row=17, column=3, rowspan=1, sticky="nsew", padx=5)
-        #
-        # self.b4 = ttk.Button(self, text="Pick font color")
-        # self.b4.grid(row=17, column=4, sticky="ew")
-        #
-        # self.var = tk.IntVar()
-        # self.c2 = tk.Checkbutton(self, text="Manual", variable=self.var)
-        # self.c2.grid(row=19, column=4, sticky="ew")
-        # self.b2 = ttk.Button(self, text="Preview")
-        # self.b2.grid(row=19, column=3)
-        #
-
-        # self.grid_columnconfigure(1, weight=10)
-        # self.grid_columnconfigure(2, weight=10)
 
 # =============================================================================
 # About Window

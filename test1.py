@@ -1,48 +1,73 @@
 from tkinter import *
 
-root = Tk()
-root.title('Model Definition')
-root.geometry('{}x{}'.format(460, 350))
+class zoomer(Tk):
 
-# create all of the main containers
-top_frame = Frame(root, bg='cyan', width=450, height=50, pady=3)
-center = Frame(root, bg='gray2', width=50, height=40, padx=3, pady=3)
-btm_frame = Frame(root, bg='white', width=450, height=45, pady=3)
-btm_frame2 = Frame(root, bg='lavender', width=450, height=60, pady=3)
+    def __init__(self):
+        x=100
+        y=100
+        Tk.__init__(self)
+        self.border = 10
+        self.size_x = x
+        self.size_y = y
 
-# layout all of the main containers
-root.grid_rowconfigure(1, weight=1)
-root.grid_columnconfigure(0, weight=1)
+        #SIZE
+        self.app_sizex = 200
+        self.app_sizey = 200
+        fontSize=int(x/20)
 
-top_frame.grid(row=0, sticky="ew")
-center.grid(row=1, sticky="nsew")
-btm_frame.grid(row=3, sticky="ew")
-btm_frame2.grid(row=4, sticky="ew")
+        self.title("Graphic")
+        self.geometry(str(self.app_sizex+10) + "x" + str(self.app_sizey+40))
 
-# create the widgets for the top frame
-model_label = Label(top_frame, text='Model Dimensions')
-width_label = Label(top_frame, text='Width:')
-length_label = Label(top_frame, text='Length:')
-entry_W = Entry(top_frame, background="pink")
-entry_L = Entry(top_frame, background="orange")
+        #CANVAS + BORDER
+        self.canvas = Canvas(self, width = self.app_sizex, height = self.app_sizey, scrollregion=(0,0,x,y))
+        self.canvas.grid(row=0, column=0, sticky="nsew")
+        self.canvas.create_line(self.border, self.border, self.border, y-self.border)
+        self.canvas.create_line(x-self.border, self.border, x-self.border, y-self.border)
+        self.canvas.create_line(self.border,   self.border, x-self.border, self.border)
+        self.canvas.create_line(self.border, y-self.border, x-self.border, y-self.border)
+        self.canvas.create_line(self.border,   self.border, x-self.border, y-self.border)
+        text1=self.canvas.create_text(50, 50, fill="white",font=("Purisa", fontSize))
+        self.canvas.itemconfig(text1, text="Graphic Text")
 
-# layout the widgets in the top frame
-model_label.grid(row=0, columnspan=3)
-width_label.grid(row=1, column=0)
-length_label.grid(row=1, column=2)
-entry_W.grid(row=1, column=1)
-entry_L.grid(row=1, column=3)
+        #SCROLLING BARS
+        self.vbar=Scrollbar(self,orient=VERTICAL)
+        self.vbar.grid(row=0, column=1, sticky="ns")
+        self.vbar.config(command=self.canvas.yview)
 
-# create the center widgets
-center.grid_rowconfigure(0, weight=1)
-center.grid_columnconfigure(1, weight=1)
+        self.hbar=Scrollbar(self,orient=HORIZONTAL)
+        self.hbar.grid(row=2, column=0, sticky="ew")
+        self.hbar.config(command=self.canvas.xview)
 
-ctr_left = Frame(center, bg='blue', width=100, height=190)
-ctr_mid = Frame(center, bg='yellow', width=250, height=190, padx=3, pady=3)
-ctr_right = Frame(center, bg='green', width=100, height=190, padx=3, pady=3)
+        self.canvas.config(xscrollcommand=self.hbar.set, yscrollcommand=self.vbar.set)
 
-ctr_left.grid(row=0, column=0, sticky="ns")
-ctr_mid.grid(row=0, column=1, sticky="nsew")
-ctr_right.grid(row=0, column=2, sticky="ns")
+        #zoom button
+        save_button = Button(self, text = "Zoom")
+        save_button["command"] = lambda: self.zoom_in()
+        save_button.grid(row=3, column = 0, pady = 5)
 
-root.mainloop()
+    def zoom_in(self):
+        #Clean canvas
+        self.canvas.delete("all")
+        self.size_x = int(self.size_x * 1.1)
+        self.size_y = int(self.size_y * 1.1)
+        x=self.size_x
+        y=self.size_y
+        fontSize=int(x/20)
+        self.canvas.create_line(self.border, self.border, self.border, y-self.border)
+        self.canvas.create_line(x-self.border, self.border, x-self.border, y-self.border)
+        self.canvas.create_line(self.border, self.border, x-self.border, self.border)
+        self.canvas.create_line(self.border, y-self.border, x-self.border, y-self.border)
+        self.canvas.create_line(self.border,   self.border, x-self.border, y-self.border)
+        text1=self.canvas.create_text(self.size_x/2, self.size_y/2, fill="white",font=("Purisa", fontSize) )
+        self.canvas.itemconfig(text1, text="Graphic Text")
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+        #SCROLLING BARS
+        self.vbar.config(command=self.canvas.yview)
+        self.hbar.config(command=self.canvas.xview)
+        self.canvas.config(xscrollcommand=self.hbar.set, yscrollcommand=self.vbar.set)
+
+
+if __name__ == '__main__':
+    my_gui=zoomer()
+    my_gui.mainloop()
