@@ -15,10 +15,6 @@ import pytesseract
 import os
 import processImage as pI
 
-#######TODO########
-#change colors in the image
-#manual target scale
-
 
 # Get *.exe path and username
 exePath = os.getcwd()
@@ -38,12 +34,16 @@ S = tk.S
 
 ################################################
 
+#TODO LIST
+#remover Save automatico
+#mudar UI de sitios
+
 
 class InstantScale(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.wm_title(self, "Instant Scale")
+        tk.Tk.wm_title(self, "Instant Scale v2.0")
         tk.Tk.iconbitmap(self, default="icon.ico")
 
         tk.Tk.wm_minsize(self, 800, 600)
@@ -53,14 +53,14 @@ class InstantScale(tk.Tk):
         
         # MENU ITEMS
 
-        menubar = tk.Menu(tk.Frame(self))
-        file_menu = tk.Menu(menubar, tearoff=0)
+        menubar = Menu(tk.Frame(self))
+        file_menu = Menu(menubar, tearoff=0)
 
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
         file_menu.add_command(label='Save As', command=lambda: self.saveFile())
         file_menu.add_command(label='Exit', command=exit)
         help_menu = Menu(menubar, tearoff=0)
-        help_menu.add_command(label='version')
+        help_menu.add_command(label='version', command=lambda: About())
         menubar.add_cascade(label='File', menu=file_menu)
         menubar.add_cascade(label='About', menu=help_menu)
         
@@ -76,17 +76,19 @@ class InstantScale(tk.Tk):
 
         # Image 1
         self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
-        self.panel = tk.Canvas(self, xscrollcommand=self.scrollbar.set)
-        self.image_on_panel = self.panel.create_image(250, 187.5, image=img1)
-        self.scrollbar.config(command=self.panel.xview)
+        self.panel = tk.Canvas(self, width = self.img1.width(), height = self.img1.height(),  xscrollcommand=self.scrollbar.set)
         self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
-
+        self.image_on_panel = self.panel.create_image(0,0, anchor='nw', image=img1)
+        
+        self.scrollbar.config(command=self.panel.xview)
+     
         # Image 2
-        self.img2 = img2 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
-
-        self.panel2 = tk.Canvas(self, xscrollcommand = self.scrollbar2.set)
-        self.image_on_panel2 = self.panel2.create_image(250,187.5,image=img2)
+        self.img3 = img3 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
+        self.panel2 = tk.Canvas(self, width = self.img1.width(), height = self.img1.height(), xscrollcommand = self.scrollbar2.set)
         self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
+        self.image_on_panel2 = self.panel2.create_image(0,0, anchor='nw', image=img3, tags='image')
+        self.scrollbar2.config(command=self.panel2.xview)
+
 
         # Update scrollregion every time window is resized
         self.bind("<Configure>", self.update_scrollregion)
@@ -158,7 +160,7 @@ class InstantScale(tk.Tk):
         self.spin = Spinbox(self, from_=1, to=20, width=5)
         self.spin.grid(column=3, row=14, columnspan=2)
 
-        self.l10 = Label(self, text="Font Color", bg="#000000", fg="#ffffff")
+        self.l10 = Label(self, text="Font Color", bg="#ffffff", fg="#000000")
         self.l10.grid(row=16, column=3, rowspan=1, sticky="nsew", padx=5)
 
         self.bgcolour_rgb = [255.0, 255.0, 255.0]
@@ -177,8 +179,8 @@ class InstantScale(tk.Tk):
         self.b4 = ttk.Button(self, text="Pick font color", command=lambda: self.choose_colour(1))
         self.b4.grid(row=17, column=4, sticky="ew")
 
-        var = 0
-        self.c2 = tk.Checkbutton(self, text="Manual", variable=var)
+        self.var = tk.IntVar()
+        self.c2 = tk.Checkbutton(self, text="Manual", variable=self.var, command=self.manual)
         self.c2.grid(row=19, column=4, sticky="ew")
         self.b2 = ttk.Button(self, text="Preview", command=self.preview)
         self.b2.grid(row=19, column=3)
@@ -189,7 +191,23 @@ class InstantScale(tk.Tk):
         self.grid_columnconfigure(6, weight=1)
         self.grid_columnconfigure(1, weight=10)
         self.grid_columnconfigure(2, weight=10)
-        
+    
+    def manual(self):
+        if self.var.get() == 1:
+            self.e1.configure(state='normal')
+            self.e2.configure(state='normal')
+            self.e3.configure(state='normal')
+            self.e4.configure(state='normal')
+            self.e5.configure(state='normal')
+            self.e6.configure(state='normal')
+        else:
+            self.e1.configure(state='disabled')
+            self.e2.configure(state='disabled')
+            self.e3.configure(state='disabled')
+            self.e4.configure(state='disabled')
+            self.e5.configure(state='disabled')
+            self.e6.configure(state='disabled')
+    
     def update_scrollregion(self,event):
         self.panel.configure(scrollregion=self.panel.bbox("all"))
         self.panel2.configure(scrollregion=self.panel2.bbox("all"))
@@ -255,13 +273,13 @@ class InstantScale(tk.Tk):
         img = Image.open(self.files[0])
         img2 = img.resize((500, 375), Image.ANTIALIAS)
         self.img2 = img2 = ImageTk.PhotoImage(img2)
-
         self.panel.itemconfig(self.image_on_panel, image=img2)
 
     def readScale(self):
+        
         self.bar['value'] = 0
         self.update_idletasks()
-        img = cv2.imread(self.files[0])
+        self.img = img = cv2.imread(self.files[0])
         height, width, channels = img.shape
         self.bar['value'] = 25
         self.update_idletasks()
@@ -270,12 +288,12 @@ class InstantScale(tk.Tk):
         self.crop_img, self.bar_img, barSize = pI.getBar(img)
         print('bar Size: ' + str(barSize))
         barSizeRound = round(barSize)
-        self.bar['value'] = 50
-        self.update_idletasks()
         self.e4.configure(state='normal')
+        self.e4.delete(0, tk.END)
         self.e4.insert(tk.END,  barSizeRound)
         self.e4.configure(state='disabled')
-
+        self.bar['value'] = 50
+        self.update_idletasks()
         # things
         
         height1, width1, channels1 = self.bar_img.shape
@@ -291,17 +309,20 @@ class InstantScale(tk.Tk):
 
         self.scale = len(pI.getScale(self.bar_img))
         print('scale: ' + str(self.scale))
-        self.bar['value'] = 75
-        self.update_idletasks()
         self.e3.configure(state='normal')
+        self.e3.delete(0, tk.END)
         self.e3.insert(tk.END, self.scale)
         self.e3.configure(state='disabled')
+        self.bar['value'] = 75
+        self.update_idletasks()
         # GET SCALE NUMBER and unit
         self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
         self.e1.configure(state='normal')
+        self.e1.delete(0, tk.END)
         self.e1.insert(tk.END, self.scaleNumb)
         self.e1.configure(state='disabled')
         self.e2.configure(state='normal')
+        self.e2.delete(0, tk.END)
         self.e2.insert(tk.END, self.units)
         self.e2.configure(state='disabled')
         self.bar['value'] = 100
@@ -320,14 +341,47 @@ class InstantScale(tk.Tk):
             self.position = 0            
         elif self.c1.get() == "Bottom Right":
             self.position = 1
-            
-        self.sizeOfScale = int(self.spin.get())
         
+        self.scale = int(self.e3.get())
+        self.sizeOfScale = int(self.spin.get())
+        self.scaleNumb = int(self.e1.get())
+        self.units = self.e2.get()
+        try:
+            self.bgColor = self.bgcolour_rgb
+            self.bgColor[0] = int(self.bgColor[0])
+            self.bgColor[1] = int(self.bgColor[1])
+            self.bgColor[2] = int(self.bgColor[2])
+            self.bgColor = tuple(self.bgColor)
+        except:
+            self.bgColor = (0,0,0)
+        try:
+            self.fontColor = self.ftcolour_rgb
+            self.fontColor[0] = int(self.fontColor[0])
+            self.fontColor[1] = int(self.fontColor[1])
+            self.fontColor[2] = int(self.fontColor[2])
+            self.fontColor = tuple(self.fontColor)
+        except:
+            self.fontColor = (255,255,255)
+        
+        #Check if target values are inserted manualy
+
+        if self.e5.index("end") == 0:
+            self.targetValue = 0
+        else:
+            self.targetValue = int(self.e5.get())
+        if self.e6.index("end") == 0:
+            self.targetUnit =''
+        else:
+            self.targetUnit = self.e6.get()
+            
+        #CHANGE CROP SIZE
+        self.crop_img = pI.cropImage(self.img,int(self.e4.get()))
+        #DRAW IMAGE
         self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
-                                       exePath, self.position, exePath, self.sizeOfScale)
+                                       exePath, self.position, exePath, self.sizeOfScale, self.fontColor, self.bgColor,self.targetValue, self.targetUnit)
+        
         self.finalImage = self.imageReturn
         img3 = self.finalImage.resize((500, 375), Image.ANTIALIAS)
-
         self.img3 = img3 = ImageTk.PhotoImage(img3)
         self.panel2.itemconfig(self.image_on_panel2, image=img3)
     
@@ -336,6 +390,43 @@ class InstantScale(tk.Tk):
         if file:
             print(self.imageReturn.mode)
             self.imageReturn.save(file)
+
+#=============================================================================
+#About Window
+#=============================================================================
+class About():
+    def __init__(self, *args, **kwargs):
+        
+        win = tk.Toplevel()
+        win.geometry("380x270")
+        win.wm_title("About Instant Scale")
+        
+        
+        la = Label(win, text="Instant Scale v2.0", font= "Verdana 16 bold")
+        la.grid(row=0, column=1)
+        
+        
+        stringAbout = "Reads SEM images scale, crops the white bar, and creates\n a new smaller scale on a corner of your choice.\n\nCopyright"
+        unicodeCopyright = u"\u00A9"
+        stringAbout2 = "Instant Scale Projects Contributors\nLicensed under the terms of the MIT License\n\nCreated by João Ribas and Ricardo Farinha.\n"
+        stringAbout3 = "For bugs reports and feature requests, please go to our Github website: \nhttps://github.com/Jrribas/InstantScale\n\n"
+        stringAbout4 = "Created on Python 3.6.4, Tkinter 8.6 on Windows\n"
+        aboutText = stringAbout+unicodeCopyright+stringAbout2+stringAbout3+stringAbout4
+        
+        lb = tk.Label(win, text=aboutText)
+        lb.grid(row=1, column=1)
+    
+        b = ttk.Button(win, text="Okay", command=win.destroy)
+        b.grid(row=2, column=1)
+        self.center(win)
+    
+    def center(self,win):
+        win.update_idletasks()
+        width = win.winfo_width()
+        height = win.winfo_height()
+        x = (win.winfo_screenwidth() // 2) - (width // 2)
+        y = (win.winfo_screenheight() // 2) - (height // 2)
+        win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
 
 if __name__ == "__main__":

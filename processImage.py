@@ -18,8 +18,14 @@ def getBar(img):
     bar_img = img[cropRow+1:startRow, 1:width]
     barSize = (len(img)-cropRow)*100/len(img)
     
-    
     return crop_img,bar_img, barSize
+
+def cropImage(img, cropPercentage):
+    height, width, channels = img.shape
+    
+    cropRow = int((height * (100-cropPercentage)) / 100)
+    crop_image = img[0:cropRow, 0::]
+    return crop_image
 
 def getScale(bar_img):
     scale = []
@@ -130,7 +136,8 @@ def cleanPathFiles(path):
 
     return Cpath
 
-def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale):
+def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,sizeOfScale, fontColor=(0,0,0), bgColor=(255,255,255),targetValue=0, targetUnits=''):
+    
     # Desenhar a escala nova
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
@@ -141,7 +148,8 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
         scaleNumb *= 1000
     else:
         units = 'µm'
-
+    
+    
     for val in values:
         newScale = round((val * scale) / scaleNumb)
         if 20 * sizeOfScale <= newScale <= 66 * sizeOfScale:
@@ -155,8 +163,21 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
                 newScaleNumb = val
                 units = 'µm'
             break
-
-
+    
+    #SE FOI INSERIDO TARGET VALUES 
+    if targetValue != 0:
+        if targetUnits == 'nm':
+            val = targetValue / 1000
+        elif targetUnits == 'mm':
+            val = targetValue * 1000
+        else:
+            targetUnits = 'µm'
+            val = targetValue
+        
+        newScale = round((val * scale) / scaleNumb)
+        newScaleNumb = targetValue
+        units = targetUnits
+        
     os.chdir(exePath)
     path= "images/cropImages"
     if not os.path.exists(path):
@@ -189,13 +210,13 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
 
 
     if newScale > w:
-        draw.rectangle(sD, fill="white", outline="white")
-        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 7*sizeOfScale), scaletext, font=font, fill='Black')
-        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 5*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
+        draw.rectangle(sD, fill=bgColor, outline=bgColor)
+        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 7*sizeOfScale), scaletext, font=font, fill=fontColor)
+        draw.line([((sD[2]-sD[0])/2) - newScale/2 + sD[0], sD[1] + 5*sizeOfScale, sD[0] +  ((sD[2]-sD[0])/2) + newScale/2, sD[1] + 5*sizeOfScale], fill=fontColor, width=3*sizeOfScale)
     else:
-        draw.rectangle(textDimensions, fill="white", outline="white")
-        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 7*sizeOfScale), scaletext, font=font, fill='Black')
-        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 5*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 5*sizeOfScale], fill='Black', width=3*sizeOfScale)
+        draw.rectangle(textDimensions, fill=bgColor, outline=bgColor)
+        draw.text(((((textDimensions[2]-textDimensions[0])/2) - w/2) + textDimensions[0], textDimensions[1] + 7*sizeOfScale), scaletext, font=font, fill=fontColor)
+        draw.line([((textDimensions[2]-textDimensions[0])/2) - newScale/2 + textDimensions[0], textDimensions[1] + 5*sizeOfScale, textDimensions[0] +  ((textDimensions[2]-textDimensions[0])/2) + newScale/2, textDimensions[1] + 5*sizeOfScale], fill=fontColor, width=3*sizeOfScale)
 
 
     del draw

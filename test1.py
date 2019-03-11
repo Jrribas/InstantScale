@@ -1,30 +1,48 @@
-from tkinter.colorchooser import askcolor
+from tkinter import *
 
-def colour():
-    color = askcolor()
-    return color
+root = Tk()
+root.title('Model Definition')
+root.geometry('{}x{}'.format(460, 350))
 
+# create all of the main containers
+top_frame = Frame(root, bg='cyan', width=450, height=50, pady=3)
+center = Frame(root, bg='gray2', width=50, height=40, padx=3, pady=3)
+btm_frame = Frame(root, bg='white', width=450, height=45, pady=3)
+btm_frame2 = Frame(root, bg='lavender', width=450, height=60, pady=3)
 
-def contrasting_text_color(rgb):
+# layout all of the main containers
+root.grid_rowconfigure(1, weight=1)
+root.grid_columnconfigure(0, weight=1)
 
-    for i in range(0, 3):
-        d = rgb[i] / 255.0
+top_frame.grid(row=0, sticky="ew")
+center.grid(row=1, sticky="nsew")
+btm_frame.grid(row=3, sticky="ew")
+btm_frame2.grid(row=4, sticky="ew")
 
-        print(d)
+# create the widgets for the top frame
+model_label = Label(top_frame, text='Model Dimensions')
+width_label = Label(top_frame, text='Width:')
+length_label = Label(top_frame, text='Length:')
+entry_W = Entry(top_frame, background="pink")
+entry_L = Entry(top_frame, background="orange")
 
-        if d <= 0.03928:
-            rgb[i] = d / 12.92
-        else:
-            rgb[i] = ((d + 0.055) / 1.055) ** 2.4
+# layout the widgets in the top frame
+model_label.grid(row=0, columnspan=3)
+width_label.grid(row=1, column=0)
+length_label.grid(row=1, column=2)
+entry_W.grid(row=1, column=1)
+entry_L.grid(row=1, column=3)
 
-    L = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]
+# create the center widgets
+center.grid_rowconfigure(0, weight=1)
+center.grid_columnconfigure(1, weight=1)
 
-    return L
+ctr_left = Frame(center, bg='blue', width=100, height=190)
+ctr_mid = Frame(center, bg='yellow', width=250, height=190, padx=3, pady=3)
+ctr_right = Frame(center, bg='green', width=100, height=190, padx=3, pady=3)
 
-rgbList = list(colour()[0])
+ctr_left.grid(row=0, column=0, sticky="ns")
+ctr_mid.grid(row=0, column=1, sticky="nsew")
+ctr_right.grid(row=0, column=2, sticky="ns")
 
-cenas = contrasting_text_color(rgbList)
-
-print(cenas)
-
-
+root.mainloop()
