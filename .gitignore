@@ -5,3 +5,4 @@ images/cropImages/crop_rect.png
 images/HoldImages/thres.png
 __pycache__/processImage.cpython-36.pyc
 main.py
+.idea/workspace.xml

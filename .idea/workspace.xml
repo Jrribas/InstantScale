@@ -10,23 +10,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main1.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/testmain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="78" column="123" lean-forward="true" selection-start-line="78" selection-start-column="90" selection-end-line="78" selection-end-column="123" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="87" column="29" lean-forward="true" selection-start-line="85" selection-end-line="87" selection-end-column="29" />
+            <state relative-caret-position="133">
+              <caret line="63" column="85" lean-forward="true" selection-start-line="63" selection-start-column="85" selection-end-line="63" selection-end-column="85" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -109,6 +97,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -120,7 +109,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -233,7 +221,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772382" weight="0.3289689" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772382" weight="0.32827735" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -284,14 +272,14 @@
     <entry file="file://$PROJECT_DIR$/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
-          <caret line="40" column="7" lean-forward="true" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="86" />
+          <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="86" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
-          <caret line="78" column="123" lean-forward="true" selection-start-line="78" selection-start-column="90" selection-end-line="78" selection-end-column="123" />
+          <caret line="78" column="123" selection-start-line="78" selection-start-column="90" selection-end-line="78" selection-end-column="123" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -300,8 +288,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/testmain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="87" column="29" lean-forward="true" selection-start-line="85" selection-end-line="87" selection-end-column="29" />
+        <state relative-caret-position="133">
+          <caret line="63" column="85" lean-forward="true" selection-start-line="63" selection-start-column="85" selection-end-line="63" selection-end-column="85" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
