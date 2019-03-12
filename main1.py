@@ -76,17 +76,17 @@ class InstantScale(tk.Tk):
 
         # Image 1
         self.img1 = img1 = ImageTk.PhotoImage(Image.open("images/file_import_image.png"))
-        self.panel = tk.Canvas(self, width = self.img1.width(), height = self.img1.height(),  xscrollcommand=self.scrollbar.set)
+        self.panel = tk.Canvas(self, width=self.img1.width(), height=self.img1.height(),  xscrollcommand=self.scrollbar.set)
         self.panel.grid(row=1, column=1, rowspan=18, padx=10, pady=10, sticky=N+S+E+W)
-        self.image_on_panel = self.panel.create_image(0,0, anchor='nw', image=img1)
+        self.image_on_panel = self.panel.create_image(0, 0, anchor='nw', image=img1)
         
         self.scrollbar.config(command=self.panel.xview)
      
         # Image 2
         self.img3 = img3 = ImageTk.PhotoImage(Image.open("images/file_import_image2.png"))
-        self.panel2 = tk.Canvas(self, width = self.img1.width(), height = self.img1.height(), xscrollcommand = self.scrollbar2.set)
+        self.panel2 = tk.Canvas(self, width=self.img1.width(), height=self.img1.height(), xscrollcommand=self.scrollbar2.set)
         self.panel2.grid(row=1, column=2, rowspan=18, padx=10, pady=10, sticky= N+S+E+W)
-        self.image_on_panel2 = self.panel2.create_image(0,0, anchor='nw', image=img3, tags='image')
+        self.image_on_panel2 = self.panel2.create_image(0, 0, anchor='nw', image=img3, tags='image')
         self.scrollbar2.config(command=self.panel2.xview)
 
 
