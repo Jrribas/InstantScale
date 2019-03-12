@@ -60,7 +60,7 @@ class InstantScale(tk.Tk):
         file_menu.add_command(label='Save As', command=lambda: self.saveFile())
         file_menu.add_command(label='Exit', command=exit)
         help_menu = Menu(menubar, tearoff=0)
-        help_menu.add_command(label='version', command=lambda: About())
+        help_menu.add_command(label='Version', command=lambda: About())
         menubar.add_cascade(label='File', menu=file_menu)
         menubar.add_cascade(label='About', menu=help_menu)
         
@@ -71,7 +71,7 @@ class InstantScale(tk.Tk):
         # Scrollbars
         self.scrollbar = Scrollbar(self, orient=tk.HORIZONTAL)
         self.scrollbar.grid(row=20, column=1, sticky=E+W)
-        self.scrollbar2 = Scrollbar(self, orient= tk.HORIZONTAL)
+        self.scrollbar2 = Scrollbar(self, orient=tk.HORIZONTAL)
         self.scrollbar2.grid(row=20, column=2, sticky=E+W)
 
         # Image 1
@@ -353,7 +353,7 @@ class InstantScale(tk.Tk):
             self.bgColor[2] = int(self.bgColor[2])
             self.bgColor = tuple(self.bgColor)
         except:
-            self.bgColor = (0,0,0)
+            self.bgColor = (0, 0, 0)
         try:
             self.fontColor = self.ftcolour_rgb
             self.fontColor[0] = int(self.fontColor[0])
@@ -363,7 +363,7 @@ class InstantScale(tk.Tk):
         except:
             self.fontColor = (255,255,255)
         
-        #Check if target values are inserted manualy
+        # Check if target values are inserted manualy
 
         if self.e5.index("end") == 0:
             self.targetValue = 0
@@ -374,7 +374,7 @@ class InstantScale(tk.Tk):
         else:
             self.targetUnit = self.e6.get()
             
-        #CHANGE CROP SIZE
+        # CHANGE CROP SIZE
         self.crop_img = pI.cropImage(self.img,int(self.e4.get()))
         #DRAW IMAGE
         self.imageReturn= pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.files[0],
@@ -391,21 +391,20 @@ class InstantScale(tk.Tk):
             print(self.imageReturn.mode)
             self.imageReturn.save(file)
 
-#=============================================================================
-#About Window
-#=============================================================================
+# =============================================================================
+# About Window
+# =============================================================================
+
 class About():
     def __init__(self, *args, **kwargs):
         
         win = tk.Toplevel()
         win.geometry("380x270")
         win.wm_title("About Instant Scale")
-        
-        
+
         la = Label(win, text="Instant Scale v2.0", font= "Verdana 16 bold")
         la.grid(row=0, column=1)
-        
-        
+
         stringAbout = "Reads SEM images scale, crops the white bar, and creates\n a new smaller scale on a corner of your choice.\n\nCopyright"
         unicodeCopyright = u"\u00A9"
         stringAbout2 = "Instant Scale Projects Contributors\nLicensed under the terms of the MIT License\n\nCreated by João Ribas and Ricardo Farinha.\n"
