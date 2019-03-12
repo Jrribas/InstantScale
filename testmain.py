@@ -207,7 +207,5 @@ class About():
 
 
 if __name__ == "__main__":
-
-
     app = InstantScale()
     app.mainloop()
