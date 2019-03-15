@@ -77,18 +77,163 @@ class ReadScale(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        self.readscale = tk.Frame(parent, bg="#ffffff", width=400, height=200, borderwidth=3, relief="ridge")
+        self.readscale = tk.Frame(parent)
 
-        self.readscale.grid(row=1, column=1)
-        self.readscale.grid_propagate(False)
+        self.readscale.grid(row=1, column=1, sticky="nw", pady=10)
 
-        self.readscale.grid_rowconfigure(0, weight=1)
-        self.readscale.grid_rowconfigure(2, weight=1)
-        self.readscale.grid_columnconfigure(0, weight=1)
-        self.readscale.grid_columnconfigure(2, weight=1)
+        self.readscale.grid_rowconfigure((0, 7), weight=1)
+        self.readscale.grid_columnconfigure((0, 5), weight=1)
 
         self.b1 = ttk.Button(self.readscale, text="ReadScale")
-        self.b1.grid(row=1, column=1, sticky="nsew")
+        self.b1.grid(row=1, column=1, columnspan=2, pady=5)
+
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("black.Horizontal.TProgressbar", background='black')
+        self.bar = Progressbar(self.readscale, length=200, style='black.Horizontal.TProgressbar')
+        self.bar['value'] = 0
+        self.bar.grid(row=2, column=1, columnspan=2, sticky="nswe", padx=2)
+
+        self.l3 = Label(self.readscale, text="Value")
+        self.l3.grid(row=3, column=1, pady=5)
+
+        self.l3 = Label(self.readscale, text="Unit (mm, um, nm)")
+        self.l3.grid(row=3, column=2, pady=5)
+
+        self.e1 = ttk.Entry(self.readscale, state='disabled')
+        self.e1.grid(row=4, column=1, padx=2, sticky="nswe")
+
+        self.e2 = ttk.Entry(self.readscale, state='disabled')
+        self.e2.grid(row=4, column=2, padx=2, sticky="nswe")
+
+        self.l4 = Label(self.readscale, text="Scale Size (Pixels)")
+        self.l4.grid(row=5, column=1, pady=5)
+
+        self.e3 = ttk.Entry(self.readscale, state='disabled')
+        self.e3.grid(row=6, column=1, sticky="nswe", padx=2)
+
+        self.l5 = Label(self.readscale, text="White Bar (%)")
+        self.l5.grid(row=5, column=2, pady=5)
+
+        self.e4 = ttk.Entry(self.readscale, state='disabled')
+        self.e4.grid(row=6, column=2, sticky="nswe", padx=2)
+
+        self.l7 = Label(self.readscale, text="Target Value")
+        self.l7.grid(row=3, column=3, pady=5)
+
+        self.l8 = Label(self.readscale, text="Target Unit")
+        self.l8.grid(row=3, column=4, pady=5)
+
+        self.e5 = ttk.Entry(self.readscale, state='disabled')
+        self.e5.grid(row=4, column=3, sticky="nswe", padx=2)
+
+        self.e6 = ttk.Entry(self.readscale, state='disabled')
+        self.e6.grid(row=4, column=4, sticky="nswe", padx=2)
+
+        self.l8 = Label(self.readscale, text="Scale Position")
+        self.l8.grid(row=5, column=3)
+
+        self.c1 = Combobox(self.readscale)
+        self.c1['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
+        self.c1.current(1)  # set the selected item
+        self.c1.grid(row=6, column=3)
+
+        self.l9 = Label(self.readscale, text="Size of Scale")
+        self.l9.grid(row=5, column=4)
+
+        self.spin = Spinbox(self.readscale, from_=1, to=20, width=5)
+        self.spin.grid(row=6, column=4)
+
+        self.l10 = Label(self.readscale, text="Font Color", bg="#ffffff", fg="#000000")
+        self.l10.grid(row=3, column=5, rowspan=2, sticky="nsew", padx=5)
+
+        self.bgcolour_rgb = [255.0, 255.0, 255.0]
+        self.ftcolour_rgb = [0.0, 0.0, 0.0]
+
+        self.b3 = ttk.Button(self.readscale, text="Pick background color", command=lambda: self.choose_colour(0))
+        self.b3.grid(row=3, column=6, sticky="ew")
+
+        contrast_ratio = 21
+        self.text = tk.StringVar()
+        self.text.set("Contrast = %.2f" % contrast_ratio)
+
+        self.l11 = Label(self.readscale, textvariable=self.text, bg="#008000")
+        self.l11.grid(row=5, column=5, rowspan=2, sticky="ew", padx=5)
+
+        self.b4 = ttk.Button(self.readscale, text="Pick font color", command=lambda: self.choose_colour(1))
+        self.b4.grid(row=4, column=6, sticky="ew")
+
+        self.var = tk.IntVar()
+        self.c2 = tk.Checkbutton(self.readscale, text="Manual", variable=self.var, command=self.manual)
+        self.c2.grid(row=2, column=3, sticky="ew")
+        # self.b2 = ttk.Button(self.readscale, text="Preview", command=self.preview)
+        self.b2 = ttk.Button(self.readscale, text="Preview")
+        self.b2.grid(row=5, column=6, rowspan=2)
+
+    def manual(self):
+        if self.var.get() == 1:
+            self.e1.configure(state='normal')
+            self.e2.configure(state='normal')
+            self.e3.configure(state='normal')
+            self.e4.configure(state='normal')
+            self.e5.configure(state='normal')
+            self.e6.configure(state='normal')
+        else:
+            self.e1.configure(state='disabled')
+            self.e2.configure(state='disabled')
+            self.e3.configure(state='disabled')
+            self.e4.configure(state='disabled')
+            self.e5.configure(state='disabled')
+            self.e6.configure(state='disabled')
+
+    def contrasting_text_color(self, rgb, rgb1):
+
+        lumi = [0, 0]
+
+        rgb_list = [rgb, rgb1]
+        rgb_math = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+
+        for j in range(0, 2):
+
+            for i in range(0, 3):
+
+                temp = rgb_list[j][i] / 255.0
+
+                if temp <= 0.03928:
+                    rgb_math[j][i] = temp / 12.92
+                else:
+                    rgb_math[j][i] = ((temp + 0.055) / 1.055) ** 2.4
+
+            lumi[j] = 0.2126 * rgb_math[j][0] + 0.7152 * rgb_math[j][1] + 0.0722 * rgb_math[j][2]
+
+        if lumi[0] > lumi[1]:
+            contrast = (lumi[0] + 0.05) / (lumi[1] + 0.05)
+
+        else:
+            contrast = (lumi[1] + 0.05) / (lumi[0] + 0.05)
+
+        self.text.set("Contrast = %.2f" % contrast)
+
+        if contrast >= 7:
+            self.l11.config(bg="#008000")
+
+        else:
+            self.l11.config(bg="#FF0000")
+
+    def choose_colour(self, label):
+
+        if label == 0:
+            bgcolour = askcolor()
+            print(bgcolour)
+            self.bgcolour_rgb = list(bgcolour[0])
+            self.l10.config(bg=bgcolour[1])
+            self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
+        else:
+            ftcolour = askcolor()
+            print(ftcolour)
+            self.ftcolour_rgb = list(ftcolour[0])
+            self.l10.config(fg=ftcolour[1])
+            self.contrasting_text_color(self.bgcolour_rgb, self.ftcolour_rgb)
 
 
 class Images(tk.Frame):
@@ -96,15 +241,13 @@ class Images(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
-        self.images = tk.Frame(self.parent, borderwidth=3, relief="ridge")
-        self.images.grid(row=2, column=1)
+        self.images = tk.Frame(self.parent)
+        # , borderwidth=3, relief="ridge"
+        self.images.grid(row=2, column=1, sticky="nwes")
 
-        self.images.grid_rowconfigure(0, weight=1)
-        self.images.grid_rowconfigure(3, weight=1)
-        self.images.grid_columnconfigure(0, weight=1)
-        self.images.grid_columnconfigure(3, weight=1)
-        self.images.grid_columnconfigure(1, weight=10)
-        self.images.grid_columnconfigure(2, weight=10)
+        self.images.grid_rowconfigure((0, 2), weight=1)
+        self.images.grid_columnconfigure((0, 2), weight=1)
+        self.images.grid_columnconfigure(1, weight=2)
 
         # Scrollbars
 
@@ -149,8 +292,6 @@ class InstantScale(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-
-
         self.wm_title("Instant Scale")
         self.iconbitmap(default="icon.ico")
         self.wm_minsize(800, 600)
@@ -158,15 +299,12 @@ class InstantScale(tk.Tk):
 
         # MENUBAR
 
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(3, weight=1)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(2, weight=1)
-        self.grid_columnconfigure(1, weight=10)
+        self.grid_rowconfigure((0, 3), weight=1)
+        self.grid_columnconfigure((0, 2), weight=1)
+        self.grid_columnconfigure(1, weight=2)
 
-
-        menu = Menubar(self)
-        readscale1 = ReadScale(self)
+        self.menu = Menubar(self)
+        self.readscale1 = ReadScale(self)
         self.images = Images(self)
 
 
