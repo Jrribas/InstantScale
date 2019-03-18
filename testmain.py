@@ -356,8 +356,8 @@ class Images(tk.Frame):
         self.images.grid(row=3, column=1, sticky="nwes")
 
         self.images.grid_rowconfigure((0, 2), weight=1)
-        self.images.grid_columnconfigure((0, 2), weight=1)
-        self.images.grid_columnconfigure(1, weight=2)
+        self.images.grid_columnconfigure((0, 3), weight=1)
+        self.images.grid_columnconfigure((1, 2), weight=10)
 
         # Scrollbars
 
@@ -434,17 +434,26 @@ class Images(tk.Frame):
         self.parent.panel2.config(width=int(new_width) - 5, height=int(new_height) - 5)
 
         if hasattr(self.parent, 'img3'):
-            self.parent.img1res = ImageTk.PhotoImage(self.parent.img3open.resize((int(new_width)-5, int(new_height) - 5), Image.ANTIALIAS))
-            self.parent.img2res = ImageTk.PhotoImage(self.parent.img2open.resize((int(new_width)-5, int(new_height) - 5), Image.ANTIALIAS))
+            self.parent.img1res = ImageTk.PhotoImage(
+                self.parent.img3open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
         else:
-            self.parent.img1res = ImageTk.PhotoImage(self.parent.img1open.resize((int(new_width)-5, int(new_height) - 5), Image.ANTIALIAS))
-            self.parent.img2res = ImageTk.PhotoImage(self.parent.img2open.resize((int(new_width)-5, int(new_height) - 5), Image.ANTIALIAS))
+            self.parent.img1res = ImageTk.PhotoImage(
+                self.parent.img1open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+
+        if hasattr(self.parent, 'img4'):
+            self.parent.img2res = ImageTk.PhotoImage(
+                self.parent.img4open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+        else:
+            self.parent.img2res = ImageTk.PhotoImage(
+                self.parent.img2open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
 
         self.parent.panel.delete("IMG1")
         self.parent.panel2.delete("IMG2")
 
-        self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res)
-        self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res)
+        self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res,
+                                                                    tags="IMG1")
+        self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
+                                                                      tags="IMG2")
 
 class InstantScale(tk.Tk):
 
@@ -456,7 +465,7 @@ class InstantScale(tk.Tk):
         self.wm_title("Instant Scale")
         self.iconbitmap(default="icon.ico")
         self.wm_minsize(800, 600)
-        self.geometry("1370x780")
+        self.geometry("1024x600")
 
         # MENUBAR
 
