@@ -231,15 +231,19 @@ class TopFrame(tk.Frame):
 
     def readScale(self):
 
+        # Update progress bar to 0
         self.bar['value'] = 0
+
+        #
         self.update_idletasks()
-        self.img = img = cv2.imread(self.parent.files[0])
-        height, width, channels = img.shape
+        self.img = cv2.imread(self.parent.files[0])
+
+        # Update progress bar to 0 and update GUI
         self.bar['value'] = 25
         self.update_idletasks()
 
         # GET BAR
-        self.crop_img, self.bar_img, barSize = pI.getBar(img)
+        self.crop_img, self.bar_img, barSize = pI.getBar(self.img)
         print('bar Size: ' + str(barSize))
         barSizeRound = round(barSize)
         self.e4.configure(state='normal')
@@ -349,6 +353,8 @@ class Images(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
+        self.drag_id = ""
+        self.ola = "oallalala"
 
         self.images = tk.Frame(self.parent)
         # , borderwidth=3, relief="ridge"
@@ -357,14 +363,6 @@ class Images(tk.Frame):
         self.images.grid_rowconfigure((0, 2), weight=1)
         self.images.grid_columnconfigure((0, 3), weight=1)
         self.images.grid_columnconfigure((1, 2), weight=10)
-
-        # Scrollbars
-
-        # self.scrollbar = Scrollbar(self.images, orient=tk.HORIZONTAL)
-        # self.scrollbar.grid(row=2, column=1, sticky="ew")
-        #
-        # self.scrollbar2 = Scrollbar(self.images, orient=tk.HORIZONTAL)
-        # self.scrollbar2.grid(row=2, column=2, sticky="ew")
 
         # Image 1
         self.parent.img1open = Image.open("images/file_import_image.png")
@@ -393,21 +391,19 @@ class Images(tk.Frame):
         root = self.parent
 
         if event.widget is root:  # do nothing if the event is triggered by one of root's children
-            if self.parent.drag_id == "":
-                # action on drag start
-                print('start drag')
-            else:
+            if self.drag_id != "":
                 # cancel scheduled call to stop_drag
-                root.after_cancel(self.parent.drag_id)
-                print('dragging')
+                # print('dragging')
+                root.after_cancel(self.drag_id)
+
             # schedule stop_drag
-            self.parent.drag_id = root.after(100, self.stop_drag)
+            self.drag_id = root.after(100, self.stop_drag)
 
     def stop_drag(self):
 
-        print('stop drag')
+        # print('stop drag')
         # reset drag_id to be able to detect the start of next dragging
-        self.parent.drag_id = ""
+        self.drag_id = ""
 
         width_canvas = (self.parent.winfo_width() / 2)
         height_canvas = self.parent.winfo_height() - 190
@@ -454,24 +450,25 @@ class Images(tk.Frame):
         self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
                                                                       tags="IMG2")
 
+# =============================================================================
+# Main application
+# =============================================================================
+
 class InstantScale(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-        self.drag_id = ""
-
+        # Main app windows definitions
         self.wm_title("Instant Scale")
         self.iconbitmap(default="icon.ico")
         self.wm_minsize(800, 600)
         self.geometry("1024x600")
-
-        # MENUBAR
-
         self.grid_rowconfigure((2, 4), weight=1)
 
+        # Call of other classes (menubar,
         self.menu = Menubar(self)
-        self.readscale1 = TopFrame(self)
+        self.topframe = TopFrame(self)
         self.images = Images(self)
 
 
