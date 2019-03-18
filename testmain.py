@@ -41,7 +41,7 @@ class Menubar(Menu):
         file_menu = Menu(self, tearoff=0)
 
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
-        # file_menu.add_command(label='Save As', command=lambda: saveFile())
+        file_menu.add_command(label='Save As', command=lambda: SaveFile(self.parent.img4open))
         file_menu.add_command(label='Exit', command=exit)
         help_menu = Menu(menubar, tearoff=0)
         help_menu.add_command(label='Version', command=lambda: About())
@@ -136,8 +136,9 @@ class TopFrame(tk.Frame):
 
         self.l9 = Label(self.readscale, text="Size of Scale")
         self.l9.grid(row=5, column=4)
-
-        self.spin = Spinbox(self.readscale, from_=1, to=20, width=5)
+        
+        
+        self.spin = Spinbox(self.readscale, from_=1, to=20, width=5, textvariable = tk.StringVar(value="4"))
         self.spin.grid(row=6, column=4)
 
         self.l10 = Label(self.readscale, text="Font Color", bg="#ffffff", fg="#000000")
@@ -509,7 +510,18 @@ class About():
         x = (win.winfo_screenwidth() // 2) - (width // 2)
         y = (win.winfo_screenheight() // 2) - (height // 2)
         win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+        
+# =============================================================================
+# Export Image Window
+# =============================================================================
 
+class SaveFile():
+    def __init__(self,image, *args, **kwargs):
+        self.image = image
+        file = filedialog.asksaveasfile(mode='wb', defaultextension=".png", filetypes=(("PNG file", "*.png"),("All Files", "*.*") ))
+        if file:
+            print(self.image.mode)
+            self.image.save(file)
 
 if __name__ == "__main__":
     app = InstantScale()
