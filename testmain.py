@@ -28,10 +28,7 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 ################################################
 
-# TO DO LIST
-# Segunda imagem está com a resolução errada, se meter escala bottom nao aparece, mas grava a imagem de maneira certa
-# Manual white bar
-# Manual Scale Size
+# TODO
 # remover Save automatico
 
 
@@ -341,7 +338,9 @@ class TopFrame(tk.Frame):
 
         self.finalImage = self.imageReturn
         self.parent.img4open = self.finalImage
-        self.parent.img4 = ImageTk.PhotoImage(self.parent.img4open)
+        self.parent.img4 = ImageTk.PhotoImage(
+            self.parent.img4open.resize((int(self.parent.panel2.winfo_width()) - 5, int(self.parent.panel2.winfo_height()) - 5),
+                                        Image.ANTIALIAS))
         self.parent.panel2.itemconfig(self.parent.image_on_panel2, image=self.parent.img4)
 
 
