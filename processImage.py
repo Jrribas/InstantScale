@@ -228,7 +228,7 @@ def drawScale(img,scale,scaleNumb,units,originalPath,exePath,position, Cpath,siz
         os.makedirs("images_with_new_scale")
     os.chdir(dirName + "/images_with_new_scale")
 
-    im.save(filename + '_scale' + fileExtension)
-    print("ImageSaved with name: " + filename + '_scale' + fileExtension + "!")
+    #im.save(filename + '_scale' + fileExtension)
+    #print("ImageSaved with name: " + filename + '_scale' + fileExtension + "!")
     return im
 
