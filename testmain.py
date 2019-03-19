@@ -8,7 +8,10 @@ from tkinter import Spinbox
 from tkinter import ttk
 from tkinter.colorchooser import askcolor
 from PIL import Image, ImageTk
+from sys import executable
 import getpass  # get username
+import ctypes
+import webbrowser
 import cv2
 import pytesseract
 import os
@@ -28,9 +31,9 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 ################################################
 
 # TODO
-# remover Save automatico
-# adicionar if's de controlo
-# bloquear manual during readscale
+# Remove automatic save
+# Add if's control
+# Block manual during Read Scale
 
 
 class Menubar(Menu):
@@ -46,7 +49,7 @@ class Menubar(Menu):
 
         # Define itens in menus
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
-        file_menu.add_command(label='Save As', command= self.saveFile)
+        file_menu.add_command(label='Save As', command=self.saveFile)
         file_menu.add_command(label='Exit', command=exit)
         help_menu.add_command(label='Version', command=lambda: About())
 
@@ -65,6 +68,9 @@ class Menubar(Menu):
                                                                    ("Tiff images", "*.tif"),
                                                                    ("Jpg images", "*.jpg"),
                                                                    ("Png images", "*.png")])
+
+        # self.parent.files = pI.cleanPathFiles(self.parent.files)
+        print(self.parent.files)
 
         self.parent.img3open = Image.open(self.parent.files[0])
         self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open.resize(
@@ -168,9 +174,9 @@ class TopFrame(tk.Frame):
         self.b3 = ttk.Button(self.readscale, text="Pick background color", command=lambda: self.chooseColour(0))
         self.b3.grid(row=3, column=6, sticky="ew")
 
-        contrast_ratio = 21
+        self.contrast = 21
         self.text = tk.StringVar()
-        self.text.set("Contrast = %.2f" % contrast_ratio)
+        self.text.set("Contrast = %.2f" % self.contrast)
 
         self.l11 = Label(self.readscale, textvariable=self.text, bg="#008000")
         self.l11.grid(row=5, column=5, rowspan=2, sticky="ew", padx=5)
@@ -179,8 +185,9 @@ class TopFrame(tk.Frame):
         self.b4.grid(row=4, column=6, sticky="ew")
 
         self.var = tk.IntVar()
-        self.c2 = tk.Checkbutton(self.readscale, text="Manual", variable=self.var, command=self.manual)
-        self.c2.grid(row=2, column=3, sticky="ew")
+        self.parent.c2 = tk.Checkbutton(self.readscale, text="Manual", variable=self.var, command=self.manual,
+                                        state=tk.DISABLED)
+        self.parent.c2.grid(row=2, column=3, sticky="ew")
         self.b2 = ttk.Button(self.readscale, text="Preview", command=self.preview)
         self.b2.grid(row=6, column=6)
 
@@ -203,7 +210,7 @@ class TopFrame(tk.Frame):
             self.e5.configure(state='disabled')
             self.e6.configure(state='disabled')
 
-    def contrast(self, rgb, rgb1):
+    def contrastChecker(self, rgb, rgb1):
 
         # Calculates the constrast between the font and background color chosen
         # For more infomation: https://www.w3.org/TR/WCAG20-TECHS/G17#G17-procedure
@@ -227,14 +234,14 @@ class TopFrame(tk.Frame):
             lumi[j] = 0.2126 * rgb_math[j][0] + 0.7152 * rgb_math[j][1] + 0.0722 * rgb_math[j][2]
 
         if lumi[0] > lumi[1]:
-            contrast = (lumi[0] + 0.05) / (lumi[1] + 0.05)
+            self.contrast = (lumi[0] + 0.05) / (lumi[1] + 0.05)
 
         else:
-            contrast = (lumi[1] + 0.05) / (lumi[0] + 0.05)
+            self.contrast = (lumi[1] + 0.05) / (lumi[0] + 0.05)
 
-        self.text.set("Contrast = %.2f" % contrast)
+        self.text.set("Contrast = %.2f" % self.contrast)
 
-        if contrast >= 7:
+        if self.contrast >= 7:
             self.l11.config(bg="#008000")
 
         else:
@@ -251,12 +258,12 @@ class TopFrame(tk.Frame):
             # Change label background color
             self.l10.config(bg=bgcolour[1])
             # Calculate constrast
-            self.contrast(self.bgcolour_rgb, self.ftcolour_rgb)
+            self.contrastChecker(self.bgcolour_rgb, self.ftcolour_rgb)
         else:
             ftcolour = askcolor()
             self.ftcolour_rgb = list(ftcolour[0])
             self.l10.config(fg=ftcolour[1])
-            self.contrast(self.bgcolour_rgb, self.ftcolour_rgb)
+            self.contrastChecker(self.bgcolour_rgb, self.ftcolour_rgb)
 
     def readScale(self):
 
@@ -264,7 +271,7 @@ class TopFrame(tk.Frame):
         self.bar['value'] = 0
         self.update_idletasks()
 
-        #Open image
+        # Open image
         self.img = cv2.imread(self.parent.files[0])
 
         # Update progress bar to 25 and update GUI
@@ -328,65 +335,74 @@ class TopFrame(tk.Frame):
         self.bar['value'] = 100
         self.update_idletasks()
 
+        self.parent.c2.config(state=tk.NORMAL)
+
     def preview(self):
 
-        # print("c1 get value: " + self.c1.get())
+        if self.contrast < 7:
+            errormessage = "Contrast is less than 7. This means that visibility/readability can be compromised. \n " \
+                           "We sugest a contrast higher than 7 for better scale color set :)"
+            rV = Error(self, errormessage, "warning", "yes").show()
 
-        # Obtain
-        if self.c1.get() == "Top Left":
-            self.position = 2
-        elif self.c1.get() == "Top Right":
-            self.position = 3
-        elif self.c1.get() == "Bottom Left":
-            self.position = 0
-        elif self.c1.get() == "Bottom Right":
-            self.position = 1
+        elif self.parent.choice == 1:
+            # print("c1 get value: " + self.c1.get())
 
-        self.scale = int(self.e3.get())
-        self.sizeOfScale = int(self.spin.get())
-        self.scaleNumb = int(self.e1.get())
-        self.units = self.e2.get()
+            # Obtain
+            if self.c1.get() == "Top Left":
+                self.position = 2
+            elif self.c1.get() == "Top Right":
+                self.position = 3
+            elif self.c1.get() == "Bottom Left":
+                self.position = 0
+            elif self.c1.get() == "Bottom Right":
+                self.position = 1
 
-        # Change variable of scale colors from list of floats to tupple of integrers
-        self.bgColor = self.bgcolour_rgb
-        self.bgColor[0] = int(self.bgColor[0])
-        self.bgColor[1] = int(self.bgColor[1])
-        self.bgColor[2] = int(self.bgColor[2])
-        self.bgColor_tupple = tuple(self.bgColor)
+            self.scale = int(self.e3.get())
+            self.sizeOfScale = int(self.spin.get())
+            self.scaleNumb = int(self.e1.get())
+            self.units = self.e2.get()
 
-        self.fontColor = self.ftcolour_rgb
-        self.fontColor[0] = int(self.fontColor[0])
-        self.fontColor[1] = int(self.fontColor[1])
-        self.fontColor[2] = int(self.fontColor[2])
-        self.fontColor_tupple = tuple(self.fontColor)
+            # Change variable of scale colors from list of floats to tupple of integrers
+            self.bgColor = self.bgcolour_rgb
+            self.bgColor[0] = int(self.bgColor[0])
+            self.bgColor[1] = int(self.bgColor[1])
+            self.bgColor[2] = int(self.bgColor[2])
+            self.bgColor_tupple = tuple(self.bgColor)
 
-        # Check if target values are inserted manualy
-        if self.e5.index("end") == 0:
-            self.targetValue = 0
-        else:
-            self.targetValue = int(self.e5.get())
+            self.fontColor = self.ftcolour_rgb
+            self.fontColor[0] = int(self.fontColor[0])
+            self.fontColor[1] = int(self.fontColor[1])
+            self.fontColor[2] = int(self.fontColor[2])
+            self.fontColor_tupple = tuple(self.fontColor)
 
-        if self.e6.index("end") == 0:
-            self.targetUnit = ''
-        else:
-            self.targetUnit = self.e6.get()
+            # Check if target values are inserted manualy
+            if self.e5.index("end") == 0:
+                self.targetValue = 0
+            else:
+                self.targetValue = int(self.e5.get())
 
-        # Obtain image without white bar
-        self.crop_img = pI.cropImage(self.img, int(self.e4.get()))
+            if self.e6.index("end") == 0:
+                self.targetUnit = ''
+            else:
+                self.targetUnit = self.e6.get()
 
-        # Draw scale in cropped image
-        self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[0],
-                                        exePath, self.position, exePath, self.sizeOfScale, self.fontColor_tupple, self.bgColor_tupple,
-                                        self.targetValue, self.targetUnit)
+            # Obtain image without white bar
+            self.crop_img = pI.cropImage(self.img, int(self.e4.get()))
 
-        self.parent.img4open = self.finalImage
+            # Draw scale in cropped image
+            self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[0],
+                                           exePath, self.position, exePath, self.sizeOfScale, self.fontColor_tupple,
+                                           self.bgColor_tupple, self.targetValue, self.targetUnit)
 
-        # Resize image
-        self.parent.img4 = ImageTk.PhotoImage(
-            self.parent.img4open.resize((int(self.parent.panel2.winfo_width()) - 5, int(self.parent.panel2.winfo_height()) - 5),
-                                        Image.ANTIALIAS))
-        # Put image on canvas
-        self.parent.panel2.itemconfig(self.parent.image_on_panel2, image=self.parent.img4)
+            self.parent.img4open = self.finalImage
+
+            # Resize image
+            self.parent.img4 = ImageTk.PhotoImage(
+                self.parent.img4open.resize((int(self.parent.panel2.winfo_width()) - 5,
+                                             int(self.parent.panel2.winfo_height()) - 5), Image.ANTIALIAS))
+
+            # Put image on canvas
+            self.parent.panel2.itemconfig(self.parent.image_on_panel2, image=self.parent.img4)
 
 
 class Images(tk.Frame):
@@ -404,7 +420,7 @@ class Images(tk.Frame):
         # Frame configuration
         self.images.grid_rowconfigure((0, 2), weight=1)
         self.images.grid_columnconfigure((0, 3), weight=1)
-        self.images.grid_columnconfigure((1, 2), weight=10)
+        self.images.grid_columnconfigure((1, 2), weight=5)
 
         # Canvas 1
         # Default image
@@ -412,7 +428,7 @@ class Images(tk.Frame):
         self.parent.img1 = ImageTk.PhotoImage(self.parent.img1open)
 
         self.parent.panel = tk.Canvas(self.images)
-        self.parent.panel.grid(row=1, column=1, sticky="nswe")
+        self.parent.panel.grid(row=1, column=1, sticky="nswe", padx=2)
 
         self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1,
                                                                     tags="IMG1")
@@ -428,7 +444,7 @@ class Images(tk.Frame):
                                                                       tags="IMG2")
 
         # Resizing event
-        # Resizes canvas and images depending windows size, keeping image ratio
+        # Resize canvas and images depending windows size, keeping image ratio
         self.parent.bind("<Configure>", self.dragging)
 
     def dragging(self, event):
@@ -499,6 +515,7 @@ class Images(tk.Frame):
 # Main application
 # =============================================================================
 
+
 class InstantScale(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -516,14 +533,13 @@ class InstantScale(tk.Tk):
         self.menu = Menubar(self)
         self.topframe = TopFrame(self)
 
-
-
 # =============================================================================
 # About Window
 # =============================================================================
 
-class About():
-    def __init__(self, *args, **kwargs):
+
+class About:
+    def __init__(self):
         win = tk.Toplevel()
         win.geometry("380x270")
         win.wm_title("About Instant Scale")
@@ -548,7 +564,104 @@ class About():
         b.grid(row=2, column=1)
         self.center(win)
 
-    def center(self, win):
+    @staticmethod
+    def center(win):
+        # Center About window in any display resolution
+        win.update_idletasks()
+        width = win.winfo_width()
+        height = win.winfo_height()
+        x = (win.winfo_screenwidth() // 2) - (width // 2)
+        y = (win.winfo_screenheight() // 2) - (height // 2)
+        win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+
+class Error(tk.Toplevel):
+    def __init__(self, parent, errorMessage, method, choice):
+        tk.Toplevel.__init__(self, parent)
+        self.parent = parent
+        self.choice = choice
+
+        # method: warning or error
+        # choice: warning can be ignored?
+
+        if method == "error":
+            self.wm_title("Error!")
+            stringAbout = "The error returned the following message:"
+
+        else:
+            self.wm_title("Warning!")
+            stringAbout = "Warning message:"
+
+        self.resizable(False, False)
+
+        self.grid_rowconfigure((0, 8), weight=1)
+        self.grid_columnconfigure((0, 3), weight=1)
+
+        l1 = Label(self, text="Instant Scale v2.0 found an error :(\n", font="Verdana 16 bold")
+        l1.grid(row=0, column=1, padx=5, columnspan=2)
+
+        stringAbout2 = "If you can't understand this error first check the github wiki for more information."
+
+        stringAbout3 = "If you still couldn't find a solution, please submit and issue on the projects page :)"
+
+        errorMessage = errorMessage +"\n"
+
+        l2 = tk.Label(self, text=stringAbout)
+        l2.grid(row=1, column=1, padx=5, columnspan=2)
+
+        l2 = tk.Label(self, text=errorMessage, fg="RED")
+        l2.grid(row=2, column=1, padx=5, columnspan=2)
+
+        l2 = tk.Label(self, text=stringAbout2)
+        l2.grid(row=3, column=1, padx=5, columnspan=2)
+
+        lwiki = tk.Label(self, text="https://github.com/Jrribas/InstantScale/wiki", fg="blue", cursor="hand2")
+        lwiki.grid(row=4, column=1, padx=5, columnspan=2)
+
+        lwiki.bind("<Button-1>", lambda event: webbrowser.open(lwiki.cget("text")))
+
+        l3 = tk.Label(self, text=stringAbout3)
+        l3.grid(row=5, column=1, padx=5, columnspan=2)
+
+        lissue = tk.Label(self, text="https://github.com/Jrribas/InstantScale/issues", fg="blue", cursor="hand2")
+        lissue.grid(row=6, column=1, padx=5, columnspan=2)
+
+        lissue.bind("<Button-1>", lambda event: webbrowser.open(lissue.cget("text")))
+
+        if choice == "yes":
+            b1 = ttk.Button(self, text="Okay", command=self.on_ok)
+            b1.grid(row=7, column=2, pady=5)
+            b2 = ttk.Button(self, text="Ignore", command=self.on_ok_1)
+            b2.grid(row=7, column=1, pady=5)
+
+        else:
+            b = ttk.Button(self, text="Okay", command=self.on_ok)
+            b.grid(row=7, column=1, pady=5, columnspan=2)
+
+        self.center(self)
+
+    def on_ok(self, event=None):
+        self.parent.choice = 0
+        self.destroy()
+
+    def on_ok_1(self, event=None):
+        self.parent.choice = 1
+        self.destroy()
+
+    def show(self):
+        self.wm_deiconify()
+        self.wait_window()
+        return False
+
+    @staticmethod
+    def center(win):
         # Center About window in any display resolution
         win.update_idletasks()
         width = win.winfo_width()
@@ -559,5 +672,11 @@ class About():
 
 
 if __name__ == "__main__":
-    app = InstantScale()
-    app.mainloop()
+
+    if is_admin():
+        app = InstantScale()
+        app.mainloop()
+    else:
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", executable, "", None, 1)
+
+
