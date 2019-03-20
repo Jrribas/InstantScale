@@ -1,45 +1,52 @@
-import tkinter as tk
-
-class CustomDialog(tk.Toplevel):
-    def __init__(self, parent, prompt):
-        tk.Toplevel.__init__(self, parent)
-
-        self.var = tk.StringVar()
-
-        self.label = tk.Label(self, text=prompt)
-        self.entry = tk.Entry(self, textvariable=self.var)
-        self.ok_button = tk.Button(self, text="OK", command=self.on_ok)
-
-        self.label.pack(side="top", fill="x")
-        self.entry.pack(side="top", fill="x")
-        self.ok_button.pack(side="right")
-
-        self.entry.bind("<Return>", self.on_ok)
-
-    def on_ok(self, event=None):
-        self.destroy()
-
-    def show(self):
-        self.wm_deiconify()
-        self.entry.focus_force()
-        self.wait_window()
-        return self.var.get()
+import tkinter as tk  # python 3.x
+# import Tkinter as tk # python 2.x
 
 class Example(tk.Frame):
+
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
-        self.button = tk.Button(self, text="Get Input", command=self.on_button)
-        self.label = tk.Label(self, text="", width=20)
-        self.button.pack(padx=8, pady=8)
-        self.label.pack(side="bottom", fill="both", expand=True)
 
-    def on_button(self):
-        string = CustomDialog(self, "Enter something:").show()
-        self.label.configure(text="You entered:\n" + string)
+        # valid percent substitutions (from the Tk entry man page)
+        # note: you only have to register the ones you need; this
+        # example registers them all for illustrative purposes
+        #
+        # %d = Type of action (1=insert, 0=delete, -1 for others)
+        # %i = index of char string to be inserted/deleted, or -1
+        # %P = value of the entry if the edit is allowed
+        # %s = value of entry prior to editing
+        # %S = the text string being inserted or deleted, if any
+        # %v = the type of validation that is currently set
+        # %V = the type of validation that triggered the callback
+        #      (key, focusin, focusout, forced)
+        # %W = the tk name of the widget
 
+        vcmd = (self.register(self.onValidate),
+                '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        self.entry = tk.Entry(self, validate="key", validatecommand=vcmd)
+        self.text = tk.Text(self, height=10, width=40)
+        self.entry.pack(side="top", fill="x")
+        self.text.pack(side="bottom", fill="both", expand=True)
+
+    def onValidate(self, d, i, P, s, S, v, V, W):
+        self.text.delete("1.0", "end")
+        self.text.insert("end","OnValidate:\n")
+        self.text.insert("end","d='%s'\n" % d)
+        self.text.insert("end","i='%s'\n" % i)
+        self.text.insert("end","P='%s'\n" % P)
+        self.text.insert("end","s='%s'\n" % s)
+        self.text.insert("end","S='%s'\n" % S)
+        self.text.insert("end","v='%s'\n" % v)
+        self.text.insert("end","V='%s'\n" % V)
+        self.text.insert("end","W='%s'\n" % W)
+
+        # Disallow anything but lowercase letters
+        if S == S.lower():
+            return True
+        else:
+            self.bell()
+            return False
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.wm_geometry("400x200")
     Example(root).pack(fill="both", expand=True)
     root.mainloop()

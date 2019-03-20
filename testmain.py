@@ -16,6 +16,7 @@ import cv2
 import pytesseract
 import os
 import processImage as pI
+import shutil
 
 ################################################
 
@@ -32,8 +33,8 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 # TODO
 # Remove automatic save
-# Add if's control
-# Block manual during Read Scale
+# Check all if's control's
+# warning when entry is empty while clicking preview
 
 
 class Menubar(Menu):
@@ -66,13 +67,18 @@ class Menubar(Menu):
                                                         title="InstantScale - Please select the images to process",
                                                         filetypes=[("Image files", "*.tif *.jpg *.png"),
                                                                    ("Tiff images", "*.tif"),
-                                                                  ("Jpg images", "*.jpg"),
+                                                                   ("Jpg images", "*.jpg"),
                                                                    ("Png images", "*.png")])
 
         if not isinstance(files, str):
-            self.parent.files = pI.cleanPathFiles(files)
+
+            if hasattr(self.parent, 'img3open') and self.parent.img3open is not None:
+                self.parent.img3open.close()
+
+            self.parent.files = pI.cleanPathFiles(files, exePath)
 
             self.parent.img3open = Image.open(self.parent.files[0])
+
             self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open.resize(
                 (int(self.parent.panel2.winfo_width()) - 5, int(self.parent.panel2.winfo_height()) - 5),
                 Image.ANTIALIAS))
@@ -91,6 +97,7 @@ class Menubar(Menu):
                 self.parent.img4open.save(file)
         else:
             Error(self, "Please do Preview before saving.", "error", "no")
+
 
 class TopFrame(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -125,11 +132,15 @@ class TopFrame(tk.Frame):
         self.l3 = Label(self.readscale, text="Unit (mm, um, nm)")
         self.l3.grid(row=3, column=2, pady=5)
 
-        self.e1 = ttk.Entry(self.readscale, state='disabled')
+        self.vcmd = (self.register(self.checkInput), '%i', '%S')
+
+        self.e1 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
         self.e1.grid(row=4, column=1, padx=2, sticky="we")
 
-        self.e2 = ttk.Entry(self.readscale, state='disabled')
-        self.e2.grid(row=4, column=2, padx=2, sticky="we")
+        self.c1 = Combobox(self.readscale, state='disabled')
+        self.c1['values'] = ("", "mm", "um", "nm")
+        self.c1.current(0)  # set the selected item
+        self.c1.grid(row=4, column=2, padx=2, sticky="we")
 
         self.l4 = Label(self.readscale, text="Scale Size (Pixels)")
         self.l4.grid(row=5, column=1, pady=5)
@@ -137,11 +148,11 @@ class TopFrame(tk.Frame):
         self.l5 = Label(self.readscale, text="White Bar (%)")
         self.l5.grid(row=5, column=2, pady=5)
 
-        self.e3 = ttk.Entry(self.readscale, state='disabled')
-        self.e3.grid(row=6, column=1, sticky="we", padx=2)
+        self.e2 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e2.grid(row=6, column=1, sticky="we", padx=2)
 
-        self.e4 = ttk.Entry(self.readscale, state='disabled')
-        self.e4.grid(row=6, column=2, sticky="we", padx=2)
+        self.e3 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e3.grid(row=6, column=2, sticky="we", padx=2)
 
         self.l7 = Label(self.readscale, text="Target Value")
         self.l7.grid(row=3, column=3, pady=5)
@@ -149,11 +160,13 @@ class TopFrame(tk.Frame):
         self.l8 = Label(self.readscale, text="Target Unit")
         self.l8.grid(row=3, column=4, pady=5)
 
-        self.e5 = ttk.Entry(self.readscale, state='disabled')
-        self.e5.grid(row=4, column=3, sticky="we", padx=2)
+        self.e4 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e4.grid(row=4, column=3, sticky="we", padx=2)
 
-        self.e6 = ttk.Entry(self.readscale, state='disabled')
-        self.e6.grid(row=4, column=4, sticky="we", padx=2)
+        self.c2 = Combobox(self.readscale, state='disabled')
+        self.c2['values'] = ("", "mm", "um", "nm")
+        self.c2.current(0)  # set the selected item
+        self.c2.grid(row=4, column=4, padx=2, sticky="we")
 
         self.l8 = Label(self.readscale, text="Scale Position")
         self.l8.grid(row=5, column=3)
@@ -161,10 +174,10 @@ class TopFrame(tk.Frame):
         self.l9 = Label(self.readscale, text="Size of Scale")
         self.l9.grid(row=5, column=4)
 
-        self.c1 = Combobox(self.readscale)
-        self.c1['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
-        self.c1.current(1)  # set the selected item
-        self.c1.grid(row=6, column=3)
+        self.c3 = Combobox(self.readscale)
+        self.c3['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
+        self.c3.current(1)  # set the selected item
+        self.c3.grid(row=6, column=3)
 
         self.spin = Spinbox(self.readscale, from_=1, to=20, width=5, textvariable=tk.StringVar(value="4"))
         self.spin.grid(row=6, column=4)
@@ -192,6 +205,7 @@ class TopFrame(tk.Frame):
         self.parent.c2 = tk.Checkbutton(self.readscale, text="Manual", variable=self.var, command=self.manual,
                                         state=tk.DISABLED)
         self.parent.c2.grid(row=2, column=3, sticky="ew")
+
         self.b2 = ttk.Button(self.readscale, text="Preview", command=self.preview)
         self.b2.grid(row=6, column=6)
 
@@ -204,15 +218,15 @@ class TopFrame(tk.Frame):
             self.e2.configure(state='normal')
             self.e3.configure(state='normal')
             self.e4.configure(state='normal')
-            self.e5.configure(state='normal')
-            self.e6.configure(state='normal')
+            self.c1.configure(state='normal')
+            self.c2.configure(state='normal')
         else:
             self.e1.configure(state='disabled')
             self.e2.configure(state='disabled')
             self.e3.configure(state='disabled')
             self.e4.configure(state='disabled')
-            self.e5.configure(state='disabled')
-            self.e6.configure(state='disabled')
+            self.c1.configure(state='disabled')
+            self.c2.configure(state='disabled')
 
     def contrastChecker(self, rgb, rgb1):
 
@@ -290,10 +304,10 @@ class TopFrame(tk.Frame):
             barSizeRound = round(barSize)
 
             # Update entry widgets with values obtaines
-            self.e4.configure(state='normal')
-            self.e4.delete(0, tk.END)
-            self.e4.insert(tk.END, barSizeRound)
-            self.e4.configure(state='disabled')
+            self.e3.configure(state='normal')
+            self.e3.delete(0, tk.END)
+            self.e3.insert(tk.END, barSizeRound)
+            self.e3.configure(state='disabled')
 
             # Update progress bar to 50 and update GUI
             self.bar['value'] = 50
@@ -314,10 +328,10 @@ class TopFrame(tk.Frame):
             # print('scale: ' + str(self.scale))
 
             # Update entry widgets with values obtained
-            self.e3.configure(state='normal')
-            self.e3.delete(0, tk.END)
-            self.e3.insert(tk.END, self.scale)
-            self.e3.configure(state='disabled')
+            self.e2.configure(state='normal')
+            self.e2.delete(0, tk.END)
+            self.e2.insert(tk.END, self.scale)
+            self.e2.configure(state='disabled')
 
             # Update progress bar to 75 and update GUI
             self.bar['value'] = 75
@@ -332,10 +346,9 @@ class TopFrame(tk.Frame):
             self.e1.insert(tk.END, self.scaleNumb)
             self.e1.configure(state='disabled')
 
-            self.e2.configure(state='normal')
-            self.e2.delete(0, tk.END)
-            self.e2.insert(tk.END, self.units)
-            self.e2.configure(state='disabled')
+            self.c1.configure(state='normal')
+            self.c1.current(self.units)
+            self.c1.configure(state='disabled')
 
             # Update progress bar to 100 and update GUI
             self.bar['value'] = 100
@@ -346,7 +359,12 @@ class TopFrame(tk.Frame):
             Menubar.selectImages(self)
 
     def preview(self):
+
         self.choice = 1
+
+        if self.e1.get() == '' or self.e2.get() == '' or self.e3.get() == '':
+            Error(self, "Please have all parameters with values.", "warning", "no")
+            self.choice = 0
 
         if hasattr(self, 'crop_img'):
 
@@ -359,13 +377,13 @@ class TopFrame(tk.Frame):
                 # print("c1 get value: " + self.c1.get())
 
                 # Obtain
-                if self.c1.get() == "Top Left":
+                if self.c3.get() == "Top Left":
                     self.position = 2
-                elif self.c1.get() == "Top Right":
+                elif self.c3.get() == "Top Right":
                     self.position = 3
-                elif self.c1.get() == "Bottom Left":
+                elif self.c3.get() == "Bottom Left":
                     self.position = 0
-                elif self.c1.get() == "Bottom Right":
+                elif self.c3.get() == "Bottom Right":
                     self.position = 1
 
                 self.scale = int(self.e3.get())
@@ -387,18 +405,18 @@ class TopFrame(tk.Frame):
                 self.fontColor_tupple = tuple(self.fontColor)
 
                 # Check if target values are inserted manualy
-                if self.e5.index("end") == 0:
+                if self.e4.index("end") == 0:
                     self.targetValue = 0
                 else:
-                    self.targetValue = int(self.e5.get())
+                    self.targetValue = int(self.e4.get())
 
-                if self.e6.index("end") == 0:
+                if self.var.get() == 0:
                     self.targetUnit = ''
                 else:
-                    self.targetUnit = self.e6.get()
+                    self.targetUnit = self.c2.get()
 
                 # Obtain image without white bar
-                self.crop_img = pI.cropImage(self.img, int(self.e4.get()))
+                self.crop_img = pI.cropImage(self.img, int(self.e3.get()))
 
                 # Draw scale in cropped image
                 self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[0],
@@ -416,6 +434,50 @@ class TopFrame(tk.Frame):
                 self.parent.panel2.itemconfig(self.parent.image_on_panel2, image=self.parent.img4)
         else:
             Error(self, "Please do Read Scale before clicking Preview.", "error", "no")
+
+    def reset(self):
+
+        self.bar['value'] = 0
+        self.update_idletasks()
+
+        entries = [self.e1, self.e2, self.e3, self.e4]
+
+        for i in range(0, 3):
+
+            entries[i].configure(state='normal')
+            entries[i].delete(0, tk.END)
+            entries[i].configure(state='disabled')
+
+        self.c1.current(1)
+        self.c2.current(1)
+
+        self.parent.c2.configure(state='disabled')
+
+        self.parent.img1res = ImageTk.PhotoImage(self.parent.img1open)
+        self.parent.img1res = ImageTk.PhotoImage(self.parent.img1open)
+
+        self.parent.panel.delete("IMG1")
+        self.parent.panel2.delete("IMG2")
+
+        self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res,
+                                                                    tags="IMG1")
+        self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
+                                                                      tags="IMG2")
+
+        self.parent.img3open.close()
+        self.parent.img4open.close()
+
+        shutil.rmtree('C:\\Temp')
+
+    def checkInput(self, i, S):
+        # Disallow anything but numbers
+
+        if S.isnumeric() and int(i) <= 3:
+            return True
+        else:
+            self.bell()
+            return False
+
 
 class Images(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -607,24 +669,25 @@ class Error(tk.Toplevel):
         if method == "error":
             self.wm_title("Error!")
             stringAbout = "The error returned the following message:"
+            l1 = Label(self, text="Instant Scale v2.0 found an error :(\n", font="Verdana 16 bold")
 
         else:
             self.wm_title("Warning!")
             stringAbout = "Warning message:"
+            l1 = Label(self, text="Instant Scale v2.0 has a warning:(\n", font="Verdana 16 bold")
 
         self.resizable(False, False)
 
         self.grid_rowconfigure((0, 8), weight=1)
         self.grid_columnconfigure((0, 3), weight=1)
 
-        l1 = Label(self, text="Instant Scale v2.0 found an error :(\n", font="Verdana 16 bold")
         l1.grid(row=0, column=1, padx=5, columnspan=2)
 
         stringAbout2 = "If you can't understand this error first check the github wiki for more information."
 
-        stringAbout3 = "If you still couldn't find a solution, please submit and issue on the projects page :)"
+        stringAbout3 = "If you still couldn't find a solution, please submit and issue in the projects page :)"
 
-        errorMessage = errorMessage +"\n"
+        errorMessage = errorMessage + "\n"
 
         l2 = tk.Label(self, text=stringAbout)
         l2.grid(row=1, column=1, padx=5, columnspan=2)

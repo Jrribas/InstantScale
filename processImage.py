@@ -46,7 +46,7 @@ def getScale(bar_img):
 
 
 def getNumber(bar_img, bar_img_res, exePath):
-    path = 'images/HoldImages'
+    path = exePath + "\\images\\"
 
     bar_img = cv2.cvtColor(bar_img, cv2.COLOR_BGR2GRAY)
 
@@ -68,7 +68,15 @@ def getNumber(bar_img, bar_img_res, exePath):
 
         if mo is not None and mo.group(1) != '0 ':
             # print("Scale number obtained: %s %s" % (mo.group(1), mo.group(2)))
-            return mo.group(1), mo.group(2)
+
+            if mo.group(2) == "mm":
+                units = 2
+            elif mo.group(2) == "um":
+                units = 2
+            elif mo.group(2) == "nm":
+                units = 3
+
+            return mo.group(1), units
 
     bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
 
@@ -93,39 +101,45 @@ def getNumber(bar_img, bar_img_res, exePath):
             mo = findSize.search(scalenumb)
 
             if mo is not None and mo.group(1) != '0':
-                print(mo.group(1), mo.group(2))
-                return mo.group(1), mo.group(2)
+                # print(mo.group(1), mo.group(2))
+
+                if mo.group(2) == "mm":
+                    units = 1
+                elif mo.group(2) == "um":
+                    units = 2
+                elif mo.group(2) == "nm":
+                    units = 3
+
+                return mo.group(1), units
 
         # print("Failed - croping image bar")
         bar_img_res = original_bar_img[1:200, j:j+250]
 
-        cv2.imwrite(exePath + "\\images\\HoldImages\\resize_im1.tif", bar_img_res)
-        temp = Image.open(exePath + "\\images\\HoldImages\\resize_im1.tif")
+        cv2.imwrite(path + "HoldImages\\resize_im1.tif", bar_img_res)
+        temp = Image.open(path + "HoldImages\\resize_im1.tif")
 
         temp = temp.resize((600, 750), Image.ANTIALIAS)
 
-        temp.save(exePath + "\\images\\HoldImages\\resize_im1.tif", dpi=(600, 600))
-        bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im1.tif")
+        temp.save(path + "HoldImages\\resize_im1.tif", dpi=(600, 600))
+        bar_img_res = cv2.imread(path + "HoldImages\\resize_im1.tif")
         bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
 
 
-def cleanPathFiles(path):
+def cleanPathFiles(path, exePath):
 
     Cpath = [""] * len(path)
 
     # Create temp directory
 
-    if os.path.exists('C:\\Temp'):
-        shutil.rmtree('C:\\Temp')
-        os.makedirs('C:\\Temp')
-    else:
-        os.makedirs('C:\\Temp')
+    exePath = exePath + "\\images\\"
 
     # Copy images to a more easy directory
     for x in path:
         x = x.replace('/', '\\')
         path1, file = os.path.split(x)
-        os.system('copy "%s" "%s"' % (x, 'C:\\Temp\\' + file))
+        os.system('copy "%s" "%s"' % (x, exePath + file))
+
+        print(exePath + file)
 
     # Clean file name of strange characters
     for x in range(len(path)):
@@ -138,8 +152,8 @@ def cleanPathFiles(path):
 
         new_filename = filename.translate(trantab)
 
-        Cpath[x] = 'C:\\Temp\\' + new_filename + fileExtension
-        os.rename('C:\\Temp\\' + filename + fileExtension, Cpath[x])
+        Cpath[x] = exePath + new_filename + fileExtension
+        os.rename(exePath + filename + fileExtension, Cpath[x])
 
     return Cpath
 
@@ -239,13 +253,6 @@ def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpa
                    textDimensions[1] + 5 * sizeOfScale], fill=fontColor, width=3 * sizeOfScale)
 
     del draw
-
-    filename, fileExtension = os.path.splitext(os.path.basename(originalPath))
-    dirName = os.path.dirname(originalPath)
-    os.chdir(dirName)
-    if not os.path.exists("images_with_new_scale"):
-        os.makedirs("images_with_new_scale")
-    os.chdir(dirName + "/images_with_new_scale")
 
     return im
 
