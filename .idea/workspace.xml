@@ -13,43 +13,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/testmain.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="344" selection-start-line="344" selection-end-line="344" />
+            <state relative-caret-position="391">
+              <caret line="89" column="79" selection-start-line="89" selection-start-column="79" selection-end-line="89" selection-end-column="79" />
               <folding>
-                <element signature="e#0#20#0" expanded="true" />
+                <element signature="e#1#27#0" expanded="true" />
+                <element signature="e#8701#9352#0" />
+                <element signature="e#9405#10422#0" />
+                <element signature="e#10467#11238#0" />
+                <element signature="e#14837#18557#0" />
+                <element signature="e#19785#20054#0" />
+                <element signature="e#20100#20575#0" />
+                <element signature="e#22343#22725#0" />
+                <element signature="e#25516#26650#0" />
+                <element signature="e#26699#27029#0" />
+                <element signature="e#29711#29756#0" />
+                <element signature="e#29801#29846#0" />
+                <element signature="e#29876#29943#0" />
+                <element signature="e#29992#30322#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/processImage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="144" selection-start-line="144" selection-end-line="144" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#131#711#0" />
+                <element signature="e#888#1228#0" />
+                <element signature="e#1281#3852#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/tkinter/__init__.py">
+        <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="1276" selection-start-line="1276" selection-end-line="1276" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="37" selection-start-line="37" selection-end-line="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/processImage.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+            <state relative-caret-position="442">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#0#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,8 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>=</find>
-      <find>icon</find>
       <find>ttk</find>
       <find>tk</find>
       <find>img.sha</find>
@@ -88,7 +96,6 @@
       <find>wei</find>
       <find>xview</find>
       <find>xscrollcommand</find>
-      <find>print</find>
       <find>parent.c2</find>
       <find>contras</find>
       <find>contrast</find>
@@ -96,6 +103,9 @@
       <find>Error</find>
       <find>Erro</find>
       <find>on_but</find>
+      <find>ad</find>
+      <find>print</find>
+      <find>file</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -118,9 +128,11 @@
         <option value="$PROJECT_DIR$/test-main2.py" />
         <option value="$PROJECT_DIR$/main1.py" />
         <option value="$PROJECT_DIR$/test1.py" />
-        <option value="$PROJECT_DIR$/processImage.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/testmain.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/processImage.py" />
       </list>
     </option>
   </component>
@@ -153,7 +165,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -167,7 +179,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.testmain">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="InstantScale" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="InstantScale" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -252,8 +285,16 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.main1" />
+      <item itemvalue="Python.test1" />
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.testmain" />
+      <item itemvalue="Python.main" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.testmain" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.test1" />
@@ -364,19 +405,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test1.py" />
     <entry file="file://$PROJECT_DIR$/main1.py" />
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/processImage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/tokenize.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -404,6 +432,68 @@
           <caret line="344" selection-start-line="344" selection-end-line="344" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/tkinter/filedialog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="454" column="16" lean-forward="true" selection-start-line="454" selection-start-column="16" selection-end-line="454" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/conda/common/os/windows.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/conda/common/os/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="89" column="79" selection-start-line="89" selection-start-column="79" selection-end-line="89" selection-end-column="79" />
+          <folding>
+            <element signature="e#1#27#0" expanded="true" />
+            <element signature="e#8701#9352#0" />
+            <element signature="e#9405#10422#0" />
+            <element signature="e#10467#11238#0" />
+            <element signature="e#14837#18557#0" />
+            <element signature="e#19785#20054#0" />
+            <element signature="e#20100#20575#0" />
+            <element signature="e#22343#22725#0" />
+            <element signature="e#25516#26650#0" />
+            <element signature="e#26699#27029#0" />
+            <element signature="e#29711#29756#0" />
+            <element signature="e#29801#29846#0" />
+            <element signature="e#29876#29943#0" />
+            <element signature="e#29992#30322#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/processImage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="144" selection-start-line="144" selection-end-line="144" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#131#711#0" />
+            <element signature="e#888#1228#0" />
+            <element signature="e#1281#3852#0" />
           </folding>
         </state>
       </provider>

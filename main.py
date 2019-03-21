@@ -43,6 +43,9 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 # TODO
 # Multiple files
 
+def exit():
+    exit()
+
 
 class Menubar(Menu):
     def __init__(self, parent):

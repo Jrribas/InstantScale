@@ -4,6 +4,7 @@ from re import compile
 from cv2 import imread, imwrite, cvtColor, threshold, COLOR_BGR2GRAY, THRESH_BINARY, ADAPTIVE_THRESH_GAUSSIAN_C
 from cv2 import adaptiveThreshold
 from PIL import Image, ImageFont, ImageDraw
+import shutil
 
 def getBar(img):
     height, width, channels = img.shape
@@ -141,7 +142,11 @@ def cleanPathFiles(path, exePath):
     for x in path:
         x = x.replace('/', '\\')
         path1, file = os.path.split(x)
-        os.system('copy "%s" "%s"' % (x, exePath + file))
+
+
+        shutil.copyfile(x, exePath + file)
+
+        # os.system('copy "%s" "%s" >/dev/null 2>&1' % (x, exePath + file))
 
         # print(exePath + file)
 
