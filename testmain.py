@@ -8,7 +8,6 @@ from tkinter import Spinbox
 from tkinter import ttk
 from tkinter.colorchooser import askcolor
 from PIL import Image, ImageTk
-from sys import executable
 import getpass  # get username
 import ctypes
 import webbrowser
@@ -32,23 +31,21 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 ################################################
 
 # TODO
-# Remove automatic save
-# Check all if's control's
-# warning when entry is empty while clicking preview
+# Multiple files
 
 
 class Menubar(Menu):
     def __init__(self, parent):
         tk.Menu.__init__(self, parent, tearoff=False)
         self.parent = parent
-        self.images = self.parent.images
+        self.topframe = TopFrame(self.parent)
 
         # We don't like tear off xD
         menubar = Menu(self, tearoff=0)
         file_menu = Menu(self, tearoff=0)
         help_menu = Menu(menubar, tearoff=0)
 
-        # Define itens in menus
+        # Define items in menus
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
         file_menu.add_command(label='Save As', command=self.saveFile)
         file_menu.add_command(label='Exit', command=exit)
@@ -64,23 +61,23 @@ class Menubar(Menu):
         # print("Selecting Images")
 
         files = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
-                                                        title="InstantScale - Please select the images to process",
-                                                        filetypes=[("Image files", "*.tif *.jpg *.png"),
-                                                                   ("Tiff images", "*.tif"),
-                                                                   ("Jpg images", "*.jpg"),
-                                                                   ("Png images", "*.png")])
+                                            title="InstantScale - Please select the images to process",
+                                            filetypes=[("Image files", "*.tif *.jpg *.png"),
+                                                       ("Tiff images", "*.tif"),
+                                                       ("Jpg images", "*.jpg"),
+                                                       ("Png images", "*.png")])
 
         if not isinstance(files, str):
 
             if hasattr(self.parent, 'img3open') and self.parent.img3open is not None:
-                self.parent.img3open.close()
+                self.topframe.reset()
 
             self.parent.files = pI.cleanPathFiles(files, exePath)
 
-            self.parent.img3open = Image.open(self.parent.files[0])
+            self.parent.img3open = Image.open(self.parent.files[self.parent.i])
 
             self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open.resize(
-                (int(self.parent.panel2.winfo_width()) - 5, int(self.parent.panel2.winfo_height()) - 5),
+                (int(self.parent.panel2.winfo_width()), int(self.parent.panel2.winfo_height())),
                 Image.ANTIALIAS))
 
             self.parent.panel.itemconfig(self.parent.image_on_panel, image=self.parent.img3)
@@ -90,11 +87,22 @@ class Menubar(Menu):
 
         if hasattr(self.parent, 'img4open'):
 
-            file = filedialog.asksaveasfile(mode='wb', defaultextension=".tiff",
-                                            filetypes=(("Tiff file", "*.tiff"), ("All Files", "*.*")))
-            if file:
-                # print(self.image.mode)
-                self.parent.img4open.save(file)
+            folder = filedialog.askdirectory(initialdir="C:/Users/" + user + "/Desktop")
+
+            if not os.path.exists(folder + "\\Images with new scale"):
+                os.makedirs(folder + "\\Images with new scale")
+
+            for self.parent.i in range(len(self.parent.files)):
+
+                filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[self.parent.i]))
+
+                self.parent.img3open = Image.open(self.parent.files[self.parent.i])
+                self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
+                self.topframe.readScale()
+                self.topframe.preview()
+                self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
+
+            self.parent.i = 0
         else:
             Error(self, "Please do Preview before saving.", "error", "no")
 
@@ -105,108 +113,110 @@ class TopFrame(tk.Frame):
         self.parent = parent
 
         # Frame assignment
-        self.readscale = tk.Frame(self.parent, height=190, width=800)
-        self.readscale.grid_propagate(False)
-        self.readscale.grid(row=1, column=1, sticky="nw")
+        self.TopFrame = tk.Frame(self.parent, height=190, width=800)
+        self.TopFrame.grid_propagate(False)
+        self.TopFrame.grid(row=1, column=1, sticky="nw")
 
         # Frame configuration
-        self.readscale.grid_rowconfigure((0, 7), weight=1)
-        self.readscale.grid_columnconfigure((0, 7), weight=1)
+        self.TopFrame.grid_rowconfigure((0, 7), weight=1)
+        self.TopFrame.grid_columnconfigure((0, 7), weight=1)
 
         # Widgets assignment
-        self.b1 = ttk.Button(self.readscale, text="ReadScale", command=self.readScale)
+        self.b1 = ttk.Button(self.TopFrame, text="ReadScale", command=self.readScale)
         self.b1.grid(row=1, column=1, columnspan=2, pady=5)
 
         # Progress bar assignment
         style = ttk.Style()
         style.theme_use('default')
         style.configure("black.Horizontal.TProgressbar", background='black')
-        self.bar = Progressbar(self.readscale, length=200, style='black.Horizontal.TProgressbar')
+        self.bar = Progressbar(self.TopFrame, length=200, style='black.Horizontal.TProgressbar')
         self.bar['value'] = 0
         self.bar.grid(row=2, column=1, columnspan=2, sticky="nswe", padx=2)
 
         # All widgets
-        self.l3 = Label(self.readscale, text="Value")
+        self.l3 = Label(self.TopFrame, text="Value")
         self.l3.grid(row=3, column=1, pady=5)
 
-        self.l3 = Label(self.readscale, text="Unit (mm, um, nm)")
+        self.l3 = Label(self.TopFrame, text="Unit (mm, um, nm)")
         self.l3.grid(row=3, column=2, pady=5)
 
         self.vcmd = (self.register(self.checkInput), '%i', '%S')
 
-        self.e1 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e1 = ttk.Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
         self.e1.grid(row=4, column=1, padx=2, sticky="we")
 
-        self.c1 = Combobox(self.readscale, state='disabled')
+        self.c1 = Combobox(self.TopFrame, state='disabled')
         self.c1['values'] = ("", "mm", "um", "nm")
         self.c1.current(0)  # set the selected item
         self.c1.grid(row=4, column=2, padx=2, sticky="we")
 
-        self.l4 = Label(self.readscale, text="Scale Size (Pixels)")
+        self.l4 = Label(self.TopFrame, text="Scale Size (Pixels)")
         self.l4.grid(row=5, column=1, pady=5)
 
-        self.l5 = Label(self.readscale, text="White Bar (%)")
+        self.l5 = Label(self.TopFrame, text="White Bar (%)")
         self.l5.grid(row=5, column=2, pady=5)
 
-        self.e2 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e2 = ttk.Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
         self.e2.grid(row=6, column=1, sticky="we", padx=2)
 
-        self.e3 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.vcmd1 = (self.register(self.checkInput1), '%i', '%S', "%P")
+
+        self.e3 = ttk.Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd1)
         self.e3.grid(row=6, column=2, sticky="we", padx=2)
 
-        self.l7 = Label(self.readscale, text="Target Value")
+        self.l7 = Label(self.TopFrame, text="Target Value")
         self.l7.grid(row=3, column=3, pady=5)
 
-        self.l8 = Label(self.readscale, text="Target Unit")
+        self.l8 = Label(self.TopFrame, text="Target Unit")
         self.l8.grid(row=3, column=4, pady=5)
 
-        self.e4 = ttk.Entry(self.readscale, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e4 = ttk.Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
         self.e4.grid(row=4, column=3, sticky="we", padx=2)
 
-        self.c2 = Combobox(self.readscale, state='disabled')
+        self.c2 = Combobox(self.TopFrame, state='disabled')
         self.c2['values'] = ("", "mm", "um", "nm")
         self.c2.current(0)  # set the selected item
         self.c2.grid(row=4, column=4, padx=2, sticky="we")
 
-        self.l8 = Label(self.readscale, text="Scale Position")
+        self.l8 = Label(self.TopFrame, text="Scale Position")
         self.l8.grid(row=5, column=3)
 
-        self.l9 = Label(self.readscale, text="Size of Scale")
+        self.l9 = Label(self.TopFrame, text="Size of Scale")
         self.l9.grid(row=5, column=4)
 
-        self.c3 = Combobox(self.readscale)
+        self.c3 = Combobox(self.TopFrame)
         self.c3['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
         self.c3.current(1)  # set the selected item
         self.c3.grid(row=6, column=3)
 
-        self.spin = Spinbox(self.readscale, from_=1, to=20, width=5, textvariable=tk.StringVar(value="4"))
+        self.spin = Spinbox(self.TopFrame, from_=1, to=15, width=5, textvariable=tk.StringVar(value="4"))
         self.spin.grid(row=6, column=4)
 
-        self.l10 = Label(self.readscale, text="Font Color", bg="#ffffff", fg="#000000")
+        self.l10 = Label(self.TopFrame, text="Font Color", bg="#ffffff", fg="#000000")
         self.l10.grid(row=3, column=5, rowspan=2, sticky="nsew", padx=5)
 
         self.bgcolour_rgb = [255.0, 255.0, 255.0]
         self.ftcolour_rgb = [0.0, 0.0, 0.0]
 
-        self.b3 = ttk.Button(self.readscale, text="Pick background color", command=lambda: self.chooseColour(0))
+        self.b3 = ttk.Button(self.TopFrame, text="Pick background color", command=lambda: self.chooseColour(0))
         self.b3.grid(row=3, column=6, sticky="ew")
 
         self.contrast = 21
         self.text = tk.StringVar()
         self.text.set("Contrast = %.2f" % self.contrast)
 
-        self.l11 = Label(self.readscale, textvariable=self.text, bg="#008000")
+        self.l11 = Label(self.TopFrame, textvariable=self.text, bg="#008000")
         self.l11.grid(row=5, column=5, rowspan=2, sticky="ew", padx=5)
 
-        self.b4 = ttk.Button(self.readscale, text="Pick font color", command=lambda: self.chooseColour(1))
+        self.b4 = ttk.Button(self.TopFrame, text="Pick font color", command=lambda: self.chooseColour(1))
         self.b4.grid(row=4, column=6, sticky="ew")
 
         self.var = tk.IntVar()
-        self.parent.c2 = tk.Checkbutton(self.readscale, text="Manual", variable=self.var, command=self.manual,
+        self.parent.c2 = tk.Checkbutton(self.TopFrame, text="Manual", variable=self.var, command=self.manual,
                                         state=tk.DISABLED)
         self.parent.c2.grid(row=2, column=3, sticky="ew")
 
-        self.b2 = ttk.Button(self.readscale, text="Preview", command=self.preview)
+        self.b2 = ttk.Button(self.TopFrame, text="Preview", command=self.preview)
         self.b2.grid(row=6, column=6)
 
     def manual(self):
@@ -272,16 +282,18 @@ class TopFrame(tk.Frame):
             # Window to choose color
             bgcolour = askcolor()
             # askcolor returns a list with the color rgb and hex codes [[rgb], hex]
-            self.bgcolour_rgb = list(bgcolour[0])
-            # Change label background color
-            self.l10.config(bg=bgcolour[1])
-            # Calculate constrast
-            self.contrastChecker(self.bgcolour_rgb, self.ftcolour_rgb)
+            if bgcolour[0] is not None:
+                self.bgcolour_rgb = list(bgcolour[0])
+                # Change label background color
+                self.l10.config(bg=bgcolour[1])
+                # Calculate constrast
+                self.contrastChecker(self.bgcolour_rgb, self.ftcolour_rgb)
         else:
             ftcolour = askcolor()
-            self.ftcolour_rgb = list(ftcolour[0])
-            self.l10.config(fg=ftcolour[1])
-            self.contrastChecker(self.bgcolour_rgb, self.ftcolour_rgb)
+            if ftcolour[0] is not None:
+                self.ftcolour_rgb = list(ftcolour[0])
+                self.l10.config(fg=ftcolour[1])
+                self.contrastChecker(self.bgcolour_rgb, self.ftcolour_rgb)
 
     def readScale(self):
 
@@ -292,7 +304,7 @@ class TopFrame(tk.Frame):
             self.update_idletasks()
 
             # Open image
-            self.img = cv2.imread(self.parent.files[0])
+            self.img = cv2.imread(self.parent.files[self.parent.i])
 
             # Update progress bar to 25 and update GUI
             self.bar['value'] = 25
@@ -301,60 +313,74 @@ class TopFrame(tk.Frame):
             # Send image to function getBar and obtain information about the "white bar in SEM images.
             self.crop_img, self.bar_img, barSize = pI.getBar(self.img)
             # print('bar Size: ' + str(barSize))
-            barSizeRound = round(barSize)
+            if barSize != 0:
 
-            # Update entry widgets with values obtaines
-            self.e3.configure(state='normal')
-            self.e3.delete(0, tk.END)
-            self.e3.insert(tk.END, barSizeRound)
-            self.e3.configure(state='disabled')
+                barSizeRound = round(barSize)
 
-            # Update progress bar to 50 and update GUI
-            self.bar['value'] = 50
-            self.update_idletasks()
+                # Update entry widgets with values obtaines
+                self.e3.configure(state='normal')
+                self.e3.delete(0, tk.END)
+                self.e3.insert(tk.END, barSizeRound)
+                self.e3.configure(state='disabled')
 
-            # Save white bar image, resize it (for better tesseract readability), and calling it again
-            height, width, channels = self.bar_img.shape
-            cv2.imwrite(exePath + "\\images\\HoldImages\\bar.tif", self.bar_img)
+                # Update progress bar to 50 and update GUI
+                self.bar['value'] = 50
+                self.update_idletasks()
 
-            img = Image.open(exePath + "\\images\\HoldImages\\bar.tif")
-            img1 = img.resize((width * 3, height * 3), Image.ANTIALIAS)
-            img1.save(exePath + "\\images\\HoldImages\\resize_im.tif", dpi=(600, 600), quality=100)
+                # Save white bar image, resize it (for better tesseract readability), and calling it again
+                height, width, channels = self.bar_img.shape
+                cv2.imwrite(exePath + "\\images\\HoldImages\\bar.tif", self.bar_img)
 
-            self.bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im.tif")
+                img = Image.open(exePath + "\\images\\HoldImages\\bar.tif")
+                img1 = img.resize((width * 3, height * 3), Image.ANTIALIAS)
+                img1.save(exePath + "\\images\\HoldImages\\resize_im.tif", dpi=(600, 600), quality=100)
 
-            # Measures scale bar (in pixels) from resized white bar image
-            self.scale = len(pI.getScale(self.bar_img))
-            # print('scale: ' + str(self.scale))
+                self.bar_img_res = cv2.imread(exePath + "\\images\\HoldImages\\resize_im.tif")
 
-            # Update entry widgets with values obtained
-            self.e2.configure(state='normal')
-            self.e2.delete(0, tk.END)
-            self.e2.insert(tk.END, self.scale)
-            self.e2.configure(state='disabled')
+                # Measures scale bar (in pixels) from resized white bar image
+                self.scale = len(pI.getScale(self.bar_img))
+                # print('scale: ' + str(self.scale))
 
-            # Update progress bar to 75 and update GUI
-            self.bar['value'] = 75
-            self.update_idletasks()
+                # Update entry widgets with values obtained
+                self.e2.configure(state='normal')
+                self.e2.delete(0, tk.END)
+                self.e2.insert(tk.END, self.scale)
+                self.e2.configure(state='disabled')
 
-            # Get scale number and it's units
-            self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
+                # Update progress bar to 75 and update GUI
+                self.bar['value'] = 75
+                self.update_idletasks()
 
-            # Update entry widgets with values obtained
-            self.e1.configure(state='normal')
-            self.e1.delete(0, tk.END)
-            self.e1.insert(tk.END, self.scaleNumb)
-            self.e1.configure(state='disabled')
+                # Get scale number and it's units
+                self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
 
-            self.c1.configure(state='normal')
-            self.c1.current(self.units)
-            self.c1.configure(state='disabled')
+                # Update entry widgets with values obtained
+                self.e1.configure(state='normal')
+                self.e1.delete(0, tk.END)
+                self.e1.insert(tk.END, self.scaleNumb)
+                self.e1.configure(state='disabled')
 
-            # Update progress bar to 100 and update GUI
-            self.bar['value'] = 100
-            self.update_idletasks()
+                self.c1.configure(state='normal')
+                self.c1.current(self.units)
+                self.c1.configure(state='disabled')
 
-            self.parent.c2.config(state=tk.NORMAL)
+                # Update progress bar to 100 and update GUI
+                self.bar['value'] = 100
+                self.update_idletasks()
+
+                self.parent.c2.config(state=tk.NORMAL)
+
+                if self.var.get() == 1:
+                    self.c1.configure(state='normal')
+                    self.e1.configure(state='normal')
+                    self.e2.configure(state='normal')
+                    self.e3.configure(state='normal')
+
+            else:
+                Error(self.parent, "White Bar (usually where scale is) could not be determined", "error", "no")
+                self.bar['value'] = 0
+                self.update_idletasks()
+
         else:
             Menubar.selectImages(self)
 
@@ -362,11 +388,11 @@ class TopFrame(tk.Frame):
 
         self.choice = 1
 
-        if self.e1.get() == '' or self.e2.get() == '' or self.e3.get() == '':
-            Error(self, "Please have all parameters with values.", "warning", "no")
-            self.choice = 0
-
         if hasattr(self, 'crop_img'):
+
+            if self.e1.get() == '' or self.e2.get() == '' or self.e3.get() == '':
+                Error(self, "Please have all parameters with values.", "warning", "no")
+                self.choice = 0
 
             if self.contrast < 7:
                 errormessage = "Contrast is less than 7. This means that visibility/readability can be compromised. \n " \
@@ -375,6 +401,21 @@ class TopFrame(tk.Frame):
 
             if self.choice == 1:
                 # print("c1 get value: " + self.c1.get())
+
+                # Check if target values are inserted manualy
+                if self.var.get() == 0:
+                    self.targetValue = 0
+                    self.targetUnit = ''
+                elif self.e4.get() != "":
+                    self.targetValue = int(self.e4.get())
+                    self.targetUnit = self.c2.get()
+                    if self.targetUnit == "":
+                        Error(self.parent, "If a target value is chosen, a target unit must be chosen too.", "error",
+                              "no")
+                        return False
+                else:
+                    self.targetValue = 0
+                    self.targetUnit = ''
 
                 # Obtain
                 if self.c3.get() == "Top Left":
@@ -386,10 +427,10 @@ class TopFrame(tk.Frame):
                 elif self.c3.get() == "Bottom Right":
                     self.position = 1
 
-                self.scale = int(self.e3.get())
+                self.scale = int(self.e2.get())
                 self.sizeOfScale = int(self.spin.get())
                 self.scaleNumb = int(self.e1.get())
-                self.units = self.e2.get()
+                self.units = self.c1.get()
 
                 # Change variable of scale colors from list of floats to tupple of integrers
                 self.bgColor = self.bgcolour_rgb
@@ -404,22 +445,11 @@ class TopFrame(tk.Frame):
                 self.fontColor[2] = int(self.fontColor[2])
                 self.fontColor_tupple = tuple(self.fontColor)
 
-                # Check if target values are inserted manualy
-                if self.e4.index("end") == 0:
-                    self.targetValue = 0
-                else:
-                    self.targetValue = int(self.e4.get())
-
-                if self.var.get() == 0:
-                    self.targetUnit = ''
-                else:
-                    self.targetUnit = self.c2.get()
-
                 # Obtain image without white bar
                 self.crop_img = pI.cropImage(self.img, int(self.e3.get()))
 
                 # Draw scale in cropped image
-                self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[0],
+                self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[self.parent.i],
                                                exePath, self.position, exePath, self.sizeOfScale, self.fontColor_tupple,
                                                self.bgColor_tupple, self.targetValue, self.targetUnit)
 
@@ -448,32 +478,58 @@ class TopFrame(tk.Frame):
             entries[i].delete(0, tk.END)
             entries[i].configure(state='disabled')
 
-        self.c1.current(1)
-        self.c2.current(1)
+        self.c1.current(2)
+        self.c2.current(2)
 
         self.parent.c2.configure(state='disabled')
 
-        self.parent.img1res = ImageTk.PhotoImage(self.parent.img1open)
-        self.parent.img1res = ImageTk.PhotoImage(self.parent.img1open)
-
-        self.parent.panel.delete("IMG1")
-        self.parent.panel2.delete("IMG2")
-
-        self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res,
-                                                                    tags="IMG1")
-        self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
-                                                                      tags="IMG2")
-
         self.parent.img3open.close()
-        self.parent.img4open.close()
 
-        shutil.rmtree('C:\\Temp')
+        if hasattr(self.parent, "img4open"):
+            self.parent.img4open.close()
+            del self.parent.img4open
+            del self.parent.img4
+            self.parent.panel2.delete("all")
+
+        del self.parent.img3open
+        del self.parent.img3
+
+        self.parent.panel.delete("all")
+
+        self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1,
+                                                                    tags="IMG1")
+        self.parent.image_on_panel2 = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img2,
+                                                                    tags="IMG2")
+
+        self.update_idletasks()
 
     def checkInput(self, i, S):
         # Disallow anything but numbers
 
-        if S.isnumeric() and int(i) <= 3:
+        if S.isnumeric() and int(i) == 0 and int(S) == 0:
+            self.bell()
+            return False
+
+        if S.isnumeric() and int(i) <= 2:
             return True
+        else:
+            self.bell()
+            return False
+
+    def checkInput1(self, i, S, P):
+        # Disallow anything but numbers
+
+        if S.isnumeric() and int(i) <= 2:
+
+            if P == "":
+                return True
+            elif int(P) > 50:
+                self.bell()
+                Error(self.parent, "White bar (where the scale normally is) can't be more than 50% of the image.",
+                      "error", "no")
+                return False
+            else:
+                return True
         else:
             self.bell()
             return False
@@ -538,53 +594,54 @@ class Images(tk.Frame):
 
         # print('stop drag')
         # reset drag_id to be able to detect the start of next dragging
-        self.drag_id = ""
+        if self.parent.i == 0:
+            self.drag_id = ""
 
-        width_canvas = (self.parent.winfo_width() / 2)
-        height_canvas = self.parent.winfo_height() - 190
+            width_canvas = (self.parent.winfo_width() / 2)
+            height_canvas = self.parent.winfo_height() - 190
 
-        if hasattr(self.parent, 'files') and len(self.parent.files) >= 1:
-            if len(self.parent.files) >= 1:
-                height = self.parent.img3.height()
-                width = self.parent.img3.width()
+            if hasattr(self.parent, 'files') and len(self.parent.files) >= 1:
+                if len(self.parent.files) >= 1:
+                    height = self.parent.img3.height()
+                    width = self.parent.img3.width()
+                    ratio_img = width / height
+
+            else:
+                height = self.parent.img1.height()
+                width = self.parent.img1.width()
                 ratio_img = width / height
 
-        else:
-            height = self.parent.img1.height()
-            width = self.parent.img1.width()
-            ratio_img = width / height
+            new_width = height_canvas * ratio_img
+            new_height = height_canvas
 
-        new_width = height_canvas * ratio_img
-        new_height = height_canvas
+            if new_width > width_canvas:
+                new_width = width_canvas
+                new_height = new_width / ratio_img
 
-        if new_width > width_canvas:
-            new_width = width_canvas
-            new_height = new_width / ratio_img
+            self.parent.panel.config(width=int(new_width) - 5, height=int(new_height) - 5)
+            self.parent.panel2.config(width=int(new_width) - 5, height=int(new_height) - 5)
 
-        self.parent.panel.config(width=int(new_width) - 5, height=int(new_height) - 5)
-        self.parent.panel2.config(width=int(new_width) - 5, height=int(new_height) - 5)
+            if hasattr(self.parent, 'img3'):
+                self.parent.img1res = ImageTk.PhotoImage(
+                    self.parent.img3open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+            else:
+                self.parent.img1res = ImageTk.PhotoImage(
+                    self.parent.img1open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
 
-        if hasattr(self.parent, 'img3'):
-            self.parent.img1res = ImageTk.PhotoImage(
-                self.parent.img3open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
-        else:
-            self.parent.img1res = ImageTk.PhotoImage(
-                self.parent.img1open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+            if hasattr(self.parent, 'img4'):
+                self.parent.img2res = ImageTk.PhotoImage(
+                    self.parent.img4open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+            else:
+                self.parent.img2res = ImageTk.PhotoImage(
+                    self.parent.img2open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
 
-        if hasattr(self.parent, 'img4'):
-            self.parent.img2res = ImageTk.PhotoImage(
-                self.parent.img4open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
-        else:
-            self.parent.img2res = ImageTk.PhotoImage(
-                self.parent.img2open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+            self.parent.panel.delete("all")
+            self.parent.panel2.delete("all")
 
-        self.parent.panel.delete("IMG1")
-        self.parent.panel2.delete("IMG2")
-
-        self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res,
-                                                                    tags="IMG1")
-        self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
-                                                                      tags="IMG2")
+            self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res,
+                                                                        tags="IMG1")
+            self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
+                                                                          tags="IMG2")
 
 # =============================================================================
 # Main application
@@ -602,11 +659,15 @@ class InstantScale(tk.Tk):
         self.wm_minsize(800, 600)
         self.geometry("1024x600")
         self.grid_rowconfigure((2, 4), weight=1)
+        self.grid_columnconfigure((0, 2), weight=1)
+
+        self.i = 0
 
         # Call of other classes (menubar,
         self.images = Images(self)
-        self.menu = Menubar(self)
         self.topframe = TopFrame(self)
+        self.menu = Menubar(self)
+
 
 # =============================================================================
 # About Window
@@ -648,13 +709,6 @@ class About:
         x = (win.winfo_screenwidth() // 2) - (width // 2)
         y = (win.winfo_screenheight() // 2) - (height // 2)
         win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
-
-
-def is_admin():
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    except:
-        return False
 
 
 class Error(tk.Toplevel):
@@ -749,10 +803,8 @@ class Error(tk.Toplevel):
 
 if __name__ == "__main__":
 
-    if is_admin():
-        app = InstantScale()
-        app.mainloop()
-    else:
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", executable, "", None, 1)
+    app = InstantScale()
+    app.mainloop()
+
 
 

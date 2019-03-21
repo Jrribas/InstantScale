@@ -1,24 +1,28 @@
-import cv2
 import os
 import pytesseract
+from re import compile
+from cv2 import imread, imwrite, cvtColor, threshold, COLOR_BGR2GRAY, THRESH_BINARY, ADAPTIVE_THRESH_GAUSSIAN_C
+from cv2 import adaptiveThreshold
 from PIL import Image, ImageFont, ImageDraw
-import re
-import shutil
-
 
 def getBar(img):
     height, width, channels = img.shape
 
-    for i in reversed(range(len(img))):
-        if img[i, 3][0] > 254 and img[i, 3][1] > 254 and img[i, 3][2] > 254 and 'startRow' not in locals():
-            startRow = i
-        if img[i, 3][0] < 250 and img[i, 3][1] < 250 and img[i, 3][2] < 250 and 'startRow' in locals():
-            cropRow = i
-            break
+    try:
+        for i in reversed(range(len(img))):
+            if img[i, 3][0] > 254 and img[i, 3][1] > 254 and img[i, 3][2] > 254 and 'startRow' not in locals():
+                startRow = i
+            if img[i, 3][0] < 250 and img[i, 3][1] < 250 and img[i, 3][2] < 250 and 'startRow' in locals():
+                cropRow = i
+                break
 
-    crop_img = img[0:cropRow, 0::]
-    bar_img = img[cropRow+1:startRow, 1:width]
-    barSize = (len(img)-cropRow)*100/len(img)
+        crop_img = img[0:cropRow, 0::]
+        bar_img = img[cropRow + 1:startRow, 1:width]
+        barSize = (len(img) - cropRow) * 100 / len(img)
+
+    except UnboundLocalError:
+        return 0, 0, 0
+
     
     return crop_img, bar_img, barSize
 
@@ -48,22 +52,22 @@ def getScale(bar_img):
 def getNumber(bar_img, bar_img_res, exePath):
     path = exePath + "\\images\\"
 
-    bar_img = cv2.cvtColor(bar_img, cv2.COLOR_BGR2GRAY)
+    bar_img = cvtColor(bar_img, COLOR_BGR2GRAY)
 
     for i in range(0, 100, 10):
         thresh = i
         max_Value = 255
-        th, imga = cv2.threshold(bar_img, thresh, max_Value, cv2.THRESH_BINARY)
+        th, imga = threshold(bar_img, thresh, max_Value, THRESH_BINARY)
 
         os.chdir(exePath)
 
         if not os.path.exists(path):
             os.makedirs(path)
 
-        cv2.imwrite(path + "/thres.tif", imga)
+        imwrite(path + "/thres.tif", imga)
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.tif"))
 
-        findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
+        findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
         if mo is not None and mo.group(1) != '0 ':
@@ -78,7 +82,7 @@ def getNumber(bar_img, bar_img_res, exePath):
 
             return mo.group(1), units
 
-    bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
+    bar_img_res = cvtColor(bar_img_res, COLOR_BGR2GRAY)
 
     original_bar_img = bar_img_res
 
@@ -87,17 +91,17 @@ def getNumber(bar_img, bar_img_res, exePath):
         x = [69, 71, 73, 75, 77, 79, 81, 83, 85]
 
         for w in x:
-            bar_img_th = cv2.adaptiveThreshold(bar_img_res, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                               cv2.THRESH_BINARY, w, 4)
+            bar_img_th = adaptiveThreshold(bar_img_res, 255, ADAPTIVE_THRESH_GAUSSIAN_C,
+                                               THRESH_BINARY, w, 4)
             os.chdir(exePath)
 
             if not os.path.exists(path):
                 os.makedirs(path)
 
-            cv2.imwrite(path + "\\thres.tif", bar_img_th)
+            imwrite(path + "\\thres.tif", bar_img_th)
             scalenumb = pytesseract.image_to_string(Image.open(path + "\\thres.tif"), lang='eng')
 
-            findSize = re.compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
+            findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
             mo = findSize.search(scalenumb)
 
             if mo is not None and mo.group(1) != '0':
@@ -115,14 +119,14 @@ def getNumber(bar_img, bar_img_res, exePath):
         # print("Failed - croping image bar")
         bar_img_res = original_bar_img[1:200, j:j+250]
 
-        cv2.imwrite(path + "HoldImages\\resize_im1.tif", bar_img_res)
+        imwrite(path + "HoldImages\\resize_im1.tif", bar_img_res)
         temp = Image.open(path + "HoldImages\\resize_im1.tif")
 
         temp = temp.resize((600, 750), Image.ANTIALIAS)
 
         temp.save(path + "HoldImages\\resize_im1.tif", dpi=(600, 600))
-        bar_img_res = cv2.imread(path + "HoldImages\\resize_im1.tif")
-        bar_img_res = cv2.cvtColor(bar_img_res, cv2.COLOR_BGR2GRAY)
+        bar_img_res = imread(path + "HoldImages\\resize_im1.tif")
+        bar_img_res = cvtColor(bar_img_res, COLOR_BGR2GRAY)
 
 
 def cleanPathFiles(path, exePath):
@@ -139,7 +143,7 @@ def cleanPathFiles(path, exePath):
         path1, file = os.path.split(x)
         os.system('copy "%s" "%s"' % (x, exePath + file))
 
-        print(exePath + file)
+        # print(exePath + file)
 
     # Clean file name of strange characters
     for x in range(len(path)):
@@ -205,7 +209,7 @@ def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpa
     path = "images/cropImages"
     if not os.path.exists(path):
         os.makedirs(path)
-    cv2.imwrite(path + "/crop_rect.png", img)
+    imwrite(path + "/crop_rect.png", img)
 
     im = Image.open(path + "/crop_rect.png")
     draw = ImageDraw.Draw(im)
