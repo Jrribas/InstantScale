@@ -1,7 +1,6 @@
 from tkinter import IntVar
 from tkinter import StringVar
 from tkinter import END
-from tkinter import DISABLED
 from tkinter import NORMAL
 from tkinter import Tk
 from tkinter import Toplevel
@@ -43,14 +42,12 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 # TODO
 # Multiple files
 
-def exit():
-    exit()
-
-
 class Menubar(Menu):
     def __init__(self, parent):
         Menu.__init__(self, parent, tearoff=False)
         self.parent = parent
+
+        # Call topframe to execute readscale and preview in Savefile
         self.topframe = TopFrame(self.parent)
 
         # We don't like tear off xD
@@ -85,15 +82,21 @@ class Menubar(Menu):
             if hasattr(self.parent, 'img3open') and self.parent.img3open is not None:
                 self.topframe.reset()
 
+            # Clean path files of strange characters
             self.parent.files = pI.cleanPathFiles(files, exePath)
 
-            self.parent.img3open = Image.open(self.parent.files[self.parent.i])
+            # Open image
+            self.parent.img3open = Image.open(self.parent.files[0])
 
             self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open.resize(
                 (int(self.parent.panel2.winfo_width()), int(self.parent.panel2.winfo_height())),
                 Image.ANTIALIAS))
 
+            # Put image in canvas 1
             self.parent.panel.itemconfig(self.parent.image_on_panel, image=self.parent.img3)
+
+            # Define checkbox manual as "clickable"
+            self.parent.ch1.config(state='normal')
 
     def saveFile(self):
         # Save file window
@@ -105,17 +108,29 @@ class Menubar(Menu):
             if not os.path.exists(folder + "\\Images with new scale"):
                 os.makedirs(folder + "\\Images with new scale")
 
-            for self.parent.i in range(len(self.parent.files)):
+            if len(self.parent.files) > 1:
 
-                filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[self.parent.i]))
+                for self.parent.i in range(1, len(self.parent.files)+1):
 
-                self.parent.img3open = Image.open(self.parent.files[self.parent.i])
-                self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
-                self.topframe.readScale()
-                self.topframe.preview()
+                    self.parent.save = 1
+
+                    filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[self.parent.i-1]))
+
+                    self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
+                    self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
+                    if self.topframe.bar['value'] == 100:
+                        self.topframe.readScale()
+                    self.topframe.preview()
+                    self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
+
+                self.parent.i = 0
+            else:
+
+                filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[0]))
                 self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
 
-            self.parent.i = 0
+            Error(self.parent, "All images saved!", "message", "no")
+
         else:
             Error(self, "Please do Preview before saving.", "error", "no")
 
@@ -135,7 +150,7 @@ class TopFrame(Frame):
         self.TopFrame.grid_columnconfigure((0, 7), weight=1)
 
         # Widgets assignment
-        self.b1 = Button(self.TopFrame, text="ReadScale", command=self.readScale)
+        self.b1 = Button(self.TopFrame, text="Read Scale", command=self.readScale)
         self.b1.grid(row=1, column=1, columnspan=2, pady=5)
 
         # Progress bar assignment
@@ -162,6 +177,7 @@ class TopFrame(Frame):
         self.c1['values'] = ("", "mm", "um", "nm")
         self.c1.current(0)  # set the selected item
         self.c1.grid(row=4, column=2, padx=2, sticky="we")
+        self.c1.current(2)
 
         self.l4 = Label(self.TopFrame, text="Scale Size (Pixels)")
         self.l4.grid(row=5, column=1, pady=5)
@@ -190,6 +206,7 @@ class TopFrame(Frame):
         self.c2['values'] = ("", "mm", "um", "nm")
         self.c2.current(0)  # set the selected item
         self.c2.grid(row=4, column=4, padx=2, sticky="we")
+        self.c2.current(2)
 
         self.l8 = Label(self.TopFrame, text="Scale Position")
         self.l8.grid(row=5, column=3)
@@ -224,10 +241,10 @@ class TopFrame(Frame):
         self.b4 = Button(self.TopFrame, text="Pick font color", command=lambda: self.chooseColour(1))
         self.b4.grid(row=4, column=6, sticky="ew")
 
-        self.var = IntVar()
-        self.parent.c2 = Checkbutton(self.TopFrame, text="Manual", variable=self.var, command=self.manual,
-                                        state=DISABLED)
-        self.parent.c2.grid(row=2, column=3, sticky="ew")
+        self.parent.var = IntVar()
+        self.parent.ch1 = Checkbutton(self.TopFrame, text="Manual", variable=self.parent.var, command=self.manual,
+                                      state="disable")
+        self.parent.ch1.grid(row=2, column=3, sticky="ew")
 
         self.b2 = Button(self.TopFrame, text="Preview", command=self.preview)
         self.b2.grid(row=6, column=6)
@@ -236,7 +253,7 @@ class TopFrame(Frame):
 
         # Change widgets from disabled to normal
 
-        if self.var.get() == 1:
+        if self.parent.var.get() == 1:
             self.e1.configure(state='normal')
             self.e2.configure(state='normal')
             self.e3.configure(state='normal')
@@ -312,12 +329,17 @@ class TopFrame(Frame):
 
         if hasattr(self.parent, 'files'):
 
+            if self.parent.i == 0:
+                self.parent.var.set(0)
+
+            self.parent.ch1.config(state='disable')
+
             # Update progress bar to 0
             self.bar['value'] = 0
             self.update_idletasks()
 
             # Open image
-            self.img = imread(self.parent.files[self.parent.i])
+            self.img = imread(self.parent.files[self.parent.i-1])
 
             # Update progress bar to 25 and update GUI
             self.bar['value'] = 25
@@ -381,30 +403,23 @@ class TopFrame(Frame):
                 self.bar['value'] = 100
                 self.update_idletasks()
 
-                self.parent.c2.config(state=NORMAL)
-
-                if self.var.get() == 1:
-                    self.c1.configure(state='normal')
-                    self.e1.configure(state='normal')
-                    self.e2.configure(state='normal')
-                    self.e3.configure(state='normal')
-
+                self.parent.ch1.config(state='normal')
             else:
-                Error(self.parent, "White Bar (usually where scale is) could not be determined", "error", "no")
+                Error(self, "White Bar (usually where scale is) could not be determined", "error", "no")
                 self.bar['value'] = 0
                 self.update_idletasks()
 
         else:
-            Menubar.selectImages(self)
+            Menubar.selectImages(self.parent.menu)
 
     def preview(self):
 
         self.choice = 1
 
-        if hasattr(self, 'crop_img'):
+        if hasattr(self.parent, 'img3open'):
 
             if self.e1.get() == '' or self.e2.get() == '' or self.e3.get() == '':
-                Error(self, "Please have all parameters with values.", "warning", "no")
+                Error(self, "Please have all parameters with values, or click Read Scale.", "warning", "no")
                 self.choice = 0
 
             if self.contrast < 7:
@@ -415,8 +430,10 @@ class TopFrame(Frame):
             if self.choice == 1:
                 # print("c1 get value: " + self.c1.get())
 
+                self.img = imread(self.parent.files[self.parent.i-1])
+
                 # Check if target values are inserted manualy
-                if self.var.get() == 0:
+                if self.parent.var.get() == 0:
                     self.targetValue = 0
                     self.targetUnit = ''
                 elif self.e4.get() != "":
@@ -462,7 +479,7 @@ class TopFrame(Frame):
                 self.crop_img = pI.cropImage(self.img, int(self.e3.get()))
 
                 # Draw scale in cropped image
-                self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[self.parent.i],
+                self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[self.parent.i-1],
                                                exePath, self.position, exePath, self.sizeOfScale, self.fontColor_tupple,
                                                self.bgColor_tupple, self.targetValue, self.targetUnit)
 
@@ -476,7 +493,7 @@ class TopFrame(Frame):
                 # Put image on canvas
                 self.parent.panel2.itemconfig(self.parent.image_on_panel2, image=self.parent.img4)
         else:
-            Error(self, "Please do Read Scale before clicking Preview.", "error", "no")
+            Error(self, "Please import a image first.", "error", "no")
 
     def reset(self):
 
@@ -485,7 +502,7 @@ class TopFrame(Frame):
 
         entries = [self.e1, self.e2, self.e3, self.e4]
 
-        for i in range(0, 3):
+        for i in range(0, 4):
 
             entries[i].configure(state='normal')
             entries[i].delete(0, END)
@@ -494,7 +511,9 @@ class TopFrame(Frame):
         self.c1.current(2)
         self.c2.current(2)
 
-        self.parent.c2.configure(state='disabled')
+        self.parent.var.set(0)
+        self.c1.configure(state='disabled')
+        self.c2.configure(state='disabled')
 
         self.parent.img3open.close()
 
@@ -737,10 +756,14 @@ class Error(Toplevel):
             stringAbout = "The error returned the following message:"
             l1 = Label(self, text="Instant Scale v2.0 found an error :(\n", font="Verdana 16 bold")
 
-        else:
+        elif method == "warning":
             self.wm_title("Warning!")
             stringAbout = "Warning message:"
             l1 = Label(self, text="Instant Scale v2.0 has a warning:(\n", font="Verdana 16 bold")
+        else:
+            self.wm_title("message")
+            stringAbout = "Message:"
+            l1 = Label(self, text="Instant Scale v2.0 has a message :)\n", font="Verdana 16 bold")
 
         self.resizable(False, False)
 

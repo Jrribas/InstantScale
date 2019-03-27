@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{16F34288-25AF-446D-B644-8A24FD210B15}
 AppName=InstantScale
-AppVersion=1.1
+AppVersion=2.0 Beta
 ;AppVerName=InstantScale 1.1
 AppPublisherURL=https://github.com/Jrribas/InstantScale
 AppSupportURL=https://github.com/Jrribas/InstantScale
@@ -15,10 +15,10 @@ AppUpdatesURL=https://github.com/Jrribas/InstantScale
 DefaultDirName={pf}\InstantScale
 DefaultGroupName=InstantScale
 AllowNoIcons=yes
-LicenseFile=C:\Users\Farinha\Documents\GitHub\InstantScale\License.txt
-OutputDir=C:\Users\Farinha\Desktop\dist
+LicenseFile=C:\Users\joaor\Documents\GitHub\InstantScale\License.txt
+OutputDir=C:\Users\joaor\Desktop\dist
 OutputBaseFilename=setup-InstantScale-v1_1
-SetupIconFile=C:\Users\Farinha\Documents\GitHub\InstantScale\icon.ico
+SetupIconFile=C:\Users\joaor\Documents\GitHub\InstantScale\icon.ico
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
@@ -31,8 +31,8 @@ Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Farinha\Documents\GitHub\InstantScale\build\exe.win-amd64-3.6\InstantScale.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Farinha\Documents\GitHub\InstantScale\build\exe.win-amd64-3.6\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\joaor\Documents\GitHub\InstantScale\build\exe.win-amd64-3.6\InstantScale.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\joaor\Documents\GitHub\InstantScale\build\exe.win-amd64-3.6\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
