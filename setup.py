@@ -19,7 +19,7 @@ include_files = [r"C:\Users\joaor\Anaconda3\DLLs\tcl86t.dll",
 packages = ["numpy", "tkinter"]
 
 setup(name='InstantScale',
-      version='1.0',
+      version='2.0',
       description='Parse stuff',
       options={"build_exe": {"includes": includes, "include_files": include_files, "packages": packages}},
       executables=[Executable("main.py", base=base, targetName="InstantScale.exe", shortcutName="InstantScale",
