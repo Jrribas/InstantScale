@@ -1,7 +1,6 @@
 from tkinter import IntVar
 from tkinter import StringVar
 from tkinter import END
-from tkinter import NORMAL
 from tkinter import Tk
 from tkinter import Toplevel
 from tkinter import Menu
@@ -18,7 +17,6 @@ from tkinter.ttk import Button
 from tkinter import Spinbox
 from tkinter.colorchooser import askcolor
 from PIL import Image, ImageTk
-from sys import executable
 from getpass import getuser
 from webbrowser import open
 from cv2 import imread, imwrite
@@ -39,8 +37,6 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 ################################################
 
-# TODO
-# Multiple files
 
 class Menubar(Menu):
     def __init__(self, parent):
@@ -105,31 +101,34 @@ class Menubar(Menu):
 
             folder = filedialog.askdirectory(initialdir="C:/Users/" + user + "/Desktop")
 
-            if not os.path.exists(folder + "\\Images with new scale"):
-                os.makedirs(folder + "\\Images with new scale")
+            if folder != "":
 
-            if len(self.parent.files) > 1:
+                if not os.path.exists(folder + "\\Images with new scale"):
+                    os.makedirs(folder + "\\Images with new scale")
 
-                for self.parent.i in range(1, len(self.parent.files)+1):
+                if len(self.parent.files) > 1:
 
-                    self.parent.save = 1
+                    for self.parent.i in range(1, len(self.parent.files)+1):
 
-                    filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[self.parent.i-1]))
+                        self.parent.save = 1
 
-                    self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
-                    self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
-                    if self.topframe.bar['value'] == 100:
-                        self.topframe.readScale()
-                    self.topframe.preview()
+                        filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[self.parent.i-1]))
+
+                        self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
+                        self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
+                        if self.topframe.bar['value'] == 100:
+                            self.topframe.readScale()
+                        self.topframe.preview()
+                        self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
+
+                else:
+
+                    filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[0]))
                     self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
 
+                if self.parent.i == len(self.parent.files):
+                    Error(self.parent, "All images saved!", "message", "no")
                 self.parent.i = 0
-            else:
-
-                filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[0]))
-                self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
-
-            Error(self.parent, "All images saved!", "message", "no")
 
         else:
             Error(self, "Please do Preview before saving.", "error", "no")
@@ -405,6 +404,7 @@ class TopFrame(Frame):
 
                 self.parent.ch1.config(state='normal')
             else:
+                self.parent.ch1.config(state='normal')
                 Error(self, "White Bar (usually where scale is) could not be determined", "error", "no")
                 self.bar['value'] = 0
                 self.update_idletasks()
@@ -633,10 +633,9 @@ class Images(Frame):
             height_canvas = self.parent.winfo_height() - 190
 
             if hasattr(self.parent, 'files') and len(self.parent.files) >= 1:
-                if len(self.parent.files) >= 1:
-                    height = self.parent.img3.height()
-                    width = self.parent.img3.width()
-                    ratio_img = width / height
+                height = self.parent.img3.height()
+                width = self.parent.img3.width()
+                ratio_img = width / height
 
             else:
                 height = self.parent.img1.height()
@@ -693,12 +692,12 @@ class InstantScale(Tk):
         self.grid_rowconfigure((2, 4), weight=1)
         self.grid_columnconfigure((0, 2), weight=1)
 
-        self.i = 0
-
         # Call of other classes (menubar,
         self.images = Images(self)
         self.topframe = TopFrame(self)
         self.menu = Menubar(self)
+
+        self.i = 0
 
 
 # =============================================================================
@@ -709,8 +708,11 @@ class InstantScale(Tk):
 class About:
     def __init__(self):
         win = Toplevel()
-        win.geometry("380x270")
+        # win.geometry("380x270")
         win.wm_title("About Instant Scale")
+
+        win.grid_rowconfigure((0, 5), weight=1)
+        win.grid_columnconfigure((0, 2), weight=1)
 
         la = Label(win, text="Instant Scale v2.0", font="Verdana 16 bold")
         la.grid(row=0, column=1)
@@ -720,16 +722,25 @@ class About:
         unicodeCopyright = u"\u00A9"
         stringAbout2 = "Instant Scale Projects Contributors\nLicensed under the terms of the MIT License\n\n" \
                        "Created by João Ribas and Ricardo Farinha.\n"
-        stringAbout3 = "For bugs reports and feature requests, please go to our Github website: \n" \
-                       "https://github.com/Jrribas/InstantScale\n\n"
-        stringAbout4 = "Created on Python 3.6.4, Tkinter 8.6 on Windows\n"
-        aboutText = stringAbout + unicodeCopyright + stringAbout2 + stringAbout3 + stringAbout4
+        stringAbout3 = "For bugs reports and feature requests, please go to our Github website: \n"
+
+        lwiki = Label(win, text="https://github.com/Jrribas/InstantScale", fg="blue", cursor="hand2")
+        lwiki.grid(row=2, column=1, padx=5, columnspan=1)
+
+        lwiki.bind("<Button-1>", lambda event: open(lwiki.cget("text")))
+
+        stringAbout4 = "\nCreated on Python 3.6.4, Tkinter 8.6 on Windows\n"
+
+        aboutText = stringAbout + unicodeCopyright + stringAbout2 + stringAbout3
 
         lb = Label(win, text=aboutText)
         lb.grid(row=1, column=1)
 
+        lb1 = Label(win, text=stringAbout4)
+        lb1.grid(row=3, column=1)
+
         b = Button(win, text="Okay", command=win.destroy)
-        b.grid(row=2, column=1)
+        b.grid(row=4, column=1)
         self.center(win)
 
     @staticmethod
@@ -741,6 +752,7 @@ class About:
         x = (win.winfo_screenwidth() // 2) - (width // 2)
         y = (win.winfo_screenheight() // 2) - (height // 2)
         win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
 
 class Error(Toplevel):
     def __init__(self, parent, errorMessage, method, choice):
