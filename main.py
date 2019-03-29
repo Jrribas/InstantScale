@@ -128,7 +128,7 @@ class Menubar(Menu):
 
                 if self.parent.i == len(self.parent.files):
                     Error(self.parent, "All images saved!", "message", "no")
-                self.parent.i = 0
+                self.parent.i = 1
 
         else:
             Error(self, "Please do Preview before saving.", "error", "no")
@@ -328,7 +328,7 @@ class TopFrame(Frame):
 
         if hasattr(self.parent, 'files'):
 
-            if self.parent.i == 0:
+            if self.parent.i == 1:
                 self.parent.var.set(0)
 
             self.parent.ch1.config(state='disable')
@@ -626,7 +626,7 @@ class Images(Frame):
 
         # print('stop drag')
         # reset drag_id to be able to detect the start of next dragging
-        if self.parent.i == 0:
+        if self.parent.i == 1:
             self.drag_id = ""
 
             width_canvas = (self.parent.winfo_width() / 2)
@@ -697,7 +697,7 @@ class InstantScale(Tk):
         self.topframe = TopFrame(self)
         self.menu = Menubar(self)
 
-        self.i = 0
+        self.i = 1
 
 
 # =============================================================================
@@ -846,6 +846,10 @@ class Error(Toplevel):
         x = (win.winfo_screenwidth() // 2) - (width // 2)
         y = (win.winfo_screenheight() // 2) - (height // 2)
         win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
+
+def exit():
+    exit()
 
 
 if __name__ == "__main__":
