@@ -13,19 +13,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="644" column="49" selection-start-line="644" selection-start-column="49" selection-end-line="644" selection-end-column="49" />
+            <state relative-caret-position="72">
+              <caret line="721" selection-start-line="721" selection-end-line="721" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#27257#29122#0" />
+                <element signature="e#29152#32451#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
@@ -71,13 +73,13 @@
       <find>self.parent.var</find>
       <find>self.parent.var.set</find>
       <find>self.c1</find>
-      <find>self.parent.ch1</find>
       <find>Read Scale bef</find>
       <find>Error</find>
       <find>warning</find>
       <find>ReadScale</find>
       <find>self.parent.i</find>
       <find>self.parent.i =</find>
+      <find>self.parent.ch1</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -127,11 +129,6 @@
             <path>
               <item name="InstantScale" type="b2602c69:ProjectViewProjectNode" />
               <item name="InstantScale" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="InstantScale" type="b2602c69:ProjectViewProjectNode" />
-              <item name="InstantScale" type="462c0819:PsiDirectoryNode" />
-              <item name="SetupScript" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -298,12 +295,12 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14880952" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14880952" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772382" weight="0.32569557" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49772382" visible="true" weight="0.32569557" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -429,16 +426,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="644" column="49" selection-start-line="644" selection-start-column="49" selection-end-line="644" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SetupScript/setup_Test.iss">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -448,6 +435,25 @@
           <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="1705" selection-start-line="1705" selection-end-line="1705" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="721" selection-start-line="721" selection-end-line="721" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#27257#29122#0" />
+            <element signature="e#29152#32451#0" />
           </folding>
         </state>
       </provider>

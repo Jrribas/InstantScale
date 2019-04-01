@@ -54,8 +54,9 @@ class Menubar(Menu):
         # Define items in menus
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
         file_menu.add_command(label='Save As', command=self.saveFile)
-        file_menu.add_command(label='Exit', command=exit)
-        help_menu.add_command(label='Version', command=lambda: About())
+        file_menu.add_command(label='Exit', command=lambda: InstantScale.exit(self.parent))
+        help_menu.add_command(label='Information', command=lambda: About())
+        help_menu.add_command(label='Help', command=lambda: open("https://github.com/Jrribas/InstantScale/wiki"))
 
         # Assign menus
         self.add_cascade(label='File', menu=file_menu)
@@ -328,9 +329,6 @@ class TopFrame(Frame):
 
         if hasattr(self.parent, 'files'):
 
-            if self.parent.i == 1:
-                self.parent.var.set(0)
-
             self.parent.ch1.config(state='disable')
 
             # Update progress bar to 0
@@ -402,7 +400,16 @@ class TopFrame(Frame):
                 self.bar['value'] = 100
                 self.update_idletasks()
 
+                if self.parent.var.get() == 1:
+                    self.e1.configure(state='normat')
+                    self.e2.configure(state='normal')
+                    self.e3.configure(state='normal')
+                    self.c1.configure(state='normal')
+                    self.c2.configure(state='normal')
+
                 self.parent.ch1.config(state='normal')
+
+
             else:
                 self.parent.ch1.config(state='normal')
                 Error(self, "White Bar (usually where scale is) could not be determined", "error", "no")
@@ -496,6 +503,12 @@ class TopFrame(Frame):
             Error(self, "Please import a image first.", "error", "no")
 
     def reset(self):
+
+        self.parent.i = 1
+
+        for self.parent.i in range(1, len(self.parent.files) + 1):
+            self.parent.img3open.close()
+            os.remove(self.parent.files[self.parent.i - 1])
 
         self.bar['value'] = 0
         self.update_idletasks()
@@ -632,7 +645,7 @@ class Images(Frame):
             width_canvas = (self.parent.winfo_width() / 2)
             height_canvas = self.parent.winfo_height() - 190
 
-            if hasattr(self.parent, 'files') and len(self.parent.files) >= 1:
+            if hasattr(self.parent, 'files') and self.parent.files is not None:
                 height = self.parent.img3.height()
                 width = self.parent.img3.width()
                 ratio_img = width / height
@@ -684,6 +697,11 @@ class InstantScale(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
 
+        self.i = 1
+        self.files = None
+
+        self.protocol("WM_DELETE_WINDOW", lambda: InstantScale.exit(self))
+
         # Main app windows definitions
         self.wm_title("Instant Scale")
         self.iconbitmap(default="icon.ico")
@@ -697,7 +715,20 @@ class InstantScale(Tk):
         self.topframe = TopFrame(self)
         self.menu = Menubar(self)
 
+    def exit(self):
+
         self.i = 1
+
+        if self.files is not None:
+
+            for self.i in range(1, len(self.files)+1):
+
+                self.img3open.close()
+                os.remove(self.files[self.i - 1])
+
+        exit()
+
+
 
 
 # =============================================================================
@@ -724,7 +755,7 @@ class About:
                        "Created by João Ribas and Ricardo Farinha.\n"
         stringAbout3 = "For bugs reports and feature requests, please go to our Github website: \n"
 
-        lwiki = Label(win, text="https://github.com/Jrribas/InstantScale", fg="blue", cursor="hand2")
+        lwiki = Label(win, text="https://github.com/Jrribas/InstantScale/Issues", fg="blue", cursor="hand2")
         lwiki.grid(row=2, column=1, padx=5, columnspan=1)
 
         lwiki.bind("<Button-1>", lambda event: open(lwiki.cget("text")))
@@ -846,10 +877,6 @@ class Error(Toplevel):
         x = (win.winfo_screenwidth() // 2) - (width // 2)
         y = (win.winfo_screenheight() // 2) - (height // 2)
         win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
-
-
-def exit():
-    exit()
 
 
 if __name__ == "__main__":
