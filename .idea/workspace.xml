@@ -16,12 +16,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="721" selection-start-line="721" selection-end-line="721" />
+            <state relative-caret-position="94">
+              <caret line="719" column="18" selection-start-line="719" selection-start-column="18" selection-end-line="719" selection-end-column="18" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
-                <element signature="e#27257#29122#0" />
-                <element signature="e#29152#32451#0" />
               </folding>
             </state>
           </provider>
@@ -30,7 +28,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
+            <state relative-caret-position="306">
               <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -50,8 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>xscrollcommand</find>
-      <find>parent.c2</find>
       <find>contras</find>
       <find>contrast</find>
       <find>self.contr</find>
@@ -80,6 +76,8 @@
       <find>self.parent.i</find>
       <find>self.parent.i =</find>
       <find>self.parent.ch1</find>
+      <find>InstantScale.exit</find>
+      <find>exit</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -429,16 +427,6 @@
     <entry file="file://$PROJECT_DIR$/SetupScript/setup_Test.iss">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
@@ -448,12 +436,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="721" selection-start-line="721" selection-end-line="721" />
+        <state relative-caret-position="94">
+          <caret line="719" column="18" selection-start-line="719" selection-start-column="18" selection-end-line="719" selection-end-column="18" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#27257#29122#0" />
-            <element signature="e#29152#32451#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>

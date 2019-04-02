@@ -726,7 +726,7 @@ class InstantScale(Tk):
                 self.img3open.close()
                 os.remove(self.files[self.i - 1])
 
-        exit()
+        self.destroy()
 
 
 
