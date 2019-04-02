@@ -5,7 +5,9 @@ Note: This program was created to work on the SEM images from our university, so
 
 ## Installation
 
-1. Go to https://github.com/Jrribas/InstantScale/releases and follow the instructions there!
+1. Go to https://github.com/Jrribas/InstantScale/releases and download the InstantScale-2.0.msi file.
+2. Go to https://github.com/Jrribas/InstantScale/wiki/Instalation and follow the instrunctions.
+3. Run as Administrator.
 
 ### Prerequisites
 
