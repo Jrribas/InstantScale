@@ -6,20 +6,22 @@ from cv2 import adaptiveThreshold
 from PIL import Image, ImageFont, ImageDraw
 import shutil
 
+
 def getBar(img):
     height, width, channels = img.shape
 
     try:
         for i in reversed(range(len(img))):
-            if img[i, 3][0] > 254 and img[i, 3][1] > 254 and img[i, 3][2] > 254 and 'startRow' not in locals():
+            e = img[i, 10][0]
+            if img[i, 3][0] >= 254 and img[i, 3][1] >= 254 and img[i, 3][2] >= 254 and 'startRow' not in locals():
                 startRow = i
-            if img[i, 3][0] < 250 and img[i, 3][1] < 250 and img[i, 3][2] < 250 and 'startRow' in locals():
+            if img[i, 3][0] <= 250 and img[i, 3][1] <= 250 and img[i, 3][2] <= 250 and 'startRow' in locals():
                 cropRow = i
                 break
 
         crop_img = img[0:cropRow, 0::]
         bar_img = img[cropRow + 1:startRow, 1:width]
-        barSize = (len(img) - cropRow) * 100 / len(img)
+        barSize = (len(img) - cropRow) * 100 / len(img)+1
 
     except UnboundLocalError:
         return 0, 0, 0

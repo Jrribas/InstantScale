@@ -327,7 +327,7 @@ class TopFrame(Frame):
 
     def readScale(self):
 
-        if hasattr(self.parent, 'files'):
+        if self.parent.files is not None:
 
             self.parent.ch1.config(state='disable')
 
@@ -645,7 +645,7 @@ class Images(Frame):
             width_canvas = (self.parent.winfo_width() / 2)
             height_canvas = self.parent.winfo_height() - 190
 
-            if hasattr(self.parent, 'files') and self.parent.files is not None:
+            if self.parent.files is not None:
                 height = self.parent.img3.height()
                 width = self.parent.img3.width()
                 ratio_img = width / height
