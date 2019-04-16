@@ -10,6 +10,7 @@ import shutil
 def getBar(img):
     height, width, channels = img.shape
 
+    # Look pixel by pixel for the white bar
     try:
         for i in reversed(range(len(img))):
             e = img[i, 10][0]
@@ -19,6 +20,7 @@ def getBar(img):
                 cropRow = i
                 break
 
+        # Cropping image
         crop_img = img[0:cropRow, 0::]
         bar_img = img[cropRow + 1:startRow, 1:width]
         barSize = (len(img) - cropRow) * 100 / len(img)+1
@@ -31,6 +33,8 @@ def getBar(img):
 
 
 def cropImage(img, cropPercentage):
+    # Cropping imagge function if manual is selected
+
     height, width, channels = img.shape
     
     cropRow = int((height * (100-cropPercentage)) / 100)
@@ -39,6 +43,7 @@ def cropImage(img, cropPercentage):
 
 
 def getScale(bar_img):
+    # Function that count the scale bar pixels
 
     k = []
     for i in range(len(bar_img)):
@@ -53,11 +58,16 @@ def getScale(bar_img):
 
 
 def getNumber(bar_img, bar_img_res, exePath):
+
+    # Get path from copy of original image
     path = exePath + "\\images\\"
 
+    # Transform image in gray "colour"
     bar_img = cvtColor(bar_img, COLOR_BGR2GRAY)
 
     for i in range(0, 100, 10):
+
+        # Loops through thresh values in order to help tesseract read the scale number
         thresh = i
         max_Value = 255
         th, imga = threshold(bar_img, thresh, max_Value, THRESH_BINARY)
@@ -68,13 +78,15 @@ def getNumber(bar_img, bar_img_res, exePath):
             os.makedirs(path)
 
         imwrite(path + "/thres.tif", imga)
+
+        # Tesseract
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.tif"))
 
+        # Find scale unit
         findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
         mo = findSize.search(scalenumb)
 
         if mo is not None and mo.group(1) != '0 ':
-            # print("Scale number obtained: %s %s" % (mo.group(1), mo.group(2)))
 
             if mo.group(2) == "mm":
                 units = 2
@@ -85,6 +97,8 @@ def getNumber(bar_img, bar_img_res, exePath):
 
             return mo.group(1), units
 
+
+    # If not scale number or unit was found till now an improved threshold is done
     bar_img_res = cvtColor(bar_img_res, COLOR_BGR2GRAY)
 
     original_bar_img = bar_img_res
@@ -176,7 +190,7 @@ def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpa
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
 
-    # convert everything to µm
+    # Convert everything to µm
     if units == 'nm':
         scaleNumb *= 0.001
     elif units == 'mm':
@@ -184,6 +198,7 @@ def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpa
     else:
         units = 'µm'
 
+    # Limit scale number from 1 to 500
     for val in values:
         newScale = round((val * scale) / scaleNumb)
         if 20 * sizeOfScale <= newScale <= 66 * sizeOfScale:
@@ -198,7 +213,7 @@ def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpa
                 units = 'µm'
             break
     
-    # If Target value was inserted
+    # Convert scale number to the final units.
     if targetValue != 0:
         if targetUnits == 'nm':
             val = targetValue / 1000
@@ -225,6 +240,7 @@ def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpa
     font = ImageFont.truetype("arial.ttf", fontsize)
     scaletext = str(newScaleNumb) + ' ' + units
 
+    # Draw scale in the cropped image
     w, h = draw.textsize(scaletext, font)
 
     if position == 0:
