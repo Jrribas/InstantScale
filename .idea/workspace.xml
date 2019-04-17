@@ -13,25 +13,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2006">
-              <caret line="807" column="22" selection-start-line="807" selection-start-column="22" selection-end-line="807" selection-end-column="22" />
+            <state relative-caret-position="112">
+              <caret line="727" selection-start-line="727" selection-end-line="727" selection-end-column="33" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
-                <element signature="e#28168#30040#0" />
-                <element signature="e#30070#33369#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/processImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="61">
-              <caret line="242" column="37" selection-start-line="242" selection-start-column="37" selection-end-line="242" selection-end-column="37" />
+            <state relative-caret-position="-1817">
+              <caret line="121" column="32" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -50,9 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.img</find>
-      <find>self.var</find>
-      <find>ImageTk</find>
       <find>inser</find>
       <find>Disab</find>
       <find>self.parent.c2.config</find>
@@ -79,7 +74,10 @@
       <find>self.e3</find>
       <find>self.choice</find>
       <find>choice</find>
-      <find>self.parent.i</find>
+      <find>findsize</find>
+      <find>search</find>
+      <find>center</find>
+      <find>min</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -110,16 +108,16 @@
         <option value="$USER_HOME$/Desktop/pixruler-master/drawLines.py" />
         <option value="$USER_HOME$/Desktop/pixruler-master/pixruler.py" />
         <option value="$USER_HOME$/Desktop/screenruler-master/main.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/processImage.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="577" />
-    <option name="y" value="3" />
-    <option name="width" value="831" />
-    <option name="height" value="735" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -141,7 +139,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/screenruler-master" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -295,15 +293,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14880952" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15104167" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49772382" visible="true" weight="0.3207856" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772382" weight="0.3207856" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -437,24 +435,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/processImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2006">
-          <caret line="807" column="22" selection-start-line="807" selection-start-column="22" selection-end-line="807" selection-end-column="22" />
+        <state relative-caret-position="-1817">
+          <caret line="121" column="32" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="32" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#28168#30040#0" />
-            <element signature="e#30070#33369#0" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/processImage.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="242" column="37" selection-start-line="242" selection-start-column="37" selection-end-line="242" selection-end-column="37" />
+        <state relative-caret-position="112">
+          <caret line="727" selection-start-line="727" selection-end-line="727" selection-end-column="33" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
