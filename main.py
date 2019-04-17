@@ -64,9 +64,8 @@ class Menubar(Menu):
         self.parent.config(menu=self)
 
     def selectImages(self):
-        # Select file window
-        # print("Selecting Images")
 
+        # Select file window
         files = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
                                             title="InstantScale - Please select the images to process",
                                             filetypes=[("Image files", "*.tif *.jpg *.png"),
@@ -74,9 +73,12 @@ class Menubar(Menu):
                                                        ("Jpg images", "*.jpg"),
                                                        ("Png images", "*.png")])
 
+        # Check if user selected at least an image
         if not isinstance(files, str):
 
+            # Check if an image was already opened before.
             if hasattr(self.parent, 'img3open') and self.parent.img3open is not None:
+                # Reset GUI for new image
                 self.topframe.reset()
 
             # Clean path files of strange characters
@@ -98,17 +100,23 @@ class Menubar(Menu):
     def saveFile(self):
         # Save file window
 
+        # Check if Preview was already performed
         if hasattr(self.parent, 'img4open'):
 
+            # Ask for a folder to save images
             folder = filedialog.askdirectory(initialdir="C:/Users/" + user + "/Desktop")
 
+            # Check if a folder was selected
             if folder != "":
 
+                # Checks if a folder named Images with new scale exist. If not it creates it.
                 if not os.path.exists(folder + "\\Images with new scale"):
                     os.makedirs(folder + "\\Images with new scale")
 
+                # Checks if several images were selected or just one
                 if len(self.parent.files) > 1:
 
+                    # Cycle through images and saves them
                     for self.parent.i in range(1, len(self.parent.files)+1):
 
                         self.parent.save = 1
@@ -127,6 +135,7 @@ class Menubar(Menu):
                     filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[0]))
                     self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
 
+                # Check if images all images were saved
                 if self.parent.i == len(self.parent.files):
                     Error(self.parent, "All images saved!", "message", "no")
                 self.parent.i = 1
@@ -250,7 +259,6 @@ class TopFrame(Frame):
         self.b2.grid(row=6, column=6)
 
     def manual(self):
-
         # Change widgets from disabled to normal
 
         if self.parent.var.get() == 1:
@@ -269,7 +277,6 @@ class TopFrame(Frame):
             self.c2.configure(state='disabled')
 
     def contrastChecker(self, rgb, rgb1):
-
         # Calculates the constrast between the font and background color chosen
         # For more infomation: https://www.w3.org/TR/WCAG20-TECHS/G17#G17-procedure
 
@@ -308,9 +315,11 @@ class TopFrame(Frame):
     def chooseColour(self, label):
         # Window to choose color
 
+        # Check if font colour or background color is selected. label == 0 -> font colour
         if label == 0:
             # Window to choose color
             bgcolour = askcolor()
+
             # askcolor returns a list with the color rgb and hex codes [[rgb], hex]
             if bgcolour[0] is not None:
                 self.bgcolour_rgb = list(bgcolour[0])
@@ -329,6 +338,7 @@ class TopFrame(Frame):
 
         if self.parent.files is not None:
 
+            # Disable manual checkbox
             self.parent.ch1.config(state='disable')
 
             # Update progress bar to 0
@@ -400,6 +410,7 @@ class TopFrame(Frame):
                 self.bar['value'] = 100
                 self.update_idletasks()
 
+                # If manual checkbox is checked
                 if self.parent.var.get() == 1:
                     self.e1.configure(state='normat')
                     self.e2.configure(state='normal')
@@ -411,8 +422,9 @@ class TopFrame(Frame):
 
 
             else:
+                # If a whiter bar is not found, user must use manual
                 self.parent.ch1.config(state='normal')
-                Error(self, "White Bar (usually where scale is) could not be determined", "error", "no")
+                Error(self, "White Bar (usually where scale is) could not be determined. Use manual instead.", "error", "no")
                 self.bar['value'] = 0
                 self.update_idletasks()
 
@@ -423,8 +435,10 @@ class TopFrame(Frame):
 
         self.choice = 1
 
+        # Check if an image was opened
         if hasattr(self.parent, 'img3open'):
 
+            # Check if all parameters are filled.
             if self.e1.get() == '' or self.e2.get() == '' or self.e3.get() == '':
                 Error(self, "Please have all parameters with values, or click Read Scale.", "warning", "no")
                 self.choice = 0
@@ -434,8 +448,8 @@ class TopFrame(Frame):
                                "We sugest a contrast higher than 7 for better scale color set :)"
                 rV = Error(self, errormessage, "warning", "yes").show()
 
+            # Checks if user chose a contrast higher than 7 or chose to ignore the warning the code continues to run
             if self.choice == 1:
-                # print("c1 get value: " + self.c1.get())
 
                 self.img = imread(self.parent.files[self.parent.i-1])
 
@@ -454,7 +468,7 @@ class TopFrame(Frame):
                     self.targetValue = 0
                     self.targetUnit = ''
 
-                # Obtain
+                # Check the chosen scale position
                 if self.c3.get() == "Top Left":
                     self.position = 2
                 elif self.c3.get() == "Top Right":
@@ -464,6 +478,7 @@ class TopFrame(Frame):
                 elif self.c3.get() == "Bottom Right":
                     self.position = 1
 
+                # Get parameters
                 self.scale = int(self.e2.get())
                 self.sizeOfScale = int(self.spin.get())
                 self.scaleNumb = int(self.e1.get())
@@ -503,6 +518,7 @@ class TopFrame(Frame):
             Error(self, "Please import a image first.", "error", "no")
 
     def reset(self):
+        # Resets GUI to original state
 
         self.parent.i = 1
 
@@ -562,7 +578,7 @@ class TopFrame(Frame):
             return False
 
     def checkInput1(self, i, S, P):
-        # Disallow anything but numbers
+        # Disallow anything but numbers and don't allow a value bigger than 50
 
         if S.isnumeric() and int(i) <= 2:
 
@@ -637,55 +653,59 @@ class Images(Frame):
 
     def stopDrag(self):
 
-        # print('stop drag')
         # reset drag_id to be able to detect the start of next dragging
-        if self.parent.i == 1:
-            self.drag_id = ""
+        self.drag_id = ""
 
-            width_canvas = (self.parent.winfo_width() / 2)
-            height_canvas = self.parent.winfo_height() - 190
+        width_canvas = (self.parent.winfo_width() / 2)
+        height_canvas = self.parent.winfo_height() - 190
 
-            if self.parent.files is not None:
-                height = self.parent.img3.height()
-                width = self.parent.img3.width()
-                ratio_img = width / height
+        # Check if an image was already opened so it doesn't get the ratio from default image
+        if self.parent.files is not None:
+            height = self.parent.img3.height()
+            width = self.parent.img3.width()
+            ratio_img = width / height
 
-            else:
-                height = self.parent.img1.height()
-                width = self.parent.img1.width()
-                ratio_img = width / height
+        else:
+            height = self.parent.img1.height()
+            width = self.parent.img1.width()
+            ratio_img = width / height
 
-            new_width = height_canvas * ratio_img
-            new_height = height_canvas
+        # Math to maintain ratio of canvas
+        new_width = height_canvas * ratio_img
+        new_height = height_canvas
 
-            if new_width > width_canvas:
-                new_width = width_canvas
-                new_height = new_width / ratio_img
+        if new_width > width_canvas:
+            new_width = width_canvas
+            new_height = new_width / ratio_img
 
-            self.parent.panel.config(width=int(new_width) - 5, height=int(new_height) - 5)
-            self.parent.panel2.config(width=int(new_width) - 5, height=int(new_height) - 5)
+        self.parent.panel.config(width=int(new_width) - 5, height=int(new_height) - 5)
+        self.parent.panel2.config(width=int(new_width) - 5, height=int(new_height) - 5)
 
-            if hasattr(self.parent, 'img3'):
-                self.parent.img1res = ImageTk.PhotoImage(
-                    self.parent.img3open.resize((int(new_width) - 2, int(new_height) - 5), Image.ANTIALIAS))
-            else:
-                self.parent.img1res = ImageTk.PhotoImage(
-                    self.parent.img1open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+        # Check if an image was already opened so it doesn't resize the default image
+        if hasattr(self.parent, 'img3'):
+            self.parent.img1res = ImageTk.PhotoImage(
+                self.parent.img3open.resize((int(new_width) - 2, int(new_height) - 5), Image.ANTIALIAS))
+        else:
+            self.parent.img1res = ImageTk.PhotoImage(
+                self.parent.img1open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
 
-            if hasattr(self.parent, 'img4'):
-                self.parent.img2res = ImageTk.PhotoImage(
-                    self.parent.img4open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
-            else:
-                self.parent.img2res = ImageTk.PhotoImage(
-                    self.parent.img2open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+        # Check if an image was already processed so it doesn't resize the default image
+        if hasattr(self.parent, 'img4'):
+            self.parent.img2res = ImageTk.PhotoImage(
+                self.parent.img4open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
+        else:
+            self.parent.img2res = ImageTk.PhotoImage(
+                self.parent.img2open.resize((int(new_width) - 5, int(new_height) - 5), Image.ANTIALIAS))
 
-            self.parent.panel.delete("IMG1")
-            self.parent.panel2.delete("IMG2")
+        # Delete former images on canvas
+        self.parent.panel.delete("IMG1")
+        self.parent.panel2.delete("IMG2")
 
-            self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res,
-                                                                        tags="IMG1")
-            self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
-                                                                          tags="IMG2")
+        # Redraw new resized images
+        self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1res,
+                                                                    tags="IMG1")
+        self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2res,
+                                                                      tags="IMG2")
 
 # =============================================================================
 # Main application
@@ -789,7 +809,6 @@ class Error(Toplevel):
     def __init__(self, parent, errorMessage, method, choice):
         Toplevel.__init__(self, parent)
         self.parent = parent
-        self.choice = choice
 
         # method: warning or error
         # choice: warning can be ignored?
