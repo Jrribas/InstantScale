@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class Example(tk.Tk):
+class Ruler(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
 
@@ -10,10 +10,12 @@ class Example(tk.Tk):
         self.big_ticks = 0
         self.small_ticks = 0
         self.pixel = 0
+        self.refline = None
+        self.reftxt = None
 
         self.overrideredirect(True)
         self.wm_geometry("200x50")
-        self.wm_minsize(50, 60)
+        self.wm_minsize(25, 60)
         self.wm_maxsize(800, 100)
         self.canvas = tk.Canvas(self, highlightthickness=0)
         self.canvas.pack(fill='both', expand=True)
@@ -32,21 +34,27 @@ class Example(tk.Tk):
         self.grip.bind("<B1-Motion>", self.on_window_move)
 
         self.bind("<ButtonPress-1>", self.send_number)
+        self.bind("<ButtonRelease-3>", self.exit)
 
         self.center(self)
 
         self.after(100, self.updates)
+
+    def exit(self, event):
+        self.destroy()
 
     def send_number(self, event):
         print(self.pixel)
 
     def updates(self):
 
-        # if self.small_ticks != int((self.winfo_width() / 10) - self.big_ticks + 1):
-        self.update_ticks()
-        self.canvas.delete('all')
-        self.draw_ticks()
+        if self.small_ticks != int((self.winfo_width() / 10) - self.big_ticks + 1):
+            self.update_ticks()
+            self.canvas.delete('all')
+            self.draw_ticks()
 
+        self.canvas.delete(self.refline)
+        self.canvas.delete(self.reftxt)
         self.draw_reference_line()
         self.after(50, self.updates)
 
@@ -68,8 +76,8 @@ class Example(tk.Tk):
 
         self.pixel = x
 
-        self.canvas.create_line(x, 0, x, 32)
-        self.canvas.create_text([x, 35], text=str(x) + "px")
+        self.refline = self.canvas.create_line(x, 0, x, 32)
+        self.reftxt = self.canvas.create_text([x, 35], text=str(x) + "px")
 
     def update_ticks(self):
 
@@ -126,5 +134,5 @@ class Example(tk.Tk):
         win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
 
-app=Example()
+app=Ruler()
 app.mainloop()

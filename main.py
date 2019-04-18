@@ -9,6 +9,7 @@ from tkinter import Canvas
 from tkinter import filedialog
 from tkinter import Label
 from tkinter import Checkbutton
+from tkinter.ttk import Sizegrip
 from tkinter.ttk import Combobox
 from tkinter.ttk import Progressbar
 from tkinter.ttk import Style
@@ -36,6 +37,143 @@ pytesseract.pytesseract.tesseract_cmd = tess_path
 TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 ################################################
+
+class Ruler(Toplevel):
+    def __init__(self, parent):
+        Toplevel.__init__(self, parent)
+        self.parent = parent
+
+        self.txt_ticks = []
+        self.big_ticks = 0
+        self.small_ticks = 0
+        self.pixel = 0
+        self.refline = None
+        self.reftxt = None
+
+        self.overrideredirect(True)
+        self.grab_set()
+        self.wm_geometry("200x50")
+        self.wm_minsize(25, 60)
+        self.wm_maxsize(800, 100)
+        self.canvas = Canvas(self, highlightthickness=0)
+        self.canvas.pack(fill='both', expand=True)
+        self.canvas['background'] = 'yellow2'
+
+        self.grip = Sizegrip(self)
+        self.grip.place(relx=1.0, rely=1.0, anchor="se")
+        self.grip.bind("<B1-Motion>", self.OnMotion)
+
+        self.label = Label(self, text="Click on the grip to move")
+        self.grip = Label(self, bitmap="gray25")
+        self.grip.place(relx=0.0, rely=1.0, anchor="sw")
+
+        self.grip.bind("<ButtonPress-1>", self.start_window_move)
+        self.grip.bind("<ButtonRelease-1>", self.stop_window_move)
+        self.grip.bind("<B1-Motion>", self.on_window_move)
+
+        self.canvas.bind("<ButtonPress-1>", self.send_number)
+        self.canvas.bind("<ButtonRelease-3>", self.exit)
+
+        self.center(self)
+
+        self.after(100, self.updates)
+
+    def exit(self, event):
+        self.destroy()
+
+    def send_number(self, event):
+        self.parent.e2.configure(state='normal')
+        self.parent.e2.delete(0, END)
+        self.parent.e2.insert(END, str(self.pixel))
+        self.parent.e2.configure(state='disable')
+
+    def updates(self):
+
+        if self.small_ticks != int((self.winfo_width() / 10) - self.big_ticks + 1):
+            self.update_ticks()
+            self.canvas.delete('all')
+            self.draw_ticks()
+
+        self.canvas.delete(self.refline)
+        self.canvas.delete(self.reftxt)
+        self.draw_reference_line()
+        self.after(50, self.updates)
+
+    def draw_ticks(self):
+
+        for i in range(self.big_ticks):
+            self.canvas.create_line(self.txt_ticks[i], 0, self.txt_ticks[i], 20)
+            self.canvas.create_text([self.txt_ticks[i], 25], text=str(self.txt_ticks[i]))
+
+        self.small_ticks_coord = [x * 10 for x in range(1, self.small_ticks + self.big_ticks) if not x % 5 == 0]
+
+        for i in self.small_ticks_coord:
+
+            self.canvas.create_line(i, 0, i, 10)
+
+    def draw_reference_line(self):
+        x = self.winfo_pointerx() - self.winfo_rootx()
+        y = self.winfo_pointery() - self.winfo_rooty()
+
+        self.pixel = x
+
+        self.refline = self.canvas.create_line(x, 0, x, 32)
+        self.reftxt = self.canvas.create_text([x, 35], text=str(x) + "px")
+
+    def update_ticks(self):
+
+        self.txt_ticks = []
+
+        self.big_ticks = int((self.winfo_width() / 50) + 1)
+        self.small_ticks = int((self.winfo_width() / 10) - self.big_ticks + 1)
+
+        j = 0
+
+        for i in range(self.big_ticks):
+
+            self.txt_ticks.append(0 + j)
+            j = j + 50
+
+    def OnMotion(self, event):
+        x1 = self.winfo_pointerx()
+        y1 = self.winfo_pointery()
+        x0 = self.winfo_rootx()
+        y0 = self.winfo_rooty()
+
+        #Avoid bad geometry error
+        if y1-y0 < 0:
+            y1 = y0
+        if x1-x0 < 0:
+            x1 = x0
+
+        self.geometry("%sx%s" % ((x1-x0), (y1-y0)))
+        return
+
+    def start_window_move(self, event):
+        self.x = event.x
+        self.y = event.y
+
+    def stop_window_move(self, event):
+        self.x = None
+        self.y = None
+
+    def on_window_move(self, event):
+        deltax = event.x - self.x
+        deltay = event.y - self.y
+        x = self.winfo_x() + deltax
+        y = self.winfo_y() + deltay
+        self.geometry("+%s+%s" % (x, y))
+
+    @staticmethod
+    def center(win):
+        # Center About window in any display resolution
+        win.update_idletasks()
+        width = win.winfo_width()
+        height = win.winfo_height()
+        x = (win.winfo_screenwidth() // 2) - (width // 2)
+        y = (win.winfo_screenheight() // 2) - (height // 2)
+        win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
 
 
 class Menubar(Menu):
@@ -194,8 +332,8 @@ class TopFrame(Frame):
         self.l5 = Label(self.TopFrame, text="White Bar (%)")
         self.l5.grid(row=5, column=2, pady=5)
 
-        self.e2 = Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
-        self.e2.grid(row=6, column=1, sticky="we", padx=2)
+        self.parent.e2 = Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.parent.e2.grid(row=6, column=1, sticky="we", padx=2)
 
         self.vcmd1 = (self.register(self.checkInput1), '%i', '%S', "%P")
 
@@ -255,6 +393,9 @@ class TopFrame(Frame):
                                       state="disable")
         self.parent.ch1.grid(row=2, column=3, sticky="ew")
 
+        self.b5 = Button(self.TopFrame, text="Ruler", command=lambda: Ruler(self.parent))
+        self.b5.grid(row=2, column=4, sticky="ew")
+
         self.b2 = Button(self.TopFrame, text="Preview", command=self.preview)
         self.b2.grid(row=6, column=6)
 
@@ -263,14 +404,14 @@ class TopFrame(Frame):
 
         if self.parent.var.get() == 1:
             self.e1.configure(state='normal')
-            self.e2.configure(state='normal')
+            self.parent.e2.configure(state='normal')
             self.e3.configure(state='normal')
             self.e4.configure(state='normal')
             self.c1.configure(state='normal')
             self.c2.configure(state='normal')
         else:
             self.e1.configure(state='disabled')
-            self.e2.configure(state='disabled')
+            self.parent.e2.configure(state='disabled')
             self.e3.configure(state='disabled')
             self.e4.configure(state='disabled')
             self.c1.configure(state='disabled')
@@ -384,10 +525,10 @@ class TopFrame(Frame):
                 # print('scale: ' + str(self.scale))
 
                 # Update entry widgets with values obtained
-                self.e2.configure(state='normal')
-                self.e2.delete(0, END)
-                self.e2.insert(END, self.scale)
-                self.e2.configure(state='disabled')
+                self.parent.e2.configure(state='normal')
+                self.parent.e2.delete(0, END)
+                self.parent.e2.insert(END, self.scale)
+                self.parent.e2.configure(state='disabled')
 
                 # Update progress bar to 75 and update GUI
                 self.bar['value'] = 75
@@ -413,7 +554,7 @@ class TopFrame(Frame):
                 # If manual checkbox is checked
                 if self.parent.var.get() == 1:
                     self.e1.configure(state='normat')
-                    self.e2.configure(state='normal')
+                    self.parent.e2.configure(state='normal')
                     self.e3.configure(state='normal')
                     self.c1.configure(state='normal')
                     self.c2.configure(state='normal')
@@ -439,7 +580,7 @@ class TopFrame(Frame):
         if hasattr(self.parent, 'img3open'):
 
             # Check if all parameters are filled.
-            if self.e1.get() == '' or self.e2.get() == '' or self.e3.get() == '':
+            if self.e1.get() == '' or self.parent.e2.get() == '' or self.e3.get() == '':
                 Error(self, "Please have all parameters with values, or click Read Scale.", "warning", "no")
                 self.choice = 0
 
@@ -479,7 +620,7 @@ class TopFrame(Frame):
                     self.position = 1
 
                 # Get parameters
-                self.scale = int(self.e2.get())
+                self.scale = int(self.parent.e2.get())
                 self.sizeOfScale = int(self.spin.get())
                 self.scaleNumb = int(self.e1.get())
                 self.units = self.c1.get()
@@ -529,7 +670,7 @@ class TopFrame(Frame):
         self.bar['value'] = 0
         self.update_idletasks()
 
-        entries = [self.e1, self.e2, self.e3, self.e4]
+        entries = [self.e1, self.parent.e2, self.e3, self.e4]
 
         for i in range(0, 4):
 
