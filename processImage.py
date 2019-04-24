@@ -28,17 +28,21 @@ def getBar(img):
     except UnboundLocalError:
         return 0, 0, 0
 
-    
     return crop_img, bar_img, barSize
 
 
-def cropImage(img, cropPercentage):
+def cropImage(img, cropPercentage, position):
     # Cropping imagge function if manual is selected
 
     height, width, channels = img.shape
-    
-    cropRow = int((height * (100-cropPercentage)) / 100)
-    crop_image = img[0:cropRow, 0::]
+
+    if position == "Bottom":
+        cropRow = int((height * (100-cropPercentage)) / 100)
+        crop_image = img[0:cropRow, 0::]
+    else:
+        cropRow = int((height * (100-cropPercentage)) / 100)
+        crop_image = img[height - cropRow::, 0::]
+
     return crop_image
 
 

@@ -38,6 +38,107 @@ TESSDATA_PREFIX = os.path.dirname(tess_path)
 
 ################################################
 
+
+class RullerWindow(Toplevel):
+    def __init__(self, parent, *args, **kwargs):
+        Toplevel.__init__(self, parent, *args, **kwargs)
+        self.parent = parent
+
+        self.img_open = Image.open(exePath + "\\images\\HoldImages\\ruller_crop.tif")
+        self.img = ImageTk.PhotoImage(self.img_open)
+
+        # Define frame for image
+        self.image = Frame(self)
+        self.image.grid(row=2, column=1, sticky="nwes")
+
+        # Define frame for buttons
+        self.buttons = Frame(self)
+        self.buttons.grid(row=1, column=1, sticky="nwes")
+
+        # Frame configuration (center frames)
+        self.grid_rowconfigure((0, 3), weight=1)
+        self.grid_columnconfigure((0, 2), weight=1)
+
+        # Frame buttons configuration (center frames)
+        self.buttons.grid_rowconfigure((0, 2), weight=1)
+        self.buttons.grid_columnconfigure((0, 8), weight=1)
+
+        # Frame image configuration (center frames)
+        self.image.grid_rowconfigure((0, 2), weight=1)
+        self.image.grid_columnconfigure((0, 2), weight=1)
+
+        self.c1 = Combobox(self.buttons)
+        self.c1['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
+        self.c1.current(3)  # set the selected item
+        self.c1.grid(row=1, column=4, padx=2.5)
+        self.c1.bind('<<ComboboxSelected>>', lambda _: self.crop())
+
+        self.c3 = Combobox(self.buttons)
+        self.c3['values'] = ("35", "45", "55", "65", "75")
+        self.c3.current(2)  # set the selected item
+        self.c3.grid(row=1, column=7, padx=2.5)
+        self.c3.bind('<<ComboboxSelected>>', lambda _: self.crop())
+
+        self.panel = Label(self.image, image=self.img, anchor="center")
+        self.panel.grid(row=2, column=1, sticky="nswe", padx=2)
+
+        self.c2 = Combobox(self.buttons)
+        self.c2['values'] = ("1x", "2x", "3x")
+        self.c2.current(0)  # set the selected item
+        self.c2.grid(row=1, column=5, padx=2.5)
+        self.c2.bind('<<ComboboxSelected>>', lambda _: self.zoom())
+
+        self.crop()
+
+        self.b1 = Button(self.buttons, text="Ruler", command=lambda: Ruler(self.parent))
+        self.b1.grid(row=1, column=3, sticky="ew", padx=2.5)
+
+        self.l1 = Label(self.buttons, text="Pixel value")
+        self.l1.grid(row=1, column=1, sticky="ew")
+
+        self.parent.e5 = Entry(self.buttons)
+        self.parent.e5.grid(row=1, column=2, sticky="ew", padx=2.5)
+        self.parent.e5.configure(state='disable')
+
+        self.l2 = Label(self.buttons, text="Width %")
+        self.l2.grid(row=1, column=6, sticky="ew")
+
+    def crop(self):
+
+        self.img_read = imread(self.parent.files[self.parent.i - 1])
+        self.height, self.width, self.channels = self.img_read.shape
+
+        if self.c1.get() == "Bottom Right":
+            self.crop_img = self.img_read[int(self.height/1.5)::, int(self.width * int(self.c3.get())/100)::]
+        elif self.c1.get() == "Bottom Left":
+            self.crop_img = self.img_read[int(self.height / 1.5)::,
+                                          0:int(self.width - (self.width * int(self.c3.get())/100))]
+        elif self.c1.get() == "Top Left":
+            self.crop_img = self.img_read[0:int(self.height - (self.height / 1.5)),
+                                          0:int(self.width - (self.width * int(self.c3.get())/100))]
+        elif self.c1.get() == "Top Right":
+            self.crop_img = self.img_read[0:int(self.height - (self.height / 1.5)),
+                                          int(self.width * int(self.c3.get())/100)::]
+
+        imwrite(exePath + "\\images\\HoldImages\\ruller_crop.tif", self.crop_img)
+
+        self.img_open = Image.open(exePath + "\\images\\HoldImages\\ruller_crop.tif")
+
+        self.zoom()
+
+    def zoom(self):
+
+        width, height = self.img_open.size
+        zoom = self.c2.get()
+        zoom = int(zoom[0:1])
+
+        self.img = ImageTk.PhotoImage(self.img_open.resize((width*zoom, height*zoom), Image.ANTIALIAS))
+
+        self.panel.configure(image=self.img)
+
+        self.parent.zoom = zoom
+
+
 class Ruler(Toplevel):
     def __init__(self, parent):
         Toplevel.__init__(self, parent)
@@ -54,7 +155,7 @@ class Ruler(Toplevel):
         self.grab_set()
         self.wm_geometry("200x50")
         self.wm_minsize(25, 60)
-        self.wm_maxsize(800, 100)
+        self.wm_maxsize(2000, 60)
         self.canvas = Canvas(self, highlightthickness=0)
         self.canvas.pack(fill='both', expand=True)
         self.canvas['background'] = 'yellow2'
@@ -82,9 +183,14 @@ class Ruler(Toplevel):
         self.destroy()
 
     def send_number(self, event):
+        self.parent.e5.configure(state='normal')
+        self.parent.e5.delete(0, END)
+        self.parent.e5.insert(END, str(int(self.pixel/self.parent.zoom)))
+        self.parent.e5.configure(state='disable')
+
         self.parent.e2.configure(state='normal')
         self.parent.e2.delete(0, END)
-        self.parent.e2.insert(END, str(self.pixel))
+        self.parent.e2.insert(END, str(int(self.pixel/self.parent.zoom)))
         self.parent.e2.configure(state='disable')
 
     def updates(self):
@@ -112,13 +218,13 @@ class Ruler(Toplevel):
             self.canvas.create_line(i, 0, i, 10)
 
     def draw_reference_line(self):
-        x = self.winfo_pointerx() - self.winfo_rootx()
-        y = self.winfo_pointery() - self.winfo_rooty()
 
-        self.pixel = x
+            x = self.winfo_pointerx() - self.winfo_rootx()
 
-        self.refline = self.canvas.create_line(x, 0, x, 32)
-        self.reftxt = self.canvas.create_text([x, 35], text=str(x) + "px")
+            self.pixel = x
+
+            self.refline = self.canvas.create_line(x, 0, x, 32)
+            self.reftxt = self.canvas.create_text([x, 35], text=str(x) + "px")
 
     def update_ticks(self):
 
@@ -173,7 +279,6 @@ class Ruler(Toplevel):
         x = (win.winfo_screenwidth() // 2) - (width // 2)
         y = (win.winfo_screenheight() // 2) - (height // 2)
         win.geometry('{}x{}+{}+{}'.format(width, height, x, y))
-
 
 
 class Menubar(Menu):
@@ -294,11 +399,11 @@ class TopFrame(Frame):
 
         # Frame configuration
         self.TopFrame.grid_rowconfigure((0, 7), weight=1)
-        self.TopFrame.grid_columnconfigure((0, 7), weight=1)
+        self.TopFrame.grid_columnconfigure((0, 8), weight=1)
 
         # Widgets assignment
-        self.b1 = Button(self.TopFrame, text="Read Scale", command=self.readScale)
-        self.b1.grid(row=1, column=1, columnspan=2, pady=5)
+        self.parent.b1 = Button(self.TopFrame, text="Read Scale", command=self.readScale)
+        self.parent.b1.grid(row=1, column=1, columnspan=2, pady=5)
 
         # Progress bar assignment
         style = Style()
@@ -358,7 +463,7 @@ class TopFrame(Frame):
         self.l8 = Label(self.TopFrame, text="Scale Position")
         self.l8.grid(row=5, column=3)
 
-        self.l9 = Label(self.TopFrame, text="Size of Scale")
+        self.l9 = Label(self.TopFrame, text="Scale Size")
         self.l9.grid(row=5, column=4)
 
         self.c3 = Combobox(self.TopFrame)
@@ -370,34 +475,43 @@ class TopFrame(Frame):
         self.spin.grid(row=6, column=4)
 
         self.l10 = Label(self.TopFrame, text="Font Color", bg="#ffffff", fg="#000000")
-        self.l10.grid(row=3, column=5, rowspan=2, sticky="nsew", padx=5)
+        self.l10.grid(row=2, column=5, rowspan=2, sticky="nsew", padx=5)
 
         self.bgcolour_rgb = [255.0, 255.0, 255.0]
         self.ftcolour_rgb = [0.0, 0.0, 0.0]
 
         self.b3 = Button(self.TopFrame, text="Pick background color", command=lambda: self.chooseColour(0))
-        self.b3.grid(row=3, column=6, sticky="ew")
+        self.b3.grid(row=2, column=6, sticky="ew")
 
         self.contrast = 21
         self.text = StringVar()
         self.text.set("Contrast = %.2f" % self.contrast)
 
         self.l11 = Label(self.TopFrame, textvariable=self.text, bg="#008000")
-        self.l11.grid(row=5, column=5, rowspan=2, sticky="ew", padx=5)
+        self.l11.grid(row=4, column=5, sticky="ew", padx=5)
 
         self.b4 = Button(self.TopFrame, text="Pick font color", command=lambda: self.chooseColour(1))
-        self.b4.grid(row=4, column=6, sticky="ew")
+        self.b4.grid(row=3, column=6, sticky="ew")
 
         self.parent.var = IntVar()
         self.parent.ch1 = Checkbutton(self.TopFrame, text="Manual", variable=self.parent.var, command=self.manual,
                                       state="disable")
         self.parent.ch1.grid(row=2, column=3, sticky="ew")
 
-        self.b5 = Button(self.TopFrame, text="Ruler", command=lambda: Ruler(self.parent))
+        self.b5 = Button(self.TopFrame, text="Ruler window", command=lambda: RullerWindow(self.parent))
         self.b5.grid(row=2, column=4, sticky="ew")
+        self.b5.configure(state='disable')
 
         self.b2 = Button(self.TopFrame, text="Preview", command=self.preview)
         self.b2.grid(row=6, column=6)
+
+        self.l12 = Label(self.TopFrame, text="Crop Position")
+        self.l12.grid(row=5, column=5, padx=5)
+
+        self.c4 = Combobox(self.TopFrame, width=13)
+        self.c4['values'] = ("Bottom", "Top")
+        self.c4.current(0)  # set the selected item
+        self.c4.grid(row=6, column=5, sticky="ew")
 
     def manual(self):
         # Change widgets from disabled to normal
@@ -409,6 +523,8 @@ class TopFrame(Frame):
             self.e4.configure(state='normal')
             self.c1.configure(state='normal')
             self.c2.configure(state='normal')
+            self.b5.configure(state='normal')
+
         else:
             self.e1.configure(state='disabled')
             self.parent.e2.configure(state='disabled')
@@ -416,6 +532,7 @@ class TopFrame(Frame):
             self.e4.configure(state='disabled')
             self.c1.configure(state='disabled')
             self.c2.configure(state='disabled')
+            self.b5.configure(state='disable')
 
     def contrastChecker(self, rgb, rgb1):
         # Calculates the constrast between the font and background color chosen
@@ -638,8 +755,10 @@ class TopFrame(Frame):
                 self.fontColor[2] = int(self.fontColor[2])
                 self.fontColor_tupple = tuple(self.fontColor)
 
+                self.cropbeg = self.c4.get()
+
                 # Obtain image without white bar
-                self.crop_img = pI.cropImage(self.img, int(self.e3.get()))
+                self.crop_img = pI.cropImage(self.img, int(self.e3.get()), self.cropbeg)
 
                 # Draw scale in cropped image
                 self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units, self.parent.files[self.parent.i-1],
