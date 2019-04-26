@@ -355,6 +355,9 @@ class Menubar(Menu):
         # Check if Preview was already performed
         if hasattr(self.parent, 'img4open'):
 
+            message = "Not all images were saved! \n"
+            self.parent.save = 0
+
             # Ask for a folder to save images
             folder = filedialog.askdirectory(initialdir="C:/Users/" + user + "/Desktop")
 
@@ -371,23 +374,22 @@ class Menubar(Menu):
                     # Cycle through images and saves them
                     for self.parent.i in range(1, len(self.parent.files)+1):
 
-                        self.parent.save = 1
-
                         filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[self.parent.i-1]))
 
                         self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
                         self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
 
-                        try:
+                        if self.parent.var.get() != 1:
+                            self.topframe.readScale()
 
-                            if self.topframe.bar['value'] == 100:
-                                self.topframe.readScale()
-                        except:
-                            break
+                            if self.topframe.bar['value'] != 100:
+                                message = message + self.parent.files[self.parent.i-1] + "\n"
+                                continue
 
                         self.topframe.preview()
                         self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
-
+                        self.parent.save = self.parent.save + 1
+                        print(self.parent.save)
 
                 else:
 
@@ -395,8 +397,14 @@ class Menubar(Menu):
                     self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
 
                 # Check if images all images were saved
-                if self.parent.i == len(self.parent.files):
+                if self.parent.save == len(self.parent.files):
                     Error(self.parent, "All images saved!", "message", "no")
+                    self.parent.save = 0
+                else:
+                    message = message + "Try using manual/Ruler for this images."
+                    Error(self.parent, message, "warning", "no")
+                    self.parent.save = 0
+
                 self.parent.i = 1
 
         else:
@@ -694,8 +702,7 @@ class TopFrame(Frame):
 
                 self.parent.ch1.config(state='normal')
 
-
-            else:
+            elif self.parent.save < 1:
                 # If a whiter bar is not found, user must use manual
                 self.parent.ch1.config(state='normal')
                 Error(self, "White Bar (usually where scale is) could not be determined. Use manual instead.", "error", "no")
@@ -1098,7 +1105,7 @@ class Error(Toplevel):
             stringAbout = "Warning message:"
             l1 = Label(self, text="Instant Scale v2.0 has a warning:(\n", font="Verdana 16 bold")
         else:
-            self.wm_title("message")
+            self.wm_title("Message")
             stringAbout = "Message:"
             l1 = Label(self, text="Instant Scale v2.0 has a message :)\n", font="Verdana 16 bold")
 
