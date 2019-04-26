@@ -49,19 +49,20 @@ class RullerWindow(Toplevel):
 
         # Define frame for image
         self.image = Frame(self)
-        self.image.grid(row=2, column=1, sticky="nwes")
+        self.image.grid(row=3, column=1, sticky="ns")
 
         # Define frame for buttons
         self.buttons = Frame(self)
-        self.buttons.grid(row=1, column=1, sticky="nwes")
+        # self.buttons.grid_propagate(False)
+        self.buttons.grid(row=1, column=1, sticky="nw")
 
         # Frame configuration (center frames)
-        self.grid_rowconfigure((0, 3), weight=1)
-        self.grid_columnconfigure((0, 2), weight=1)
+        self.grid_rowconfigure((2, 4), weight=1)
+        self.grid_columnconfigure(1, weight=1)
 
         # Frame buttons configuration (center frames)
-        self.buttons.grid_rowconfigure((0, 2), weight=1)
-        self.buttons.grid_columnconfigure((0, 8), weight=1)
+        self.buttons.grid_rowconfigure((0, 3), weight=1)
+        # self.buttons.grid_columnconfigure((0, 8), weight=1)
 
         # Frame image configuration (center frames)
         self.image.grid_rowconfigure((0, 2), weight=1)
@@ -80,7 +81,7 @@ class RullerWindow(Toplevel):
         self.c3.bind('<<ComboboxSelected>>', lambda _: self.crop())
 
         self.panel = Label(self.image, image=self.img, anchor="center")
-        self.panel.grid(row=2, column=1, sticky="nswe", padx=2)
+        self.panel.grid(row=2, column=1, padx=2)
 
         self.c2 = Combobox(self.buttons)
         self.c2['values'] = ("1x", "2x", "3x")
@@ -91,17 +92,24 @@ class RullerWindow(Toplevel):
         self.crop()
 
         self.b1 = Button(self.buttons, text="Ruler", command=lambda: Ruler(self.parent))
-        self.b1.grid(row=1, column=3, sticky="ew", padx=2.5)
+        self.b1.grid(row=1, column=3, padx=2.5)
 
         self.l1 = Label(self.buttons, text="Pixel value")
-        self.l1.grid(row=1, column=1, sticky="ew")
+        self.l1.grid(row=1, column=1)
 
         self.parent.e5 = Entry(self.buttons)
-        self.parent.e5.grid(row=1, column=2, sticky="ew", padx=2.5)
+        self.parent.e5.grid(row=1, column=2, padx=2.5)
         self.parent.e5.configure(state='disable')
 
         self.l2 = Label(self.buttons, text="Width %")
-        self.l2.grid(row=1, column=6, sticky="ew")
+        self.l2.grid(row=1, column=6)
+
+        instruct = "1 - Click button Ruller; 2 - Move the ruler by clicking/dragging the left gray icon; 3 - " \
+                   "Increase the scale size by clicking/dragging the right gray icon; 4 - Left click inside the" \
+                   " ruller to insert the pixel count; 5 - Right click inside the rullerto exit. "
+
+        self.l3 = Label(self.buttons, wraplength=750, text=instruct, anchor="w", justify="left")
+        self.l3.grid(row=2, column=1, columnspan=7, sticky="w")
 
     def crop(self):
 
@@ -109,15 +117,15 @@ class RullerWindow(Toplevel):
         self.height, self.width, self.channels = self.img_read.shape
 
         if self.c1.get() == "Bottom Right":
-            self.crop_img = self.img_read[int(self.height/1.5)::, int(self.width * int(self.c3.get())/100)::]
+            self.crop_img = self.img_read[int(self.height/1.4)::, int(self.width * int(self.c3.get())/100)::]
         elif self.c1.get() == "Bottom Left":
-            self.crop_img = self.img_read[int(self.height / 1.5)::,
+            self.crop_img = self.img_read[int(self.height / 1.4)::,
                                           0:int(self.width - (self.width * int(self.c3.get())/100))]
         elif self.c1.get() == "Top Left":
-            self.crop_img = self.img_read[0:int(self.height - (self.height / 1.5)),
+            self.crop_img = self.img_read[0:int(self.height - (self.height / 1.4)),
                                           0:int(self.width - (self.width * int(self.c3.get())/100))]
         elif self.c1.get() == "Top Right":
-            self.crop_img = self.img_read[0:int(self.height - (self.height / 1.5)),
+            self.crop_img = self.img_read[0:int(self.height - (self.height / 1.4)),
                                           int(self.width * int(self.c3.get())/100)::]
 
         imwrite(exePath + "\\images\\HoldImages\\ruller_crop.tif", self.crop_img)
@@ -152,7 +160,8 @@ class Ruler(Toplevel):
         self.reftxt = None
 
         self.overrideredirect(True)
-        self.grab_set()
+        # self.grab_set()
+        self.attributes('-topmost', 'true')
         self.wm_geometry("200x50")
         self.wm_minsize(25, 60)
         self.wm_maxsize(2000, 60)
@@ -368,10 +377,17 @@ class Menubar(Menu):
 
                         self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
                         self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
-                        if self.topframe.bar['value'] == 100:
-                            self.topframe.readScale()
+
+                        try:
+
+                            if self.topframe.bar['value'] == 100:
+                                self.topframe.readScale()
+                        except:
+                            break
+
                         self.topframe.preview()
                         self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
+
 
                 else:
 
@@ -782,9 +798,9 @@ class TopFrame(Frame):
 
         self.parent.i = 1
 
-        for self.parent.i in range(1, len(self.parent.files) + 1):
+        for j in range(1, len(self.parent.files) + 1):
             self.parent.img3open.close()
-            os.remove(self.parent.files[self.parent.i - 1])
+            os.remove(self.parent.files[j - 1])
 
         self.bar['value'] = 0
         self.update_idletasks()
@@ -921,8 +937,7 @@ class Images(Frame):
 
         # Check if an image was already opened so it doesn't get the ratio from default image
         if self.parent.files is not None:
-            height = self.parent.img3.height()
-            width = self.parent.img3.width()
+            width, height = self.parent.img3open.size
             ratio_img = width / height
 
         else:

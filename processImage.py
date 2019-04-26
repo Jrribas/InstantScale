@@ -166,10 +166,6 @@ def cleanPathFiles(path, exePath):
 
         shutil.copyfile(x, exePath + file)
 
-        # os.system('copy "%s" "%s" >/dev/null 2>&1' % (x, exePath + file))
-
-        # print(exePath + file)
-
     # Clean file name of strange characters
     for x in range(len(path)):
 
@@ -182,7 +178,9 @@ def cleanPathFiles(path, exePath):
         new_filename = filename.translate(trantab)
 
         Cpath[x] = exePath + new_filename + fileExtension
+
         os.rename(exePath + filename + fileExtension, Cpath[x])
+
 
     return Cpath
 
