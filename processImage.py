@@ -9,14 +9,16 @@ import shutil
 
 def getBar(img):
     height, width, channels = img.shape
+    startRow = None
+    cropRow = None
 
     # Look pixel by pixel for the white bar
+
     try:
         for i in reversed(range(len(img))):
-            e = img[i, 10][0]
-            if img[i, 3][0] >= 254 and img[i, 3][1] >= 254 and img[i, 3][2] >= 254 and 'startRow' not in locals():
+            if img[i, 3][0] >= 254 and img[i, 3][1] >= 254 and img[i, 3][2] >= 254 and startRow is None:
                 startRow = i
-            if img[i, 3][0] <= 250 and img[i, 3][1] <= 250 and img[i, 3][2] <= 250 and 'startRow' in locals():
+            if img[i, 3][0] <= 250 and img[i, 3][1] <= 250 and img[i, 3][2] <= 250 and startRow is not None:
                 cropRow = i
                 break
 
@@ -25,7 +27,7 @@ def getBar(img):
         bar_img = img[cropRow + 1:startRow, 1:width]
         barSize = (len(img) - cropRow) * 100 / len(img)+1
 
-    except UnboundLocalError:
+    except TypeError:
         return 0, 0, 0
 
     return crop_img, bar_img, barSize
@@ -63,6 +65,8 @@ def getScale(bar_img):
 
 def getNumber(bar_img, bar_img_res, exePath):
 
+    units = None
+
     # Get path from copy of original image
     path = exePath + "\\images\\"
 
@@ -93,14 +97,13 @@ def getNumber(bar_img, bar_img_res, exePath):
         if mo is not None and mo.group(1) != '0 ':
 
             if mo.group(2) == "mm":
-                units = 2
+                units = 0
             elif mo.group(2) == "um":
-                units = 2
+                units = 1
             elif mo.group(2) == "nm":
-                units = 3
+                units = 2
 
             return mo.group(1), units
-
 
     # If not scale number or unit was found till now an improved threshold is done
     bar_img_res = cvtColor(bar_img_res, COLOR_BGR2GRAY)
@@ -113,7 +116,7 @@ def getNumber(bar_img, bar_img_res, exePath):
 
         for w in x:
             bar_img_th = adaptiveThreshold(bar_img_res, 255, ADAPTIVE_THRESH_GAUSSIAN_C,
-                                               THRESH_BINARY, w, 4)
+                                           THRESH_BINARY, w, 4)
             os.chdir(exePath)
 
             if not os.path.exists(path):
@@ -126,14 +129,12 @@ def getNumber(bar_img, bar_img_res, exePath):
             mo = findSize.search(scalenumb)
 
             if mo is not None and mo.group(1) != '0':
-                # print(mo.group(1), mo.group(2))
-
                 if mo.group(2) == "mm":
-                    units = 1
+                    units = 0
                 elif mo.group(2) == "um":
-                    units = 2
+                    units = 1
                 elif mo.group(2) == "nm":
-                    units = 3
+                    units = 2
 
                 return mo.group(1), units
 
@@ -162,8 +163,6 @@ def cleanPathFiles(path, exePath):
     for x in path:
         x = x.replace('/', '\\')
         path1, file = os.path.split(x)
-
-
         shutil.copyfile(x, exePath + file)
 
     # Clean file name of strange characters
@@ -181,18 +180,20 @@ def cleanPathFiles(path, exePath):
 
         os.rename(exePath + filename + fileExtension, Cpath[x])
 
-
     return Cpath
 
 
-def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpath, sizeOfScale,
+def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
               fontColor=(0, 0, 0), bgColor=(255, 255, 255), targetValue=0, targetUnits=''):
     
     # Draw the new scale in the image
     height, width, channels = img.shape
     values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
+    newScale = None
+    newScaleNumb = None
 
     # Convert everything to µm
+
     if units == 'nm':
         scaleNumb *= 0.001
     elif units == 'mm':
@@ -284,4 +285,3 @@ def drawScale(img, scale, scaleNumb, units, originalPath, exePath, position, Cpa
     del draw
 
     return im
-
