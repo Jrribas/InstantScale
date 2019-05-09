@@ -110,10 +110,6 @@ def preview(self):
             elif self.e4.get() != "":
                 self.targetValue = int(self.e4.get())
                 self.targetUnit = self.c2.get()
-                if self.targetUnit == "":
-                    pW.Error(self.parent, "If a target value is chosen, a target unit must be chosen too.", "error",
-                             "no")
-                    return False
             else:
                 self.targetValue = 0
                 self.targetUnit = ''
@@ -172,14 +168,11 @@ def manual(self):
 def contrastChecker(self, rgb, rgb1):
     # Calculates the contrast between the font and background color chosen
     # For more information: https://www.w3.org/TR/WCAG20-TECHS/G17#G17-procedure
-
     lumi = [0, 0]
-
     rgb_list = [rgb, rgb1]
     rgb_math = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
 
     for j in range(0, 2):
-
         for i in range(0, 3):
 
             temp = rgb_list[j][i] / 255.0
@@ -193,7 +186,6 @@ def contrastChecker(self, rgb, rgb1):
 
     if lumi[0] > lumi[1]:
         self.contrast = (lumi[0] + 0.05) / (lumi[1] + 0.05)
-
     else:
         self.contrast = (lumi[1] + 0.05) / (lumi[0] + 0.05)
 
@@ -201,7 +193,6 @@ def contrastChecker(self, rgb, rgb1):
 
     if self.contrast >= 7:
         self.l11.config(bg="#008000")
-
     else:
         self.l11.config(bg="#FF0000")
 
@@ -210,21 +201,21 @@ def chooseColour(self, pick):
     # Check if font colour or background color is selected. label == 0 -> font colour
     if pick == "bg":
         # Window to choose color
-        self.bgcolour = askcolor()
+        self.bgColour = askcolor()
 
         # askcolor returns a list with the color rgb and hex codes [[rgb], hex]
-        if self.bgcolour[0] is not None:
-            self.bgcColour_rgb = list(self.bgcolour[0])
+        if self.bgColour[0] is not None:
+            self.bgColour_rgb = list(self.bgColour[0])
             # Change label background color
-            self.l10.config(bg=self.bgcolour[1])
-            # Calculate constrast
-            contrastChecker(self, self.bgcColour_rgb, self.ftColour_rgb)
+            self.l10.config(bg=self.bgColour[1])
+            # Calculate contrast
+            contrastChecker(self, self.bgColour_rgb, self.ftColour_rgb)
     else:
-        self.ftcolour = askcolor()
-        if self.ftcolour[0] is not None:
-            self.ftColour_rgb = list(self.ftcolour[0])
-            self.l10.config(fg=self.ftcolour[1])
-            contrastChecker(self, self.bgcColour_rgb, self.ftColour_rgb)
+        self.ftColour = askcolor()
+        if self.ftColour[0] is not None:
+            self.ftColour_rgb = list(self.ftColour[0])
+            self.l10.config(fg=self.ftColour[1])
+            contrastChecker(self, self.bgColour_rgb, self.ftColour_rgb)
 
 
 def reset(self):

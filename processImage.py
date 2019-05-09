@@ -34,7 +34,7 @@ def getBar(img):
 
 
 def cropImage(img, cropPercentage, position):
-    # Cropping imagge function if manual is selected
+    # Cropping image function if manual is selected
 
     height, width, channels = img.shape
 
@@ -73,6 +73,8 @@ def getNumber(bar_img, bar_img_res, exePath):
     # Transform image in gray "colour"
     bar_img = cvtColor(bar_img, COLOR_BGR2GRAY)
 
+    units_dict = {"mm": 0, "um": 1, "nm": 2}
+
     for i in range(0, 100, 10):
 
         # Loops through thresh values in order to help tesseract read the scale number
@@ -96,14 +98,7 @@ def getNumber(bar_img, bar_img_res, exePath):
 
         if mo is not None and mo.group(1) != '0 ':
 
-            if mo.group(2) == "mm":
-                units = 0
-            elif mo.group(2) == "um":
-                units = 1
-            elif mo.group(2) == "nm":
-                units = 2
-
-            return mo.group(1), units
+            return mo.group(1), units_dict[mo.group(2)]
 
     # If not scale number or unit was found till now an improved threshold is done
     bar_img_res = cvtColor(bar_img_res, COLOR_BGR2GRAY)
@@ -128,17 +123,9 @@ def getNumber(bar_img, bar_img_res, exePath):
             findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
             mo = findSize.search(scalenumb)
 
-            if mo is not None and mo.group(1) != '0':
-                if mo.group(2) == "mm":
-                    units = 0
-                elif mo.group(2) == "um":
-                    units = 1
-                elif mo.group(2) == "nm":
-                    units = 2
+            if mo is not None and mo.group(1) != '0 ':
+                return mo.group(1), units_dict[mo.group(2)]
 
-                return mo.group(1), units
-
-        # print("Failed - croping image bar")
         bar_img_res = original_bar_img[1:200, j:j+250]
 
         imwrite(path + "HoldImages\\resize_im1.tif", bar_img_res)
