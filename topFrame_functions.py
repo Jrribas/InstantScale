@@ -139,6 +139,11 @@ def preview(self):
                                            exePath, self.position, self.sizeOfScale, self.ftColour,
                                            self.bgColour, self.targetValue, self.targetUnit)
 
+            if isinstance(self.finalImage, str):
+                message = "Value of target value to high. For the scale number and pixels provided, " + self.finalImage
+                pW.Error(self, message, "error", "no")
+                return 0
+
             self.parent.img4open = self.finalImage
 
             # Resize image

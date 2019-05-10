@@ -175,48 +175,52 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
     
     # Draw the new scale in the image
     height, width, channels = img.shape
-    values = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
+    minpixels = 0.08 * width
+    maxpixels = 0.20 * width
     newScale = None
     newScaleNumb = None
 
-    # Convert everything to µm
+    if targetUnits != "":
+        conv_dict = {"mmµm": 1000, "mmnm": 1000000, "µmmm": 0.001, "µmnm": 1000, "nmmm": 0.000001, "nmµm": 0.001,
+                     "µmµm": 1, "nmnm": 1, "mmmm": 1}
 
-    if units == 'nm':
-        scaleNumb *= 0.001
-    elif units == 'mm':
-        scaleNumb *= 1000
-    else:
-        units = 'µm'
+        key = units + targetUnits
+        check = (((1 / conv_dict[key]) * scale) / scaleNumb)
 
-    # Limit scale number from 1 to 500
-    for val in values:
-        newScale = round((val * scale) / scaleNumb)
-        if 20 * sizeOfScale <= newScale <= 66 * sizeOfScale:
-            if val < 1:
-                newScaleNumb = int(val * 1000)
-                units = 'nm'
-            elif val > 500:
-                newScaleNumb = int(val / 1000)
-                units = 'mm'
-            else:
-                newScaleNumb = val
-                units = 'µm'
-            break
-    
-    # Convert scale number to the final units.
-    if targetValue != 0:
-        if targetUnits == 'nm':
-            val = targetValue / 1000
-        elif targetUnits == 'mm':
-            val = targetValue * 1000
-        else:
-            targetUnits = 'µm'
-            val = targetValue
-        
-        newScale = round((val * scale) / scaleNumb)
+        if conv_dict[key] < 1 or (conv_dict[key] == 1 and scaleNumb < targetValue):
+            if check * targetValue > 0.8 * width:
+                message = "max"
+                return message + " value is : " + str(round((0.8*width)/scale)-1) + " " + units
+        elif conv_dict[key] > 1 or (conv_dict[key] == 1 and scaleNumb > targetValue):
+            if check * targetValue < 30:
+                message = "min"
+                return message + " value is : " + str(round(30/check)+1) + " " + targetUnits
+
         newScaleNumb = targetValue
         units = targetUnits
-        
+        newScale = check * targetValue
+
+    else:
+        val = [500, 200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]
+        unit_dict = {"mm": "µm", "µm": "nm"}
+        conv = 1
+
+        if scaleNumb == 1 and scale > maxpixels and units == "nm":
+            newScale = scale
+            newScaleNumb = scaleNumb
+        else:
+            for val in val:
+                if minpixels < val * scale < maxpixels:
+                    if val < 1:
+                        conv = 1000
+                        units = unit_dict[units]
+                        break
+                    else:
+                        break
+
+            newScale = round(val * scale)
+            newScaleNumb = int(val * conv)
+
     os.chdir(exePath)
     path = "images/cropImages"
     if not os.path.exists(path):
@@ -245,6 +249,12 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
               (round(width * 0.0235) + newScale) + (20 * sizeOfScale / 3),
               round(height * 0.0364) + (20 * sizeOfScale / 3 + 3 * sizeOfScale + h)]  # X0,Y0,X1,Y1
     else:
+        # print(str(round(width * 0.0235)) + "\n")
+        # print(str(round(height * 0.9636) - (20 * sizeOfScale / 3 + 3 * sizeOfScale + h)) + "\n")
+        # print(str((round(width * 0.0235) + newScale) + (20 * sizeOfScale / 3)))
+        # print(width, newScale, sizeOfScale)
+        # print(str(round(height * 0.9636)) + "\n")
+
         sD = [(round(width * 0.9765) - newScale) - (20 * sizeOfScale / 3), round(height * 0.0364),
               round(width * 0.9765),
               round(height * 0.0364) + (20 * sizeOfScale / 3 + 3 * sizeOfScale + h)]  # X0,Y0,X1,Y1

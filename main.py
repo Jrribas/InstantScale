@@ -242,7 +242,7 @@ class TopFrame(Frame):
         self.c3.current(1)  # set the selected item
         self.c3.grid(row=6, column=3)
 
-        self.spin = Spinbox(self.TopFrame, from_=1, to=15, width=5, textvariable=StringVar(value="4"))
+        self.spin = Spinbox(self.TopFrame, from_=1, to=10, width=5, textvariable=StringVar(value="4"))
         self.spin.grid(row=6, column=4)
 
         self.l10 = Label(self.TopFrame, text="Font Color", bg="#ffffff", fg="#000000")
