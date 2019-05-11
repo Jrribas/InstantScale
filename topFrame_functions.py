@@ -94,10 +94,10 @@ def preview(self):
         if self.e1.get() == '' or self.parent.e2.get() == '' or self.e3.get() == '':
             pW.Error(self, "Please have all parameters with values, or click Read Scale.", "warning", "no")
             self.choice = 0
-        elif self.contrast < 7:
+        elif self.contrast < 7 and self.parent.save == 0:
             errormessage = "Contrast is less than 7. This means that visibility/readability can be compromised. \n " \
                            "We sugest a contrast higher than 7 for better scale color set :)"
-            pW.Error(self, errormessage, "warning", "yes").show()
+            pW.Error(self, errormessage, "warning", "yes")
 
         if self.choice == 1:
 
@@ -259,7 +259,6 @@ def reset(self):
     del self.parent.img3
 
     self.parent.panel.delete("IMG1")
-
     self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1,
                                                                 tags="IMG1")
     self.parent.image_on_panel2 = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img2,

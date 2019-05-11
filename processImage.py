@@ -178,8 +178,7 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
     height, width, channels = img.shape
     minpixels = 0.08 * width
     maxpixels = 0.20 * width
-    newScale = None
-    newScaleNumb = None
+    val = None
 
     if targetUnits != "":
         conv_dict = {"mmµm": 1000, "mmnm": 1000000, "µmmm": 0.001, "µmnm": 1000, "nmmm": 0.000001, "nmµm": 0.001,
@@ -206,8 +205,6 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
         unit_dict = {"mm": "µm", "µm": "nm"}
         conv = 1
 
-        print(scale, scaleNumb, units)
-
         if scaleNumb == 1 and scale > maxpixels and units == "nm":
             newScale = scale
             newScaleNumb = scaleNumb
@@ -225,8 +222,6 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
 
             newScale = round(val * scale)
             newScaleNumb = int(val * conv)
-
-    print(newScale, newScaleNumb, units)
 
     os.chdir(exePath)
     path = "images/cropImages"
