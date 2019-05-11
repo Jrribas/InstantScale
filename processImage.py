@@ -65,8 +65,6 @@ def getScale(bar_img):
 
 def getNumber(bar_img, bar_img_res, exePath):
 
-    units = None
-
     # Get path from copy of original image
     path = exePath + "\\images\\"
 
@@ -93,7 +91,7 @@ def getNumber(bar_img, bar_img_res, exePath):
         scalenumb = pytesseract.image_to_string(Image.open(path + "/thres.tif"))
 
         # Find scale unit
-        findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
+        findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um)')
         mo = findSize.search(scalenumb)
 
         if mo is not None and mo.group(1) != '0 ':
@@ -120,7 +118,7 @@ def getNumber(bar_img, bar_img_res, exePath):
             imwrite(path + "\\thres.tif", bar_img_th)
             scalenumb = pytesseract.image_to_string(Image.open(path + "\\thres.tif"), lang='eng')
 
-            findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um|pm)')
+            findSize = compile(r'(?<!\.)(\d+)\s?(nm|mm|µm|um)')
             mo = findSize.search(scalenumb)
 
             if mo is not None and mo.group(1) != '0 ':
@@ -165,6 +163,9 @@ def cleanPathFiles(path, exePath):
 
         Cpath[x] = exePath + new_filename + fileExtension
 
+        if os.path.isfile(Cpath[x]) and exePath + filename + fileExtension != Cpath[x]:
+            os.remove(Cpath[x])
+
         os.rename(exePath + filename + fileExtension, Cpath[x])
 
     return Cpath
@@ -201,15 +202,19 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
         newScale = check * targetValue
 
     else:
-        val = [500, 200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]
+        values = [500, 200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]
         unit_dict = {"mm": "µm", "µm": "nm"}
         conv = 1
+
+        print(scale, scaleNumb, units)
 
         if scaleNumb == 1 and scale > maxpixels and units == "nm":
             newScale = scale
             newScaleNumb = scaleNumb
         else:
-            for val in val:
+            if scaleNumb != 1:
+                scale /= scaleNumb
+            for val in values:
                 if minpixels < val * scale < maxpixels:
                     if val < 1:
                         conv = 1000
@@ -221,8 +226,11 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
             newScale = round(val * scale)
             newScaleNumb = int(val * conv)
 
+    print(newScale, newScaleNumb, units)
+
     os.chdir(exePath)
     path = "images/cropImages"
+
     if not os.path.exists(path):
         os.makedirs(path)
     imwrite(path + "/crop_rect.png", img)
@@ -249,20 +257,14 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
               (round(width * 0.0235) + newScale) + (20 * sizeOfScale / 3),
               round(height * 0.0364) + (20 * sizeOfScale / 3 + 3 * sizeOfScale + h)]  # X0,Y0,X1,Y1
     else:
-        # print(str(round(width * 0.0235)) + "\n")
-        # print(str(round(height * 0.9636) - (20 * sizeOfScale / 3 + 3 * sizeOfScale + h)) + "\n")
-        # print(str((round(width * 0.0235) + newScale) + (20 * sizeOfScale / 3)))
-        # print(width, newScale, sizeOfScale)
-        # print(str(round(height * 0.9636)) + "\n")
-
-        sD = [(round(width * 0.9765) - newScale) - (20 * sizeOfScale / 3), round(height * 0.0364),
+        sD = [round((width * 0.9765) - newScale - (20 * sizeOfScale / 3)), round(height * 0.0364),
               round(width * 0.9765),
-              round(height * 0.0364) + (20 * sizeOfScale / 3 + 3 * sizeOfScale + h)]  # X0,Y0,X1,Y1
+              round((height * 0.0364) + ((20 * sizeOfScale / 3) + (3 * sizeOfScale + h)))]  # X0,Y0,X1,Y1
 
     if position == 0 or position == 2:
-        textDimensions = [x + y for x, y in zip(sD, [0, 0, -newScale + w, 0])]
+        textDimensions = [x + y for x, y in zip(sD, [0, 0, int(-newScale + w), 0])]
     else:
-        textDimensions = [x + y for x, y in zip(sD, [+newScale-w, 0, 0, 0])]
+        textDimensions = [x + y for x, y in zip(sD, [int(+newScale-w), 0, 0, 0])]
 
     if newScale > w:
         draw.rectangle(sD, fill=bgColor, outline=bgColor)
@@ -280,5 +282,4 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
                    textDimensions[1] + 5 * sizeOfScale], fill=fontColor, width=3 * sizeOfScale)
 
     del draw
-
     return im

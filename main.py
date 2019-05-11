@@ -22,7 +22,6 @@ import processImage as pI
 import topFrame_functions as tF_f
 import popupWindows as pW
 
-# TODO: Check for bug with unit "nm"
 # TODO: Check for more bugs
 # TODO: Check if code can be more clean
 # TODO: Check for more elegant solutions
@@ -128,13 +127,14 @@ class Menubar(Menu):
                         self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
 
                         if self.parent.var.get() != 1:
-                            tF_f.readScale(self.parent.topframe)
+                            try:
+                                tF_f.readScale(self.parent.topframe)
+                            except:
+                                if self.parent.topframe.p_bar['value'] != 100:
+                                    message = message + self.parent.files[self.parent.i-1] + "\n"
+                                    continue
 
-                            if self.parent.topframe.bar['value'] != 100:
-                                message = message + self.parent.files[self.parent.i-1] + "\n"
-                                continue
-
-                        tF_f.preview(self)
+                        tF_f.preview(self.parent.topframe)
                         self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
                         self.parent.save += 1
 
@@ -242,7 +242,7 @@ class TopFrame(Frame):
         self.c3.current(1)  # set the selected item
         self.c3.grid(row=6, column=3)
 
-        self.spin = Spinbox(self.TopFrame, from_=1, to=10, width=5, textvariable=StringVar(value="4"))
+        self.spin = Spinbox(self.TopFrame, from_=1, to=10, width=5, textvariable=StringVar(value="5"))
         self.spin.grid(row=6, column=4)
 
         self.l10 = Label(self.TopFrame, text="Font Color", bg="#ffffff", fg="#000000")
