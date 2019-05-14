@@ -64,15 +64,15 @@ class Menubar(Menu):
     def selectImages(self):
 
         # Select file window
-        files = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
-                                            title="InstantScale - Please select the images to process",
-                                            filetypes=[("Image files", "*.tif *.jpg *.png"),
-                                                       ("Tiff images", "*.tif"),
-                                                       ("Jpg images", "*.jpg"),
-                                                       ("Png images", "*.png")])
+        self.parent.files_orig = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
+                                                             title="InstantScale - Please select the images to process",
+                                                             filetypes=[("Image files", "*.tif *.jpg *.png"),
+                                                                        ("Tiff images", "*.tif"),
+                                                                        ("Jpg images", "*.jpg"),
+                                                                        ("Png images", "*.png")])
 
         # Check if user selected at least an image
-        if not isinstance(files, str):
+        if not isinstance(self.parent.files_orig, str):
 
             # Check if an image was already opened before.
             if hasattr(self.parent, 'img3open') and self.parent.img3open is not None:
@@ -80,7 +80,7 @@ class Menubar(Menu):
                 tF_f.reset(self.parent.topframe)
 
             # Clean path files of strange characters
-            self.parent.files = pI.cleanPathFiles(files, exePath)
+            self.parent.files = pI.cleanPathFiles(self.parent.files_orig, exePath)
 
             # Open image
             self.parent.img3open = Image.open(self.parent.files[0])
@@ -100,63 +100,65 @@ class Menubar(Menu):
         # Save file window
 
         # Check if Preview was already performed
-        if hasattr(self.parent, 'img4open'):
+        if not hasattr(self.parent, 'img4open'):
+            pW.Error(self, "Please do Preview before saving.", "error", "no")
+            return 0
 
-            message = "Not all images were saved! \n"
-            self.parent.save = 0
+        # Ask for a folder to save images
+        folder = filedialog.askdirectory(initialdir="C:/Users/" + user + "/Desktop")
 
-            # Ask for a folder to save images
-            folder = filedialog.askdirectory(initialdir="C:/Users/" + user + "/Desktop")
+        # Check if a folder was selected
+        if folder == "":
+            return 0
 
-            # Check if a folder was selected
-            if folder != "":
+        # Checks if a folder named Images with new scale exist. If not it creates it.
+        if not os.path.exists(folder + "\\Images with new scale"):
+            os.makedirs(folder + "\\Images with new scale")
 
-                # Checks if a folder named Images with new scale exist. If not it creates it.
-                if not os.path.exists(folder + "\\Images with new scale"):
-                    os.makedirs(folder + "\\Images with new scale")
+        message = "Not all images were saved! \n"
+        self.parent.save = 0
 
-                # Checks if several images were selected or just one
-                if len(self.parent.files) > 1:
+        # Checks if several images were selected or just one
+        if len(self.parent.files) > 1:
 
-                    # Cycle through images and saves them
-                    for self.parent.i in range(1, len(self.parent.files)+1):
+            # Cycle through images and saves them
+            for self.parent.i in range(1, len(self.parent.files)+1):
 
-                        filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[self.parent.i-1]))
+                print(self.parent.files)
 
-                        self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
-                        self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
+                filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files_orig[self.parent.i-1]))
 
-                        if self.parent.var.get() != 1:
-                            try:
-                                tF_f.readScale(self.parent.topframe)
-                            except:
-                                if self.parent.topframe.p_bar['value'] != 100:
-                                    message = message + self.parent.files[self.parent.i-1] + "\n"
-                                    continue
+                self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
+                self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
 
-                        tF_f.preview(self.parent.topframe)
-                        self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
-                        self.parent.save += 1
+                if self.parent.var.get() != 1:
+                    try:
+                        tF_f.readScale(self.parent.topframe)
+                    except:
+                        if self.parent.topframe.p_bar['value'] != 100:
+                            message = message + self.parent.files[self.parent.i-1] + "\n"
+                            continue
 
-                else:
-
-                    filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files[0]))
-                    self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
-                    self.parent.save = 1
-
-                # Check if images all images were saved
-                if self.parent.save == len(self.parent.files):
-                    pW.Error(self.parent, "All images saved!", "message", "no")
-                    self.parent.save = 0
-                else:
-                    message = message + "Try using manual/Ruler for this images."
-                    pW.Error(self.parent, message, "warning", "no")
-                    self.parent.save = 0
-
-                self.parent.i = 1
+                tF_f.preview(self.parent.topframe)
+                self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
+                self.parent.save += 1
 
         else:
-            pW.Error(self, "Please do Preview before saving.", "error", "no")
+
+            filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files_orig[0]))
+            self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
+            self.parent.save = 1
+
+        # Check if images all images were saved
+        if self.parent.save == len(self.parent.files):
+            pW.Error(self.parent, "All images saved!", "message", "no")
+            self.parent.save = 0
+        else:
+            message = message + "Try using manual/Ruler for this images."
+            pW.Error(self.parent, message, "warning", "no")
+            self.parent.save = 0
+
+        self.parent.i = 1
 
 
 class TopFrame(Frame):

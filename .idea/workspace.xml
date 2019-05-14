@@ -8,8 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/HoldImages/bar.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/bar.tif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/HoldImages/ruller_crop.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/ruller_crop.tif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/cropImages/crop_rect.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/cropImages/crop_rect.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/thres.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/thres.tif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processImage.py" beforeDir="false" afterPath="$PROJECT_DIR$/processImage.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,16 +22,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1921">
-              <caret line="135" selection-start-line="135" selection-end-line="135" />
+            <state relative-caret-position="1360">
+              <caret line="162" selection-start-line="162" selection-end-line="162" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/popupWindows.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="274">
@@ -40,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1700">
-              <caret line="107" column="33" selection-start-line="107" selection-start-column="33" selection-end-line="107" selection-end-column="33" />
+            <state relative-caret-position="117">
+              <caret line="136" column="18" selection-start-line="136" selection-start-column="14" selection-end-line="136" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -49,8 +52,9 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/processImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3587">
-              <caret line="217" column="22" selection-start-line="217" selection-start-column="22" selection-end-line="217" selection-end-column="22" />
+            <state relative-caret-position="-1045">
+              <caret line="161" column="26" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="26" />
+              <caret line="163" column="26" selection-start-line="163" selection-start-column="24" selection-end-line="163" selection-end-column="26" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -69,7 +73,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.parent.parent</find>
       <find>Ruller</find>
       <find>e5</find>
       <find>dra</find>
@@ -99,6 +102,7 @@
       <find>reset</find>
       <find>print</find>
       <find>Err</find>
+      <find>draw</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -161,9 +165,9 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/update libraries.py" />
         <option value="$PROJECT_DIR$/tests.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/processImage.py" />
         <option value="$PROJECT_DIR$/topFrame_functions.py" />
+        <option value="$PROJECT_DIR$/processImage.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -177,6 +181,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -188,7 +193,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -349,6 +353,14 @@
       <option name="presentableId" value="Default" />
       <updated>1551964777515</updated>
     </task>
+    <task id="LOCAL-00001" summary="test">
+      <created>1557763123291</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1557763123291</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -374,7 +386,7 @@
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.39761648" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3289689" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3289689" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5029762" side_tool="true" weight="0.29787233" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.3289689" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.5022762" weight="0.33152762" />
@@ -383,6 +395,10 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
     </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -482,34 +498,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/popupWindows.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1921">
-          <caret line="135" selection-start-line="135" selection-end-line="135" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1700">
-          <caret line="107" column="33" selection-start-line="107" selection-start-column="33" selection-end-line="107" selection-end-column="33" />
+        <state relative-caret-position="274">
+          <caret line="167" column="19" selection-start-line="167" selection-start-column="19" selection-end-line="167" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/processImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3587">
-          <caret line="217" column="22" selection-start-line="217" selection-start-column="22" selection-end-line="217" selection-end-column="22" />
+        <state relative-caret-position="-1045">
+          <caret line="161" column="26" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="26" />
+          <caret line="163" column="26" selection-start-line="163" selection-start-column="24" selection-end-line="163" selection-end-column="26" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/popupWindows.py">
+    <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="167" column="19" selection-start-line="167" selection-start-column="19" selection-end-line="167" selection-end-column="19" />
+        <state relative-caret-position="117">
+          <caret line="136" column="18" selection-start-line="136" selection-start-column="14" selection-end-line="136" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1360">
+          <caret line="162" selection-start-line="162" selection-end-line="162" />
         </state>
       </provider>
     </entry>

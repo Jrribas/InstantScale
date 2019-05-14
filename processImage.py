@@ -155,8 +155,8 @@ def cleanPathFiles(path, exePath):
 
         filename, fileExtension = os.path.splitext(os.path.basename(path[x]))
 
-        intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊ"
-        outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE"
+        intab = "êéèíìîáàãâõñúùóòôç?!ÇÓÒÚÙÑÕÔÂÃÁÀÎÍÌÉÉÊªº%"
+        outtab = "eeeiiiaaaaonuuoooc__COOUUNOOAAAAIIIEEE___"
         trantab = str.maketrans(intab, outtab)
 
         new_filename = filename.translate(trantab)
