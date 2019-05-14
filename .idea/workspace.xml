@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d87e23c6-4b43-4b71-84e0-2131fd9b1de4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/images/HoldImages/bar.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/bar.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/cropImages/crop_rect.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/cropImages/crop_rect.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/file_import_image.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/file_import_image.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/file_import_image2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/file_import_image2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/thres.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/thres.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/popupWindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/popupWindows.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/topFrame_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/topFrame_functions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="185" column="76" selection-start-line="185" selection-start-column="76" selection-end-line="185" selection-end-column="76" />
+            <state relative-caret-position="-2133">
+              <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -36,22 +30,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="64" column="37" selection-start-line="64" selection-start-column="37" selection-end-line="64" selection-end-column="37" />
-              <folding>
-                <element signature="e#456#482#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/popupWindows.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="167" column="19" selection-start-line="167" selection-start-column="19" selection-end-line="167" selection-end-column="19" />
+            <state relative-caret-position="240">
+              <caret line="351" column="51" selection-start-line="351" selection-start-column="51" selection-end-line="351" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -59,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="284" column="45" selection-start-line="284" selection-start-column="45" selection-end-line="284" selection-end-column="45" />
+            <state relative-caret-position="332">
+              <caret line="288" lean-forward="true" selection-start-line="288" selection-end-line="288" />
             </state>
           </provider>
         </entry>
@@ -68,7 +50,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/processImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1045">
+            <state relative-caret-position="2771">
               <caret line="161" column="26" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="26" />
               <caret line="163" column="26" selection-start-line="163" selection-start-column="24" selection-end-line="163" selection-end-column="26" />
               <folding>
@@ -89,8 +71,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>um</find>
-      <find>um&quot;</find>
       <find>choice</find>
       <find>Menu</find>
       <find>bgcolo</find>
@@ -117,8 +97,10 @@
       <find>draw</find>
       <find>combo</find>
       <find>self.c1</find>
-      <find>valuesta</find>
       <find>style</find>
+      <find>combobo</find>
+      <find>spinb</find>
+      <find>valuesta</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -177,13 +159,13 @@
         <option value="$PROJECT_DIR$/preview.py" />
         <option value="$PROJECT_DIR$/readScale.py" />
         <option value="$PROJECT_DIR$/topFrame_function.py" />
-        <option value="$PROJECT_DIR$/popupWindows.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/update libraries.py" />
         <option value="$PROJECT_DIR$/processImage.py" />
         <option value="$PROJECT_DIR$/topFrame_functions.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/tests.py" />
+        <option value="$PROJECT_DIR$/popupWindows.py" />
       </list>
     </option>
   </component>
@@ -338,7 +320,21 @@
       <option name="project" value="LOCAL" />
       <updated>1557838496947</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed bug: combobox accepted user entry.&#10;Changed default images to be more clear">
+      <created>1557843557149</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1557843557149</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fixed bug: missed to combobox and spinbox">
+      <created>1557843755751</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1557843755751</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -359,7 +355,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49702382" visible="true" weight="0.29459903" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49702382" weight="0.29459903" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.39700997" />
@@ -377,7 +373,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
     <MESSAGE value="Fixed bug with ªº characters, simplified code on savefile function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug with ªº characters, simplified code on savefile function" />
+    <MESSAGE value="Fixed bug: combobox accepted user entry.&#10;Changed default images to be more clear" />
+    <MESSAGE value="Fixed bug: missed to combobox and spinbox" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug: missed to combobox and spinbox" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -470,16 +468,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="32" column="63" selection-start-line="32" selection-start-column="63" selection-end-line="32" selection-end-column="63" />
+          <folding>
+            <element signature="e#456#482#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/popupWindows.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="167" column="19" selection-start-line="167" selection-start-column="19" selection-end-line="167" selection-end-column="19" />
+        <state relative-caret-position="240">
+          <caret line="351" column="51" selection-start-line="351" selection-start-column="51" selection-end-line="351" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="288" lean-forward="true" selection-start-line="288" selection-end-line="288" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/processImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1045">
+        <state relative-caret-position="2771">
           <caret line="161" column="26" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="26" />
           <caret line="163" column="26" selection-start-line="163" selection-start-column="24" selection-end-line="163" selection-end-column="26" />
           <folding>
@@ -488,27 +503,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="284" column="45" selection-start-line="284" selection-start-column="45" selection-end-line="284" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="64" column="37" selection-start-line="64" selection-start-column="37" selection-end-line="64" selection-end-column="37" />
-          <folding>
-            <element signature="e#456#482#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="185" column="76" selection-start-line="185" selection-start-column="76" selection-end-line="185" selection-end-column="76" />
+        <state relative-caret-position="-2133">
+          <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>

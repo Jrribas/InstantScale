@@ -30,9 +30,7 @@ class App(Frame):
         self.button = Button(self, text="Change state!",
             command=self.switch)
         self.cbox1var, self.cbox2var = StringVar(), StringVar()
-        self.cbox1 = Combobox(self,
-            exportselection=0,
-            values=["sex", "sleep", "eat", "drink", "dream",],
+        self.cbox1 = Combobox(self, exportselection=0, values=["sleep", "eat", "drink", "dream",],
             textvariable=self.cbox1var,
             )
         self.cbox1.bind('<<ComboboxSelected>>', self.bfocus)

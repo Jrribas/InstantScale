@@ -345,12 +345,12 @@ class Ruler(Toplevel):
 
     def draw_reference_line(self):
 
-            x = self.winfo_pointerx() - self.winfo_rootx()
+        x = self.winfo_pointerx() - self.winfo_rootx()
 
-            self.pixel = x
+        self.pixel = x
 
-            self.refline = self.canvas.create_line(x, 0, x, 32)
-            self.reftxt = self.canvas.create_text([x, 35], text=str(x) + "px")
+        self.refline = self.canvas.create_line(x, 0, x, 32)
+        self.reftxt = self.canvas.create_text([x, 35], text=str(x) + "px")
 
     def update_ticks(self):
 
