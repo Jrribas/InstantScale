@@ -68,9 +68,11 @@ def readScale(self):
 
         # If manual checkbox is checked return widgets to normal state
         if self.parent.var.get() == 1:
-            widgets = [self.e1, self.parent.e2, self.e3, self.c1, self.c2]
+            widgets = [self.e1, self.parent.e2, self.e3]
             for wg in widgets:
                 wg.configure(state='normal')
+            self.c1.configure(state="readonly")
+            self.c2.configure(state="readonly")
 
         self.parent.ch1.config(state='normal')
 
@@ -160,11 +162,14 @@ def preview(self):
 def manual(self):
     # Change widgets from disabled to normal
 
-    widgets = [self.e1, self.parent.e2, self.e3, self.e4, self.c1, self.c2, self.b5]
+    widgets = [self.e1, self.parent.e2, self.e3, self.e4, self.b5]
 
     if self.parent.var.get() == 1:
         for wg in widgets:
             wg.configure(state='normal')
+        self.c1.configure(state="readonly")
+        self.c2.configure(state="readonly")
+
     else:
         for wg in widgets:
             wg.configure(state='disabled')
@@ -276,9 +281,7 @@ def valueStateChanger(self, widget, value):
         widget.insert(END, value)
         widget.configure(state='disabled')
     elif str_widget.find("combobox") > -1:
-        widget.configure(state='normal')
         widget.current(value)
-        widget.configure(state='disabled')
     elif str_widget.find("progressbar") > -1:
         widget['value'] = value
 

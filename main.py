@@ -4,7 +4,7 @@ from tkinter import Tk
 from tkinter import Menu
 from tkinter import Frame
 from tkinter import Canvas
-from tkinter import filedialog
+from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import Label
 from tkinter import Checkbutton
 from tkinter.ttk import Combobox
@@ -64,12 +64,12 @@ class Menubar(Menu):
     def selectImages(self):
 
         # Select file window
-        self.parent.files_orig = filedialog.askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
-                                                             title="InstantScale - Please select the images to process",
-                                                             filetypes=[("Image files", "*.tif *.jpg *.png"),
-                                                                        ("Tiff images", "*.tif"),
-                                                                        ("Jpg images", "*.jpg"),
-                                                                        ("Png images", "*.png")])
+        self.parent.files_orig = askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
+                                                  title="InstantScale - Please select the images to process",
+                                                  filetypes=[("Image files", "*.tif *.jpg *.png"),
+                                                             ("Tiff images", "*.tif"),
+                                                             ("Jpg images", "*.jpg"),
+                                                             ("Png images", "*.png")])
 
         # Check if user selected at least an image
         if not isinstance(self.parent.files_orig, str):
@@ -105,7 +105,7 @@ class Menubar(Menu):
             return 0
 
         # Ask for a folder to save images
-        folder = filedialog.askdirectory(initialdir="C:/Users/" + user + "/Desktop")
+        folder = askdirectory(initialdir="C:/Users/" + user + "/Desktop")
 
         # Check if a folder was selected
         if folder == "":
