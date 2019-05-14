@@ -239,12 +239,12 @@ class TopFrame(Frame):
         self.l9 = Label(self.TopFrame, text="Scale Size")
         self.l9.grid(row=5, column=4)
 
-        self.c3 = Combobox(self.TopFrame)
+        self.c3 = Combobox(self.TopFrame, state="readonly")
         self.c3['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
         self.c3.current(1)  # set the selected item
         self.c3.grid(row=6, column=3)
 
-        self.spin = Spinbox(self.TopFrame, from_=1, to=10, width=5, textvariable=StringVar(value="5"))
+        self.spin = Spinbox(self.TopFrame, from_=1, to=10, width=5, textvariable=StringVar(value="5"), state="readonly")
         self.spin.grid(row=6, column=4)
 
         self.l10 = Label(self.TopFrame, text="Font Color", bg="#ffffff", fg="#000000")
@@ -281,7 +281,7 @@ class TopFrame(Frame):
         self.l12 = Label(self.TopFrame, text="Crop Position")
         self.l12.grid(row=5, column=5, padx=5)
 
-        self.c4 = Combobox(self.TopFrame, width=13)
+        self.c4 = Combobox(self.TopFrame, width=13, state="readonly")
         self.c4['values'] = ("Bottom", "Top")
         self.c4.current(0)  # set the selected item
         self.c4.grid(row=6, column=5, sticky="ew")
