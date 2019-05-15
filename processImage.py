@@ -16,9 +16,9 @@ def getBar(img):
 
     try:
         for i in reversed(range(len(img))):
-            if img[i, 3][0] >= 254 and img[i, 3][1] >= 254 and img[i, 3][2] >= 254 and startRow is None:
+            if list(img[i, width-3]) >= [254, 254, 254] and startRow is None:
                 startRow = i
-            if img[i, 3][0] <= 250 and img[i, 3][1] <= 250 and img[i, 3][2] <= 250 and startRow is not None:
+            if list(img[i, width-3]) <= [250, 250, 250] and startRow is not None:
                 cropRow = i
                 break
 
