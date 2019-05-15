@@ -4,7 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d87e23c6-4b43-4b71-84e0-2131fd9b1de4" name="Default Changelist" comment="">
+    <list default="true" id="d87e23c6-4b43-4b71-84e0-2131fd9b1de4" name="Default Changelist" comment="Fixed bug: very small bar, induced a very long loop and an error (not fixed completely but for the purpose of the app it's probability was reduced)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/HoldImages/bar.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/bar.tif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" afterDir="false" />
@@ -63,8 +63,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/processImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="194" column="16" selection-start-line="194" selection-start-column="16" selection-end-line="194" selection-end-column="60" />
+            <state relative-caret-position="327">
+              <caret line="190" lean-forward="true" selection-start-line="190" selection-end-line="190" />
             </state>
           </provider>
         </entry>
@@ -383,7 +383,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557952473947</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Fixed bug: very small bar, induced a very long loop and an error (not fixed completely but for the purpose of the app it's probability was reduced)">
+      <created>1557957192810</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1557957192810</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -404,7 +411,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49627978" visible="true" weight="0.17009751" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49627978" weight="0.17009751" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.3943662" />
@@ -563,8 +570,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/processImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="194" column="16" selection-start-line="194" selection-start-column="16" selection-end-line="194" selection-end-column="60" />
+        <state relative-caret-position="327">
+          <caret line="190" lean-forward="true" selection-start-line="190" selection-end-line="190" />
         </state>
       </provider>
     </entry>

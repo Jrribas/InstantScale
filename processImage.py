@@ -192,7 +192,8 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
         if conv_dict[key] < 1 or (conv_dict[key] == 1 and scaleNumb < targetValue):
             if check * targetValue > 0.8 * width:
                 message = "max"
-                return message + " value is : " + str(round((0.8*width)/scale)-1) + " " + units
+                maxValue = (0.8 * width) / scale * scaleNumb
+                return message + " value is : " + str(round(maxValue - maxValue*0.005)) + " " + units
         elif conv_dict[key] > 1 or (conv_dict[key] == 1 and scaleNumb > targetValue):
             if check * targetValue < 30:
                 message = "min"

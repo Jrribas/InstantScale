@@ -196,13 +196,13 @@ class RullerWindow(Toplevel):
         self.image.grid_rowconfigure((0, 2), weight=1)
         self.image.grid_columnconfigure((0, 2), weight=1)
 
-        self.c1 = Combobox(self.buttons)
+        self.c1 = Combobox(self.buttons, state="readonly")
         self.c1['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
         self.c1.current(3)  # set the selected item
         self.c1.grid(row=1, column=4, padx=2.5)
         self.c1.bind('<<ComboboxSelected>>', lambda _: self.crop())
 
-        self.c3 = Combobox(self.buttons)
+        self.c3 = Combobox(self.buttons, state="readonly")
         self.c3['values'] = ("35", "45", "55", "65", "75")
         self.c3.current(2)  # set the selected item
         self.c3.grid(row=1, column=7, padx=2.5)
@@ -211,7 +211,7 @@ class RullerWindow(Toplevel):
         self.panel = Label(self.image, image=self.img, anchor="center")
         self.panel.grid(row=2, column=1, padx=2)
 
-        self.c2 = Combobox(self.buttons)
+        self.c2 = Combobox(self.buttons, state="readonly")
         self.c2['values'] = ("1x", "2x", "3x")
         self.c2.current(0)  # set the selected item
         self.c2.grid(row=1, column=5, padx=2.5)
