@@ -125,7 +125,6 @@ class Menubar(Menu):
             for self.parent.i in range(1, len(self.parent.files)+1):
 
                 filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files_orig[self.parent.i-1]))
-                print(filename)
 
                 self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
                 self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
