@@ -24,7 +24,8 @@ import popupWindows as pW
 
 # TODO: Check for more bugs
 # TODO: Check if code can be more clean
-# TODO: Check for more elegant solutions
+# TODO: fix bug bigger target value
+# TODO: Wrong path files not saved
 
 ################################################
 
