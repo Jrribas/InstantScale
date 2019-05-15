@@ -71,6 +71,7 @@ class Error(Toplevel):
         Toplevel.__init__(self, parent)
         self.parent = parent
 
+        self.grab_set()
         self.resizable(0, 0)
         self.attributes('-topmost', 'true')
 
@@ -137,11 +138,11 @@ class Error(Toplevel):
         self.center()
 
     def on_ok(self, event=None):
-        self.parent.choice = 0
+        self.parent.choice = "okay"
         self.destroy()
 
     def on_ok_1(self, event=None):
-        self.parent.choice = 1
+        self.parent.choice = "ignore"
         self.destroy()
 
     def show(self):
@@ -166,7 +167,8 @@ class RullerWindow(Toplevel):
         self.parent = parent
 
         # Variables
-        # Zoom value from combobox (self.e5)
+        # Zoom value, from combobox (self.e5)
+        self.grab_set()
         self.zoom_value = None
 
         self.img_open = Image.open(exePath + "\\images\\HoldImages\\ruller_crop.tif")

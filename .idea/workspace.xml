@@ -7,7 +7,7 @@
     <list default="true" id="d87e23c6-4b43-4b71-84e0-2131fd9b1de4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/popupWindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/popupWindows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topFrame_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/topFrame_functions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2133">
-              <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
+            <state relative-caret-position="97">
+              <caret line="277" selection-start-line="277" selection-end-line="277" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -29,11 +29,50 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/popupWindows.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="351" column="51" selection-start-line="351" selection-start-column="51" selection-end-line="351" selection-end-column="51" />
+            <state relative-caret-position="105">
+              <caret line="168" column="45" lean-forward="true" selection-start-line="168" selection-start-column="45" selection-end-line="168" selection-end-column="45" />
+              <folding>
+                <element signature="e#412#2328#0" />
+                <element signature="e#448#1960#0" />
+                <element signature="e#819#967#0" />
+                <element signature="e#1028#1186#0" />
+                <element signature="e#1992#2328#0" />
+                <element signature="e#2358#5649#0" />
+                <element signature="e#2424#5006#0" />
+                <element signature="e#2670#2696#0" />
+                <element signature="e#2782#2975#0" />
+                <element signature="e#3023#3191#0" />
+                <element signature="e#3218#3378#0" />
+                <element signature="e#4641#4848#0" />
+                <element signature="e#4876#4983#0" />
+                <element signature="e#5049#5094#0" />
+                <element signature="e#5139#5184#0" />
+                <element signature="e#5214#5281#0" />
+                <element signature="e#5313#5649#0" />
+                <element signature="e#6578#6631#0" />
+                <element signature="e#8233#8541#0" />
+                <element signature="e#8734#9632#0" />
+                <element signature="e#9663#9939#0" />
+                <element signature="e#9969#14354#0" />
+                <element signature="e#10005#11327#0" />
+                <element signature="e#11364#11378#0" />
+                <element signature="e#11412#11741#0" />
+                <element signature="e#11500#11587#0" />
+                <element signature="e#11778#12176#0" />
+                <element signature="e#11822#11980#0" />
+                <element signature="e#12222#12428#0" />
+                <element signature="e#12467#12747#0" />
+                <element signature="e#12696#12747#0" />
+                <element signature="e#12788#13101#0" />
+                <element signature="e#13151#13192#0" />
+                <element signature="e#13241#13276#0" />
+                <element signature="e#13323#13495#0" />
+                <element signature="e#13540#13986#0" />
+                <element signature="e#14018#14354#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -41,8 +80,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="288" lean-forward="true" selection-start-line="288" selection-end-line="288" />
+            <state relative-caret-position="131">
+              <caret line="103" column="13" selection-start-line="103" selection-start-column="13" selection-end-line="103" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -50,7 +89,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/processImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2771">
+            <state relative-caret-position="2669">
               <caret line="161" column="26" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="26" />
               <caret line="163" column="26" selection-start-line="163" selection-start-column="24" selection-end-line="163" selection-end-column="26" />
               <folding>
@@ -71,9 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>choice</find>
-      <find>Menu</find>
-      <find>bgcolo</find>
       <find>self.bgColour_rgb</find>
       <find>pri</find>
       <find>size</find>
@@ -101,6 +137,9 @@
       <find>combobo</find>
       <find>spinb</find>
       <find>valuesta</find>
+      <find>self.choi</find>
+      <find>choice</find>
+      <find>previ</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -162,9 +201,9 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/update libraries.py" />
         <option value="$PROJECT_DIR$/processImage.py" />
-        <option value="$PROJECT_DIR$/topFrame_functions.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/tests.py" />
+        <option value="$PROJECT_DIR$/topFrame_functions.py" />
         <option value="$PROJECT_DIR$/popupWindows.py" />
       </list>
     </option>
@@ -355,10 +394,10 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49702382" weight="0.29459903" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49702382" visible="true" weight="0.29459903" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Debug" order="5" weight="0.39700997" />
+      <window_info anchor="bottom" id="Debug" order="5" weight="0.39443535" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3289689" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3289689" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5029762" side_tool="true" weight="0.29787233" />
@@ -439,7 +478,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/readScale.py" />
     <entry file="file://$PROJECT_DIR$/rullerWindow.py" />
-    <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py" />
     <entry file="file://$PROJECT_DIR$/License.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -478,23 +516,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/popupWindows.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="351" column="51" selection-start-line="351" selection-start-column="51" selection-end-line="351" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="288" lean-forward="true" selection-start-line="288" selection-end-line="288" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/processImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2771">
+        <state relative-caret-position="2669">
           <caret line="161" column="26" selection-start-line="161" selection-start-column="24" selection-end-line="161" selection-end-column="26" />
           <caret line="163" column="26" selection-start-line="163" selection-start-column="24" selection-end-line="163" selection-end-column="26" />
           <folding>
@@ -503,12 +527,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="1699" column="30" lean-forward="true" selection-start-line="1699" selection-start-column="30" selection-end-line="1699" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2133">
-          <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
+        <state relative-caret-position="97">
+          <caret line="277" selection-start-line="277" selection-end-line="277" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="103" column="13" selection-start-line="103" selection-start-column="13" selection-end-line="103" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/popupWindows.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="168" column="45" lean-forward="true" selection-start-line="168" selection-start-column="45" selection-end-line="168" selection-end-column="45" />
+          <folding>
+            <element signature="e#412#2328#0" />
+            <element signature="e#448#1960#0" />
+            <element signature="e#819#967#0" />
+            <element signature="e#1028#1186#0" />
+            <element signature="e#1992#2328#0" />
+            <element signature="e#2358#5649#0" />
+            <element signature="e#2424#5006#0" />
+            <element signature="e#2670#2696#0" />
+            <element signature="e#2782#2975#0" />
+            <element signature="e#3023#3191#0" />
+            <element signature="e#3218#3378#0" />
+            <element signature="e#4641#4848#0" />
+            <element signature="e#4876#4983#0" />
+            <element signature="e#5049#5094#0" />
+            <element signature="e#5139#5184#0" />
+            <element signature="e#5214#5281#0" />
+            <element signature="e#5313#5649#0" />
+            <element signature="e#6578#6631#0" />
+            <element signature="e#8233#8541#0" />
+            <element signature="e#8734#9632#0" />
+            <element signature="e#9663#9939#0" />
+            <element signature="e#9969#14354#0" />
+            <element signature="e#10005#11327#0" />
+            <element signature="e#11364#11378#0" />
+            <element signature="e#11412#11741#0" />
+            <element signature="e#11500#11587#0" />
+            <element signature="e#11778#12176#0" />
+            <element signature="e#11822#11980#0" />
+            <element signature="e#12222#12428#0" />
+            <element signature="e#12467#12747#0" />
+            <element signature="e#12696#12747#0" />
+            <element signature="e#12788#13101#0" />
+            <element signature="e#13151#13192#0" />
+            <element signature="e#13241#13276#0" />
+            <element signature="e#13323#13495#0" />
+            <element signature="e#13540#13986#0" />
+            <element signature="e#14018#14354#0" />
           </folding>
         </state>
       </provider>

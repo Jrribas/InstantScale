@@ -86,77 +86,79 @@ def readScale(self):
 
 
 def preview(self):
-    self.choice = 1
+    self.choice = None
 
     # Check if an image was imported
-    if hasattr(self.parent, 'img3open'):
-
-        # Checks if all parameters are filled and if the user chose a contrast higher than 7 or chose to ignore the
-        # warning the code continues to run
-        if self.e1.get() == '' or self.parent.e2.get() == '' or self.e3.get() == '':
-            pW.Error(self, "Please have all parameters with values, or click Read Scale.", "warning", "no")
-            self.choice = 0
-        elif self.contrast < 7 and self.parent.save == 0:
-            errormessage = "Contrast is less than 7. This means that visibility/readability can be compromised. \n " \
-                           "We sugest a contrast higher than 7 for better scale color set :)"
-            pW.Error(self, errormessage, "warning", "yes")
-
-        if self.choice == 1:
-
-            self.img = imread(self.parent.files[self.parent.i - 1])
-
-            # Check if target value was specified
-            if self.parent.var.get() == 0:
-                self.targetValue = 0
-                self.targetUnit = ''
-            elif self.e4.get() != "":
-                self.targetValue = int(self.e4.get())
-                self.targetUnit = self.c2.get()
-            else:
-                self.targetValue = 0
-                self.targetUnit = ''
-
-            # Check the new scale position
-            position_dict = {"Bottom Left": 0, "Bottom Right": 1, "Top Left": 2, "Top Right": 3}
-            self.position = position_dict[self.c3.get()]
-
-            # Get parameters: Scale number, Scale units, Number of pixels, Size of the new scale.
-            self.scale = int(self.parent.e2.get())
-            self.sizeOfScale = int(self.spin.get())
-            self.scaleNumb = int(self.e1.get())
-            self.units = self.c1.get()
-
-            # Change variable of scale colors from list of floats to tupple of integrers
-            self.bgColour = tuple([int(i) for i in self.bgColour_rgb])
-            self.ftColour = tuple([int(i) for i in self.ftColour_rgb])
-
-            # Check if crop is from top or from bottom
-            self.cropbeg = self.c4.get()
-
-            # Obtain image without white bar
-            self.crop_img = pI.cropImage(self.img, int(self.e3.get()), self.cropbeg)
-
-            # Draw scale in cropped image
-            self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units,
-                                           exePath, self.position, self.sizeOfScale, self.ftColour,
-                                           self.bgColour, self.targetValue, self.targetUnit)
-
-            if isinstance(self.finalImage, str):
-                message = "Value of target value to high. For the scale number and pixels provided, " + self.finalImage
-                pW.Error(self, message, "error", "no")
-                return 0
-
-            self.parent.img4open = self.finalImage
-
-            # Resize image
-            self.parent.img4 = ImageTk.PhotoImage(
-                self.parent.img4open.resize((int(self.parent.panel2.winfo_width()) - 5,
-                                             int(self.parent.panel2.winfo_height()) - 5), Image.ANTIALIAS))
-
-            # Put image on canvas
-            self.parent.panel2.itemconfig(self.parent.image_on_panel2, image=self.parent.img4)
-    else:
+    if not hasattr(self.parent, 'img3open'):
         pW.Error(self, "Please import a image first.", "error", "no")
+        return 0
+
+    # Checks if all parameters are filled and if the user chose a contrast higher than 7 or chose to ignore the
+    # warning the code continues to run
+    if self.e1.get() == '' or self.parent.e2.get() == '' or self.e3.get() == '':
+        pW.Error(self, "Please have all parameters with values, or click Read Scale.", "warning", "no")
+        return 0
+    elif self.contrast < 7 and self.parent.save == 0:
+        errormessage = "Contrast is less than 7. This means that visibility/readability can be compromised. \n " \
+                       "We sugest a contrast higher than 7 for better scale color set :)"
+        error = pW.Error(self, errormessage, "warning", "yes")
+        error.wait_window()
+
+        if self.choice != "ignore":
+            return 0
+
+    self.img = imread(self.parent.files[self.parent.i - 1])
+
+    # Check if target value was specified
+    if self.parent.var.get() == 0:
+        self.targetValue = 0
+        self.targetUnit = ''
+    elif self.e4.get() != "":
+        self.targetValue = int(self.e4.get())
+        self.targetUnit = self.c2.get()
+    else:
+        self.targetValue = 0
+        self.targetUnit = ''
+
+    # Check the new scale position
+    position_dict = {"Bottom Left": 0, "Bottom Right": 1, "Top Left": 2, "Top Right": 3}
+    self.position = position_dict[self.c3.get()]
+
+    # Get parameters: Scale number, Scale units, Number of pixels, Size of the new scale.
+    self.scale = int(self.parent.e2.get())
+    self.sizeOfScale = int(self.spin.get())
+    self.scaleNumb = int(self.e1.get())
+    self.units = self.c1.get()
+
+    # Change variable of scale colors from list of floats to tupple of integrers
+    self.bgColour = tuple([int(i) for i in self.bgColour_rgb])
+    self.ftColour = tuple([int(i) for i in self.ftColour_rgb])
+
+    # Check if crop is from top or from bottom
+    self.cropbeg = self.c4.get()
+
+    # Obtain image without white bar
+    self.crop_img = pI.cropImage(self.img, int(self.e3.get()), self.cropbeg)
+
+    # Draw scale in cropped image
+    self.finalImage = pI.drawScale(self.crop_img, self.scale, int(self.scaleNumb), self.units,
+                                   exePath, self.position, self.sizeOfScale, self.ftColour,
+                                   self.bgColour, self.targetValue, self.targetUnit)
+
+    if isinstance(self.finalImage, str):
+        message = "Value of target value to high. For the scale number and pixels provided, " + self.finalImage
+        pW.Error(self, message, "error", "no")
+        return 0
+
+    self.parent.img4open = self.finalImage
+
+    # Resize image
+    self.parent.img4 = ImageTk.PhotoImage(
+        self.parent.img4open.resize((int(self.parent.panel2.winfo_width()) - 5,
+                                     int(self.parent.panel2.winfo_height()) - 5), Image.ANTIALIAS))
+
+    # Put image on canvas
+    self.parent.panel2.itemconfig(self.parent.image_on_panel2, image=self.parent.img4)
 
 
 def manual(self):
