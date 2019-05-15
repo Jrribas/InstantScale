@@ -20,6 +20,8 @@ def getBar(img):
                 startRow = i
             if list(img[i, width-3]) <= [250, 250, 250] and startRow is not None:
                 cropRow = i
+                if startRow - cropRow < 50:
+                    return 0, 0, 0
                 break
 
         # Cropping image

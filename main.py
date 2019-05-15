@@ -124,20 +124,17 @@ class Menubar(Menu):
             # Cycle through images and saves them
             for self.parent.i in range(1, len(self.parent.files)+1):
 
-                print(self.parent.files)
-
                 filename, fileExtension = os.path.splitext(os.path.basename(self.parent.files_orig[self.parent.i-1]))
+                print(filename)
 
                 self.parent.img3open = Image.open(self.parent.files[self.parent.i-1])
                 self.parent.img3 = ImageTk.PhotoImage(self.parent.img3open)
 
                 if self.parent.var.get() != 1:
-                    try:
-                        tF_f.readScale(self.parent.topframe)
-                    except:
-                        if self.parent.topframe.p_bar['value'] != 100:
-                            message = message + self.parent.files[self.parent.i-1] + "\n"
-                            continue
+                    tF_f.readScale(self.parent.topframe)
+                    if self.parent.topframe.p_bar['value'] != 100:
+                        message = message + self.parent.files[self.parent.i-1] + "\n"
+                        continue
 
                 tF_f.preview(self.parent.topframe)
                 self.parent.img4open.save(folder + "\\Images with new scale\\" + filename + fileExtension)
