@@ -15,7 +15,7 @@ def getBar(img):
     # Look pixel by pixel for the white bar
 
     try:
-        for i in reversed(range(len(img))):
+        for i in reversed(range(height)):
             if list(img[i, width-3]) >= [254, 254, 254] and startRow is None:
                 startRow = i
             if list(img[i, width-3]) <= [250, 250, 250] and startRow is not None:
@@ -27,7 +27,7 @@ def getBar(img):
         # Cropping image
         crop_img = img[0:cropRow, 0::]
         bar_img = img[cropRow + 1:startRow, 1:width]
-        barSize = (len(img) - cropRow) * 100 / len(img)+1
+        barSize = (height - cropRow) * 100 / height+1
 
     except TypeError:
         return 0, 0, 0
@@ -54,9 +54,9 @@ def getScale(bar_img):
     # Function that count the scale bar pixels
 
     k = []
-    for i in range(len(bar_img)):
+    for i in range(len(bar_img)):  # len(bar_img) -> height
         for j in range(len(bar_img[i])):
-            if bar_img[i, j][0] < 50 and bar_img[i, j][1] < 50 and bar_img[i, j][2] < 50:
+            if list(bar_img[i, j]) < [50, 50, 50]:
                 k.append([i, j])
             else:
                 if len(k) > 30:
