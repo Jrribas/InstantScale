@@ -1,36 +1,35 @@
+import tkinter as tk
 
-scale = 444
-units = "µm"
-targetValue = 500
-targetUnits = "mm"
-width = 1280
-scaleNumb = 1
+class Example(tk.Frame):
+    def __init__(self, root):
+        tk.Frame.__init__(self, root)
 
-conv_dict = {"mmµm": 1000, "mmnm": 1000000, "µmmm": 0.001, "µmnm": 1000, "nmmm": 0.000001, "nmµm": 0.001,
-             "µmµm": 1, "nmnm": 1, "mmmm": 1}
+        self.menubar = tk.Menu()
+        self.test1Menu = tk.Menu()
+        self.test2Menu = tk.Menu()
+        self.menubar.add_cascade(label="Test1", menu=self.test1Menu)
+        self.menubar.add_cascade(label="Test2", menu=self.test2Menu)
 
-key = units + targetUnits
-print(key)
-check = (((1 / conv_dict[key]) * scale) / scaleNumb)
-print(check)
+        self.test1Menu.add_command(label="Enable Test2", command=self.enable_menu)
+        self.test1Menu.add_command(label="Disable Test2", command=self.disable_menu)
+        self.test2Menu.add_command(label="One")
+        self.test2Menu.add_command(label="Two")
+        self.test2Menu.add_command(label="Three")
+        self.test2Menu.add_separator()
+        self.test2Menu.add_command(label="Four")
+        self.test2Menu.add_command(label="Five")
 
-if conv_dict[key] < 1 or (conv_dict[key] == 1 and scaleNumb < targetValue):
-    print(check * targetValue, 0.8 * width)
-    if check * targetValue > 0.8 * width:
-        message = "max"
-        maxValue = (0.8 * width) / scale * scaleNumb
-        print(0.8 * width / scale, width, scaleNumb, scale)
-        print((0.8 * width) / scale * scaleNumb, scaleNumb)
-        print(message + " value is : " + str(round(maxValue - maxValue*0.005)) + " " + units)
-elif conv_dict[key] > 1 or (conv_dict[key] == 1 and scaleNumb > targetValue):
-    if check * targetValue < 30:
-        message = "min"
-        print(message + " value is : " + str(round(30 / check) + 1) + " " + targetUnits)
+        root.configure(menu=self.menubar)
 
-newScaleNumb = targetValue
-units = targetUnits
-newScale = check * targetValue
+    def enable_menu(self):
+        self.menubar.entryconfig("Test2", state="normal")
 
+    def disable_menu(self):
+        self.menubar.entryconfig("Test2", state="disabled")
 
-
-
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.geometry("500x500")
+    app = Example(root)
+    app.pack(fill="both", expand=True)
+    root.mainloop()

@@ -16,9 +16,9 @@ def getBar(img):
 
     try:
         for i in reversed(range(height)):
-            if list(img[i, width-3]) >= [254, 254, 254] and startRow is None:
+            if list(img[i, width - 3]) >= [254, 254, 254] and startRow is None:
                 startRow = i
-            if list(img[i, width-3]) <= [250, 250, 250] and startRow is not None:
+            if list(img[i, width - 3]) <= [250, 250, 250] and startRow is not None:
                 cropRow = i
                 if startRow - cropRow < 50:
                     return 0, 0, 0
@@ -27,7 +27,7 @@ def getBar(img):
         # Cropping image
         crop_img = img[0:cropRow, 0::]
         bar_img = img[cropRow + 1:startRow, 1:width]
-        barSize = (height - cropRow) * 100 / height+1
+        barSize = (height - cropRow) * 100 / height + 1
 
     except TypeError:
         return 0, 0, 0
@@ -41,10 +41,10 @@ def cropImage(img, cropPercentage, position):
     height, width, channels = img.shape
 
     if position == "Bottom":
-        cropRow = int((height * (100-cropPercentage)) / 100)
+        cropRow = int((height * (100 - cropPercentage)) / 100)
         crop_image = img[0:cropRow, 0::]
     else:
-        cropRow = int((height * (100-cropPercentage)) / 100)
+        cropRow = int((height * (100 - cropPercentage)) / 100)
         crop_image = img[height - cropRow::, 0::]
 
     return crop_image
@@ -66,7 +66,6 @@ def getScale(bar_img):
 
 
 def getNumber(bar_img, bar_img_res, exePath):
-
     # Get path from copy of original image
     path = exePath + "\\images\\"
 
@@ -97,7 +96,6 @@ def getNumber(bar_img, bar_img_res, exePath):
         mo = findSize.search(scalenumb)
 
         if mo is not None and mo.group(1) != '0 ':
-
             return mo.group(1), units_dict[mo.group(2)]
 
     # If not scale number or unit was found till now an improved threshold is done
@@ -126,7 +124,7 @@ def getNumber(bar_img, bar_img_res, exePath):
             if mo is not None and mo.group(1) != '0 ':
                 return mo.group(1), units_dict[mo.group(2)]
 
-        bar_img_res = original_bar_img[1:200, j:j+250]
+        bar_img_res = original_bar_img[1:200, j:j + 250]
 
         imwrite(path + "HoldImages\\resize_im1.tif", bar_img_res)
         temp = Image.open(path + "HoldImages\\resize_im1.tif")
@@ -139,7 +137,6 @@ def getNumber(bar_img, bar_img_res, exePath):
 
 
 def cleanPathFiles(path, exePath):
-
     Cpath = [""] * len(path)
 
     # Create temp directory
@@ -175,12 +172,12 @@ def cleanPathFiles(path, exePath):
 
 def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
               fontColor=(0, 0, 0), bgColor=(255, 255, 255), targetValue=0, targetUnits=''):
-    
     # Draw the new scale in the image
     height, width, channels = img.shape
     minpixels = 0.08 * width
     maxpixels = 0.20 * width
     val = None
+    sizeOfScale = sizeOfScale * height / 1000
 
     if targetUnits != "":
         conv_dict = {"mmµm": 1000, "mmnm": 1000000, "µmmm": 0.001, "µmnm": 1000, "nmmm": 0.000001, "nmµm": 0.001,
@@ -193,11 +190,11 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
             if check * targetValue > 0.8 * width:
                 message = "max"
                 maxValue = (0.8 * width) / scale * scaleNumb
-                return message + " value is : " + str(round(maxValue - maxValue*0.005)) + " " + units
+                return message + " value is : " + str(round(maxValue - maxValue * 0.005)) + " " + units
         elif conv_dict[key] > 1 or (conv_dict[key] == 1 and scaleNumb > targetValue):
             if check * targetValue < 30:
                 message = "min"
-                return message + " value is : " + str(round(30/check)+1) + " " + targetUnits
+                return message + " value is : " + str(round(30 / check) + 1) + " " + targetUnits
 
         newScaleNumb = targetValue
         units = targetUnits
@@ -236,7 +233,7 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
     im = Image.open(path + "/crop_rect.png")
     draw = ImageDraw.Draw(im)
 
-    fontsize = 13 * sizeOfScale
+    fontsize = round(13 * sizeOfScale)
     font = ImageFont.truetype("arial.ttf", fontsize)
     scaletext = str(newScaleNumb) + ' ' + units
 
@@ -262,14 +259,15 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
     if position == 0 or position == 2:
         textDimensions = [x + y for x, y in zip(sD, [0, 0, int(-newScale + w), 0])]
     else:
-        textDimensions = [x + y for x, y in zip(sD, [int(+newScale-w), 0, 0, 0])]
+        textDimensions = [x + y for x, y in zip(sD, [int(+newScale - w), 0, 0, 0])]
 
     if newScale > w:
         draw.rectangle(sD, fill=bgColor, outline=bgColor)
-        draw.text(((((sD[2]-sD[0])/2) - w/2) + sD[0], sD[1] + 7*sizeOfScale), scaletext, font=font, fill=fontColor)
+        draw.text(((((sD[2] - sD[0]) / 2) - w / 2) + sD[0], sD[1] + 7 * sizeOfScale), scaletext, font=font,
+                  fill=fontColor)
         draw.line([((sD[2] - sD[0]) / 2) - newScale / 2 + sD[0], sD[1] + 5 * sizeOfScale,
                    sD[0] + ((sD[2] - sD[0]) / 2) + newScale / 2, sD[1] + 5 * sizeOfScale], fill=fontColor,
-                  width=3 * sizeOfScale)
+                  width=round(3 * sizeOfScale))
     else:
         draw.rectangle(textDimensions, fill=bgColor, outline=bgColor)
         draw.text(((((textDimensions[2] - textDimensions[0]) / 2) - w / 2) + textDimensions[0],
@@ -277,7 +275,7 @@ def drawScale(img, scale, scaleNumb, units, exePath, position, sizeOfScale,
         draw.line([((textDimensions[2] - textDimensions[0]) / 2) - newScale / 2 + textDimensions[0],
                    textDimensions[1] + 5 * sizeOfScale,
                    textDimensions[0] + ((textDimensions[2] - textDimensions[0]) / 2) + newScale / 2,
-                   textDimensions[1] + 5 * sizeOfScale], fill=fontColor, width=3 * sizeOfScale)
+                   textDimensions[1] + 5 * sizeOfScale], fill=fontColor, width=round(3 * sizeOfScale))
 
     del draw
     return im

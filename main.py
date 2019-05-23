@@ -21,6 +21,7 @@ import os
 import processImage as pI
 import topFrame_functions as tF_f
 import popupWindows as pW
+import threading
 
 # TODO: Check for more bugs
 # TODO: Check if code can be more clean
@@ -46,14 +47,15 @@ class Menubar(Menu):
         Menu.__init__(self, parent, tearoff=False)
         self.parent = parent
 
+        self.widgets = self.parent.topframe.winfo_children()
+
         # We don't like tear off xD
-        menubar = Menu(self, tearoff=0)
         file_menu = Menu(self, tearoff=0)
-        help_menu = Menu(menubar, tearoff=0)
+        help_menu = Menu(self, tearoff=0)
 
         # Define items in menus
         file_menu.add_command(label='Import Image', command=lambda: self.selectImages())
-        file_menu.add_command(label='Save As', command=self.saveFile)
+        file_menu.add_command(label='Save As', command=lambda: self.thread_save())
         file_menu.add_command(label='Exit', command=lambda: InstantScale.exit(self.parent))
         help_menu.add_command(label='Information', command=lambda: pW.About(self.parent))
         help_menu.add_command(label='Help', command=lambda: open("https://github.com/Jrribas/InstantScale/wiki"))
@@ -61,6 +63,12 @@ class Menubar(Menu):
         # Assign menus
         self.add_cascade(label='File', menu=file_menu)
         self.add_cascade(label='About', menu=help_menu)
+
+    def thread_save(self):
+
+        thread = threading.Thread(target=self.saveFile, args=())
+        thread.daemon = True
+        thread.start()
 
     def selectImages(self):
 
@@ -112,6 +120,13 @@ class Menubar(Menu):
         if folder == "":
             return 0
 
+        self.entryconfig("File", state="disabled")
+        self.entryconfig("About", state="disabled")
+
+        del self.widgets[1]
+        for w in self.widgets:
+            w.configure(state="disabled")
+
         # Checks if a folder named Images with new scale exist. If not it creates it.
         if not os.path.exists(folder + "\\Images with new scale"):
             os.makedirs(folder + "\\Images with new scale")
@@ -157,6 +172,16 @@ class Menubar(Menu):
 
         self.parent.i = 1
 
+        self.entryconfig("File", state="normal")
+        self.entryconfig("About", state="normal")
+        for w in self.widgets:
+            if self.parent.var.get() == 0 and w.winfo_class() == "TEntry":
+                continue
+            elif w.winfo_class() == "TCombobox" or w.winfo_class() == "Spinbox":
+                w.configure(state="readonly")
+            else:
+                w.configure(state="normal")
+
 
 class TopFrame(Frame):
     def __init__(self, parent):
@@ -164,16 +189,16 @@ class TopFrame(Frame):
         self.parent = parent
 
         # Frame assignment
-        self.TopFrame = Frame(self.parent, height=190, width=800)
-        self.TopFrame.grid_propagate(False)
-        self.TopFrame.grid(row=1, column=1, sticky="nw")
+        self.configure(height=190, width=800)
+        self.grid_propagate(False)
+        self.grid(row=1, column=1, sticky="nw")
 
         # Frame configuration
-        self.TopFrame.grid_rowconfigure((0, 7), weight=1)
-        self.TopFrame.grid_columnconfigure((0, 8), weight=1)
+        self.grid_rowconfigure((0, 7), weight=1)
+        self.grid_columnconfigure((0, 8), weight=1)
 
         # Widgets assignment
-        self.parent.b1 = Button(self.TopFrame, text="Read Scale", command=lambda: tF_f.readScale(self))
+        self.parent.b1 = Button(self, text="Read Scale", command=lambda: tF_f.readScale(self))
         self.parent.b1.grid(row=1, column=1, columnspan=2, pady=5)
         self.parent.b1.config(state='disabled')
 
@@ -181,104 +206,104 @@ class TopFrame(Frame):
         style = Style()
         style.theme_use('default')
         style.configure("black.Horizontal.TProgressbar", background='black')
-        self.p_bar = Progressbar(self.TopFrame, length=200, style='black.Horizontal.TProgressbar')
+        self.p_bar = Progressbar(self, length=200, style='black.Horizontal.TProgressbar')
         self.p_bar['value'] = 0
         self.p_bar.grid(row=2, column=1, columnspan=2, sticky="nswe", padx=2)
 
         # All widgets
-        self.l3 = Label(self.TopFrame, text="Value")
+        self.l3 = Label(self, text="Value")
         self.l3.grid(row=3, column=1, pady=5)
 
-        self.l3 = Label(self.TopFrame, text="Unit (mm, µm, nm)")
+        self.l3 = Label(self, text="Unit (mm, µm, nm)")
         self.l3.grid(row=3, column=2, pady=5)
 
         self.vcmd = (self.register(self.checkInput), '%S', '%P')
 
-        self.e1 = Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e1 = Entry(self, state='disabled', validate="key", validatecommand=self.vcmd)
         self.e1.grid(row=4, column=1, padx=2, sticky="we")
 
-        self.c1 = Combobox(self.TopFrame, state='disabled')
+        self.c1 = Combobox(self, state='disabled')
         self.c1['values'] = ("mm", "µm", "nm")
         self.c1.grid(row=4, column=2, padx=2, sticky="we")
         self.c1.current(1)
 
-        self.l4 = Label(self.TopFrame, text="Scale Size (Pixels)")
+        self.l4 = Label(self, text="Scale Size (Pixels)")
         self.l4.grid(row=5, column=1, pady=5)
 
-        self.l5 = Label(self.TopFrame, text="White Bar (%)")
+        self.l5 = Label(self, text="White Bar (%)")
         self.l5.grid(row=5, column=2, pady=5)
 
-        self.parent.e2 = Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.parent.e2 = Entry(self, state='disabled', validate="key", validatecommand=self.vcmd)
         self.parent.e2.grid(row=6, column=1, sticky="we", padx=2)
 
         self.vcmd1 = (self.register(self.checkInput1), '%S', "%P")
 
-        self.e3 = Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd1)
+        self.e3 = Entry(self, state='disabled', validate="key", validatecommand=self.vcmd1)
         self.e3.grid(row=6, column=2, sticky="we", padx=2)
 
-        self.l7 = Label(self.TopFrame, text="Target Value")
+        self.l7 = Label(self, text="Target Value")
         self.l7.grid(row=3, column=3, pady=5)
 
-        self.l8 = Label(self.TopFrame, text="Target Unit")
+        self.l8 = Label(self, text="Target Unit")
         self.l8.grid(row=3, column=4, pady=5)
 
-        self.e4 = Entry(self.TopFrame, state='disabled', validate="key", validatecommand=self.vcmd)
+        self.e4 = Entry(self, state='disabled', validate="key", validatecommand=self.vcmd)
         self.e4.grid(row=4, column=3, sticky="we", padx=2)
 
-        self.c2 = Combobox(self.TopFrame, state='disabled')
+        self.c2 = Combobox(self, state='disabled')
         self.c2['values'] = ("mm", "µm", "nm")
         self.c2.grid(row=4, column=4, padx=2, sticky="we")
         self.c2.current(1)
 
-        self.l8 = Label(self.TopFrame, text="Scale Position")
+        self.l8 = Label(self, text="Scale Position")
         self.l8.grid(row=5, column=3)
 
-        self.l9 = Label(self.TopFrame, text="Scale Size")
+        self.l9 = Label(self, text="Scale Size")
         self.l9.grid(row=5, column=4)
 
-        self.c3 = Combobox(self.TopFrame, state="readonly")
+        self.c3 = Combobox(self, state="readonly")
         self.c3['values'] = ("Top Left", "Top Right", "Bottom Left", "Bottom Right")
         self.c3.current(1)  # set the selected item
         self.c3.grid(row=6, column=3)
 
-        self.spin = Spinbox(self.TopFrame, from_=1, to=10, width=5, textvariable=StringVar(value="5"), state="readonly")
+        self.spin = Spinbox(self, from_=1, to=10, width=5, textvariable=StringVar(value="5"), state="readonly")
         self.spin.grid(row=6, column=4)
 
-        self.l10 = Label(self.TopFrame, text="Font Color", bg="#ffffff", fg="#000000")
+        self.l10 = Label(self, text="Font Color", bg="#ffffff", fg="#000000")
         self.l10.grid(row=2, column=5, rowspan=2, sticky="nsew", padx=5)
 
         self.bgColour_rgb = [255.0, 255.0, 255.0]
         self.ftColour_rgb = [0.0, 0.0, 0.0]
 
-        self.b3 = Button(self.TopFrame, text="Pick background color", command=lambda: tF_f.chooseColour(self, "bg"))
+        self.b3 = Button(self, text="Pick background color", command=lambda: tF_f.chooseColour(self, "bg"))
         self.b3.grid(row=2, column=6, sticky="ew")
 
         self.contrast = 21
         self.text = StringVar()
         self.text.set("Contrast = %.2f" % self.contrast)
 
-        self.l11 = Label(self.TopFrame, textvariable=self.text, bg="#008000")
+        self.l11 = Label(self, textvariable=self.text, bg="#008000")
         self.l11.grid(row=4, column=5, sticky="ew", padx=5)
 
-        self.b4 = Button(self.TopFrame, text="Pick font color", command=lambda: tF_f.chooseColour(self, "fg"))
+        self.b4 = Button(self, text="Pick font color", command=lambda: tF_f.chooseColour(self, "fg"))
         self.b4.grid(row=3, column=6, sticky="ew")
 
         self.parent.var = IntVar()
-        self.parent.ch1 = Checkbutton(self.TopFrame, text="Manual", variable=self.parent.var,
+        self.parent.ch1 = Checkbutton(self, text="Manual", variable=self.parent.var,
                                       command=lambda: tF_f.manual(self), state="disable")
         self.parent.ch1.grid(row=2, column=3, sticky="ew")
 
-        self.b5 = Button(self.TopFrame, text="Ruler window", command=lambda: pW.RullerWindow(self.parent))
+        self.b5 = Button(self, text="Ruler window", command=lambda: pW.RullerWindow(self.parent))
         self.b5.grid(row=2, column=4, sticky="ew")
         self.b5.configure(state='disable')
 
-        self.b2 = Button(self.TopFrame, text="Preview", command=lambda: tF_f.preview(self))
+        self.b2 = Button(self, text="Preview", command=lambda: tF_f.preview(self))
         self.b2.grid(row=6, column=6)
 
-        self.l12 = Label(self.TopFrame, text="Crop Position")
+        self.l12 = Label(self, text="Crop Position")
         self.l12.grid(row=5, column=5, padx=5)
 
-        self.c4 = Combobox(self.TopFrame, width=13, state="readonly")
+        self.c4 = Combobox(self, width=13, state="readonly")
         self.c4['values'] = ("Bottom", "Top")
         self.c4.current(0)  # set the selected item
         self.c4.grid(row=6, column=5, sticky="ew")
@@ -321,20 +346,19 @@ class Images(Frame):
         self.drag_id = ""
 
         # Define frame for canvas
-        self.images = Frame(self.parent)
-        self.images.grid(row=3, column=1, sticky="nwes")
+        self.grid(row=3, column=1, sticky="nwes")
 
         # Frame configuration
-        self.images.grid_rowconfigure((0, 2), weight=1)
-        self.images.grid_columnconfigure((0, 3), weight=1)
-        self.images.grid_columnconfigure((1, 2), weight=5)
+        self.grid_rowconfigure((0, 2), weight=1)
+        self.grid_columnconfigure((0, 3), weight=1)
+        self.grid_columnconfigure((1, 2), weight=5)
 
         # Canvas 1
         # Default image
         self.parent.img1open = Image.open("images/file_import_image.png")
         self.parent.img1 = ImageTk.PhotoImage(self.parent.img1open)
 
-        self.parent.panel = Canvas(self.images)
+        self.parent.panel = Canvas(self)
         self.parent.panel.grid(row=1, column=1, sticky="nswe", padx=2)
 
         self.parent.image_on_panel = self.parent.panel.create_image(0, 0, anchor='nw', image=self.parent.img1,
@@ -344,7 +368,7 @@ class Images(Frame):
         self.parent.img2open = Image.open("images/file_import_image2.png")
         self.parent.img2 = ImageTk.PhotoImage(self.parent.img2open)
 
-        self.parent.panel2 = Canvas(self.images)
+        self.parent.panel2 = Canvas(self)
         self.parent.panel2.grid(row=1, column=2, sticky="nswe")
 
         self.parent.image_on_panel2 = self.parent.panel2.create_image(0, 0, anchor='nw', image=self.parent.img2,
