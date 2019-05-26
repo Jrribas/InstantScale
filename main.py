@@ -25,7 +25,6 @@ import threading
 
 # TODO: Check for more bugs
 # TODO: Check if code can be more clean
-# TODO: fix bug bigger target value
 # TODO: Wrong path files not saved
 
 ################################################

@@ -46,35 +46,45 @@ def readScale(self):
         self.bar_img_res = imread(exePath + "\\images\\HoldImages\\resize_im.tif")
 
         # Measures scale bar (in pixels) from resized white bar image
-        self.scale = len(pI.getScale(self.bar_img))
+        scale = pI.getScale(self.bar_img)
 
-        # Update entry widgets with values obtained
-        valueStateChanger(self, self.parent.e2, self.scale)
+        if scale is not None:
+            self.scale = len(scale)
 
-        # Update progress bar to 75 and update GUI
-        valueStateChanger(self, self.p_bar, 75)
+            # Update entry widgets with values obtained
+            valueStateChanger(self, self.parent.e2, self.scale)
 
-        # Get scale number and it's units
-        self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
+            # Update progress bar to 75 and update GUI
+            valueStateChanger(self, self.p_bar, 75)
 
-        # Update entry widgets with values obtained
-        valueStateChanger(self, self.e1, self.scaleNumb)
+            # Get scale number and it's units
+            self.scaleNumb, self.units = pI.getNumber(self.bar_img, self.bar_img_res, exePath)
 
-        # Update combobox widgets (units) with value obtained
-        valueStateChanger(self, self.c1, self.units)
+            # Update entry widgets with values obtained
+            valueStateChanger(self, self.e1, self.scaleNumb)
 
-        # Update progress bar to 100 and update GUI
-        valueStateChanger(self, self.p_bar, 100)
+            # Update combobox widgets (units) with value obtained
+            valueStateChanger(self, self.c1, self.units)
 
-        # If manual checkbox is checked return widgets to normal state
-        if self.parent.var.get() == 1:
-            widgets = [self.e1, self.parent.e2, self.e3]
-            for wg in widgets:
-                wg.configure(state='normal')
-            self.c1.configure(state="readonly")
-            self.c2.configure(state="readonly")
+            # Update progress bar to 100 and update GUI
+            valueStateChanger(self, self.p_bar, 100)
 
-        self.parent.ch1.config(state='normal')
+            # If manual checkbox is checked return widgets to normal state
+            if self.parent.var.get() == 1:
+                widgets = [self.e1, self.parent.e2, self.e3]
+                for wg in widgets:
+                    wg.configure(state='normal')
+                self.c1.configure(state="readonly")
+                self.c2.configure(state="readonly")
+
+            self.parent.ch1.config(state='normal')
+
+        elif self.parent.save < 1:
+            # If scale bar is not found, user must use manual
+            self.parent.ch1.config(state='normal')
+            pW.Error(self, "Scale Bar (usually on top of scale number) could not be determined. Use manual instead.",
+                     "error", "no")
+            valueStateChanger(self, self.p_bar, 0)
 
     # If the program is processing several files don't show error window
     elif self.parent.save < 1:

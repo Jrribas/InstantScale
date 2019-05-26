@@ -6,15 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d87e23c6-4b43-4b71-84e0-2131fd9b1de4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/2ya.tif" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/images/HoldImages/bar.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/bar.tif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/HoldImages/ruller_crop.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/ruller_crop.tif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/cropImages/crop_rect.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/cropImages/crop_rect.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/thres.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/thres.tif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processImage.py" beforeDir="false" afterPath="$PROJECT_DIR$/processImage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topFrame_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/topFrame_functions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,11 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2125">
-              <caret line="49" column="60" selection-start-line="49" selection-start-column="60" selection-end-line="49" selection-end-column="60" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="51">
+              <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -39,7 +33,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/popupWindows.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2">
+            <state relative-caret-position="3893">
               <caret line="289" column="27" selection-start-line="289" selection-start-column="27" selection-end-line="289" selection-end-column="27" />
               <folding>
                 <element signature="e#412#2328#0" />
@@ -55,8 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="168" column="33" selection-start-line="168" selection-start-column="7" selection-end-line="168" selection-end-column="33" />
+            <state relative-caret-position="289">
+              <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -67,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/processImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="175" column="39" selection-start-line="175" selection-start-column="39" selection-end-line="175" selection-end-column="39" />
+            <state relative-caret-position="400">
+              <caret line="64" column="22" selection-start-line="64" selection-start-column="22" selection-end-line="64" selection-end-column="22" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -79,8 +73,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="27" column="59" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="59" />
+            <state relative-caret-position="340">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
         </entry>
@@ -96,7 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>reset</find>
       <find>Err</find>
       <find>draw</find>
       <find>self.c1</find>
@@ -126,6 +119,7 @@
       <find>true</find>
       <find>manua</find>
       <find>print</find>
+      <find>PRINT</find>
     </findStrings>
     <replaceStrings>
       <replace>, \w</replace>
@@ -189,10 +183,10 @@
         <option value="$PROJECT_DIR$/topFrame_function.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/update libraries.py" />
-        <option value="$PROJECT_DIR$/topFrame_functions.py" />
         <option value="$PROJECT_DIR$/popupWindows.py" />
         <option value="$PROJECT_DIR$/processImage.py" />
         <option value="$PROJECT_DIR$/tests.py" />
+        <option value="$PROJECT_DIR$/topFrame_functions.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -417,15 +411,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14657739" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14646997" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49627978" visible="true" weight="0.31260228" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49627978" visible="true" weight="0.312026" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.3927987" />
@@ -541,16 +535,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="1282" selection-start-line="1282" selection-end-line="1282" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py" />
     <entry file="file://$PROJECT_DIR$/popupWindows.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
+        <state relative-caret-position="3893">
           <caret line="289" column="27" selection-start-line="289" selection-start-column="27" selection-end-line="289" selection-end-column="27" />
           <folding>
             <element signature="e#412#2328#0" />
@@ -564,15 +552,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="27" column="59" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="59" />
+        <state relative-caret-position="340">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/processImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="175" column="39" selection-start-line="175" selection-start-column="39" selection-end-line="175" selection-end-column="39" />
+        <state relative-caret-position="400">
+          <caret line="64" column="22" selection-start-line="64" selection-start-column="22" selection-end-line="64" selection-end-column="22" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -581,8 +569,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="168" column="33" selection-start-line="168" selection-start-column="7" selection-end-line="168" selection-end-column="33" />
+        <state relative-caret-position="289">
+          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -591,11 +579,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2125">
-          <caret line="49" column="60" selection-start-line="49" selection-start-column="60" selection-end-line="49" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
         </state>
       </provider>
     </entry>
