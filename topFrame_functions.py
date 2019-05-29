@@ -257,6 +257,8 @@ def reset(self):
         wg.delete(0, END)
         wg.configure(state='disabled')
 
+    self.b5.configure(state='disabled')
+
     self.c1.current(1)
     self.c2.current(1)
 

@@ -47,6 +47,7 @@ class Menubar(Menu):
         self.parent = parent
 
         self.widgets = self.parent.topframe.winfo_children()
+        self.parent.files_orig = None
 
         # We don't like tear off xD
         file_menu = Menu(self, tearoff=0)
@@ -72,7 +73,7 @@ class Menubar(Menu):
     def selectImages(self):
 
         # Select file window
-        self.parent.files_orig = askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
+        self.parent.files_temp = askopenfilenames(initialdir="C:/Users/" + user + "/Desktop",
                                                   title="InstantScale - Please select the images to process",
                                                   filetypes=[("Image files", "*.tif *.jpg *.png"),
                                                              ("Tiff images", "*.tif"),
@@ -80,7 +81,8 @@ class Menubar(Menu):
                                                              ("Png images", "*.png")])
 
         # Check if user selected at least an image
-        if not isinstance(self.parent.files_orig, str):
+        if self.parent.files_temp != "":
+            self.parent.files_orig = self.parent.files_temp
 
             # Check if an image was already opened before.
             if hasattr(self.parent, 'img3open') and self.parent.img3open is not None:
@@ -173,12 +175,13 @@ class Menubar(Menu):
 
         self.entryconfig("File", state="normal")
         self.entryconfig("About", state="normal")
+
         for w in self.widgets:
             if self.parent.var.get() == 0 and w.winfo_class() == "TEntry":
                 continue
             elif w.winfo_class() == "TCombobox" or w.winfo_class() == "Spinbox":
                 w.configure(state="readonly")
-            else:
+            elif str(w) != ".!topframe.!button4":
                 w.configure(state="normal")
 
 
