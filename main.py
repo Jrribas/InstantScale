@@ -463,7 +463,7 @@ class InstantScale(Tk):
         self.protocol("WM_DELETE_WINDOW", lambda: InstantScale.exit(self))
 
         # Main app windows definitions
-        self.wm_title("Instant Scale")
+        self.wm_title("Instant Scale V3.0")
         self.iconbitmap(default="icon.ico")
         self.wm_minsize(800, 600)
         self.geometry("1024x600")

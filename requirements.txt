@@ -1,14 +1,8 @@
 certifi==2019.3.9
-chardet==3.0.4
-docopt==0.6.2
-idna==2.8
-numpy==1.16.3
+numpy==1.16.4
 opencv-python==4.1.0.25
 Pillow==6.0.0
 pytesseract==0.2.6
-requests==2.21.0
-urllib3==1.24.3
 wincertstore==0.2
-yarg==0.1.9
 
 # pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U

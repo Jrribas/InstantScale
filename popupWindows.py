@@ -26,7 +26,7 @@ class About(Toplevel):
         self.grid_rowconfigure((0, 5), weight=1)
         self.grid_columnconfigure((0, 2), weight=1)
 
-        la = Label(self, text="Instant Scale v2.0", font="Verdana 16 bold")
+        la = Label(self, text="Instant Scale v3.0", font="Verdana 16 bold")
         la.grid(row=0, column=1)
 
         stringAbout = "Reads SEM images scale, crops the white bar, and creates\n a new smaller scale on a " \
@@ -84,16 +84,16 @@ class Error(Toplevel):
         if method == "error":
             self.wm_title("Error!")
             stringAbout = "The error returned the following message:"
-            l1 = Label(self, text="Instant Scale v2.0 found an error :(\n", font="Verdana 16 bold")
+            l1 = Label(self, text="Instant Scale v3.0 found an error :(\n", font="Verdana 16 bold")
 
         elif method == "warning":
             self.wm_title("Warning!")
             stringAbout = "Warning message:"
-            l1 = Label(self, text="Instant Scale v2.0 has a warning:(\n", font="Verdana 16 bold")
+            l1 = Label(self, text="Instant Scale v3.0 has a warning:(\n", font="Verdana 16 bold")
         else:
             self.wm_title("Message")
             stringAbout = "Message:"
-            l1 = Label(self, text="Instant Scale v2.0 has a message :)\n", font="Verdana 16 bold")
+            l1 = Label(self, text="Instant Scale v3.0 has a message :)\n", font="Verdana 16 bold")
 
         l1.grid(row=0, column=1, padx=5, columnspan=2)
 
