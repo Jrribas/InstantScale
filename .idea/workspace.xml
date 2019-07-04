@@ -4,7 +4,14 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d87e23c6-4b43-4b71-84e0-2131fd9b1de4" name="Default Changelist" comment="" />
+    <list default="true" id="d87e23c6-4b43-4b71-84e0-2131fd9b1de4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/HoldImages/bar.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/bar.tif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/HoldImages/resize_im.tif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/thres.tif" beforeDir="false" afterPath="$PROJECT_DIR$/images/thres.tif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topFrame_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/topFrame_functions.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,14 +20,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+            <state relative-caret-position="229">
+              <caret line="83" column="39" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/popupWindows.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="841">
+              <caret line="289" column="27" selection-start-line="289" selection-start-column="27" selection-end-line="289" selection-end-column="27" />
               <folding>
-                <element signature="e#38675#40547#0" />
-                <element signature="e#40577#43847#0" />
+                <element signature="e#412#2328#0" />
+                <element signature="e#448#1960#0" />
+                <element signature="e#819#967#0" />
+                <element signature="e#1028#1186#0" />
+                <element signature="e#1992#2328#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="259" column="11" selection-start-line="259" selection-start-column="11" selection-end-line="259" selection-end-column="11" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -38,8 +69,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/processImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2958">
-              <caret line="180" column="8" selection-start-line="180" selection-start-column="8" selection-end-line="180" selection-end-column="8" />
+            <state relative-caret-position="986">
+              <caret line="64" column="22" selection-start-line="64" selection-start-column="22" selection-end-line="64" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
             </state>
           </provider>
         </entry>
@@ -55,51 +98,72 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>inser</find>
-      <find>Disab</find>
-      <find>self.parent.c2.config</find>
-      <find>reset</find>
-      <find>self.parent.c2</find>
-      <find>self.e4</find>
-      <find>self.parent.var</find>
-      <find>self.parent.var.set</find>
-      <find>self.c1</find>
-      <find>Read Scale bef</find>
-      <find>Error</find>
-      <find>warning</find>
-      <find>ReadScale</find>
-      <find>self.parent.i</find>
-      <find>self.parent.i =</find>
-      <find>self.parent.ch1</find>
-      <find>InstantScale.exit</find>
-      <find>exit</find>
-      <find>helpers</find>
-      <find>readsc</find>
-      <find>hasattr(self.parent, 'files')</find>
-      <find>hasattr(self.parent, 'fles')</find>
-      <find>Draws</find>
-      <find>self.e3</find>
-      <find>self.choice</find>
+      <find>spinb</find>
+      <find>valuesta</find>
+      <find>self.choi</find>
       <find>choice</find>
-      <find>findsize</find>
-      <find>search</find>
-      <find>center</find>
-      <find>min</find>
+      <find>previ</find>
+      <find>bar_img</find>
+      <find>ba</find>
+      <find>[i, 3]</find>
+      <find>[i, 4]</find>
+      <find>imread</find>
+      <find>[i, len(img)-1]</find>
+      <find>getbar</find>
+      <find>combo</find>
+      <find>len(img)</find>
+      <find>readsca</find>
+      <find>changer</find>
+      <find>config</find>
+      <find>width</find>
+      <find>self.TopFrame</find>
+      <find>self.images</find>
+      <find>manual</find>
+      <find>true</find>
+      <find>manua</find>
+      <find>print</find>
+      <find>PRINT</find>
+      <find>reset</find>
+      <find>self.b5</find>
+      <find>rese</find>
+      <find>self.parent.files_orig</find>
+      <find>self.parent.files</find>
     </findStrings>
     <replaceStrings>
-      <replace>=</replace>
       <replace>, \w</replace>
       <replace>rrk</replace>
       <replace>ttk</replace>
       <replace>rgb_list</replace>
       <replace>#</replace>
       <replace>lumi</replace>
-      <replace>self</replace>
       <replace>self.parent.var</replace>
       <replace>self.parent.ch1</replace>
+      <replace>self.parent.e2</replace>
+      <replace>self.e5</replace>
+      <replace>self.e2</replace>
+      <replace>(self, parent, controller, *args, **kwargs)</replace>
+      <replace>ruller</replace>
+      <replace>aW.About</replace>
+      <replace>eW.Error</replace>
+      <replace>width</replace>
+      <replace>pW</replace>
+      <replace>pW.</replace>
+      <replace>self.p_bar</replace>
+      <replace>valueStateChanger(self,</replace>
+      <replace>self.ftColour_rgb</replace>
+      <replace>self.bgcColour_rgb</replace>
+      <replace>self.parent</replace>
+      <replace>key</replace>
+      <replace>[i, 4]</replace>
+      <replace>[i, len(img)-1]</replace>
+      <replace>[i, width-1]</replace>
+      <replace>[i, width-3]</replace>
+      <replace>height</replace>
+      <replace>self</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -107,25 +171,39 @@
       <list>
         <option value="$PROJECT_DIR$/main2.py" />
         <option value="$PROJECT_DIR$/test-main2.py" />
-        <option value="$PROJECT_DIR$/main1.py" />
         <option value="$PROJECT_DIR$/test1.py" />
         <option value="$PROJECT_DIR$/testmain.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$USER_HOME$/Desktop/pixruler-master/drawLines.py" />
         <option value="$USER_HOME$/Desktop/pixruler-master/pixruler.py" />
         <option value="$USER_HOME$/Desktop/screenruler-master/main.py" />
-        <option value="$PROJECT_DIR$/processImage.py" />
-        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/test resize borderless.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/Tesseract-OCR/readScale.py" />
+        <option value="$PROJECT_DIR$/Tesseract-OCR/main1.py" />
+        <option value="$PROJECT_DIR$/main1.py" />
+        <option value="$PROJECT_DIR$/aboutWindow.py" />
+        <option value="$PROJECT_DIR$/rullerWindow.py" />
+        <option value="$PROJECT_DIR$/errorWindow.py" />
+        <option value="$PROJECT_DIR$/__init__.py" />
+        <option value="$PROJECT_DIR$/preview.py" />
+        <option value="$PROJECT_DIR$/readScale.py" />
+        <option value="$PROJECT_DIR$/topFrame_function.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/update libraries.py" />
+        <option value="$PROJECT_DIR$/popupWindows.py" />
+        <option value="$PROJECT_DIR$/processImage.py" />
+        <option value="$PROJECT_DIR$/tests.py" />
+        <option value="$PROJECT_DIR$/topFrame_functions.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="831" />
+    <option name="height" value="735" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -147,10 +225,16 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/screenruler-master" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\joaor\Documents\GitHub\InstantScale" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -165,27 +249,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="InstantScale" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop/screenruler-master" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/screenruler-master/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="InstantScale" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -207,28 +270,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pixruler" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="InstantScale" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop/pixruler-master" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/pixruler-master/pixruler.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="tests" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="InstantScale" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -240,7 +282,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -249,7 +291,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="testmain" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="update libraries" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="InstantScale" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -261,7 +303,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testmain.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/update libraries.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -271,19 +313,15 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.main (1)" />
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.pixruler" />
-      <item itemvalue="Python.test" />
-      <item itemvalue="Python.testmain" />
+      <item itemvalue="Python.tests" />
+      <item itemvalue="Python.update libraries" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.main (1)" />
-        <item itemvalue="Python.pixruler" />
-        <item itemvalue="Python.test" />
-        <item itemvalue="Python.testmain" />
+        <item itemvalue="Python.tests" />
+        <item itemvalue="Python.update libraries" />
       </list>
     </recent_temporary>
   </component>
@@ -298,50 +336,130 @@
       <option name="presentableId" value="Default" />
       <updated>1551964777515</updated>
     </task>
+    <task id="LOCAL-00001" summary="test">
+      <created>1557763123291</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1557763123291</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fixed bug with ªº characters, simplified code on savefile function">
+      <created>1557838496947</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1557838496947</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fixed bug: combobox accepted user entry.&#10;Changed default images to be more clear">
+      <created>1557843557149</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1557843557149</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fixed bug: missed to combobox and spinbox">
+      <created>1557843755751</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1557843755751</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fixed bug: preview would &quot;ignore&quot; choice in error window.&#10;Simplified code in preview function">
+      <created>1557916296773</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1557916296773</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fixed bug: croprow was the wrong value due to low dpi/jpg images">
+      <created>1557926615579</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1557926615579</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed bug: very small bar, induced a very long loop and an error (not fixed completely but for the purpose of the app it's probability was reduced)">
+      <created>1557935954616</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1557935954616</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fixed bug: very small bar, induced a very long loop and an error (not fixed completely but for the purpose of the app it's probability was reduced)">
+      <created>1557952473947</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1557952473947</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fixed bug: very small bar, induced a very long loop and an error (not fixed completely but for the purpose of the app it's probability was reduced)">
+      <created>1557957192810</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1557957192810</updated>
+    </task>
+    <task id="LOCAL-00010" summary="comments">
+      <created>1558023148225</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1558023148226</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fixed bug with image with whithe bar but no scale">
+      <created>1558882760889</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1558882760889</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14806548" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14646997" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772382" weight="0.3207856" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50075644" side_tool="true" weight="0.3289689" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49627978" visible="true" weight="0.312026" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="5" weight="0.3927987" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3289689" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3289689" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5037202" side_tool="true" weight="0.29459903" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.3289689" />
-      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.5022762" weight="0.33388704" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.5022762" weight="0.33060557" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.3289689" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
     </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14910433" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772382" weight="0.21235102" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32936078" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50075644" side_tool="true" weight="0.3289689" />
-      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.5022762" weight="0.33388704" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
-    </layout-to-restore>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <MESSAGE value="Fixed bug with ªº characters, simplified code on savefile function" />
+    <MESSAGE value="Fixed bug: combobox accepted user entry.&#10;Changed default images to be more clear" />
+    <MESSAGE value="Fixed bug: missed to combobox and spinbox" />
+    <MESSAGE value="Fixed bug: preview would &quot;ignore&quot; choice in error window.&#10;Simplified code in preview function" />
+    <MESSAGE value="Fixed bug: croprow was the wrong value due to low dpi/jpg images" />
+    <MESSAGE value="Fixed bug: very small bar, induced a very long loop and an error (not fixed completely but for the purpose of the app it's probability was reduced)" />
+    <MESSAGE value="comments" />
+    <MESSAGE value="fixed bug with image with whithe bar but no scale" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bug with image with whithe bar but no scale" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -356,38 +474,14 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/main2.py" />
-    <entry file="file://$PROJECT_DIR$/tests.py" />
     <entry file="file://$PROJECT_DIR$/untitled0.py" />
     <entry file="file://$PROJECT_DIR$/test-main2.py" />
     <entry file="file://$PROJECT_DIR$/../backup inSc/main2.py" />
     <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/site-packages/PIL/TiffImagePlugin.py" />
-    <entry file="file://$USER_HOME$/Anaconda3/envs/k36/Lib/tkinter/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="1475" selection-start-line="1475" selection-end-line="1475" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test1.py" />
-    <entry file="file://$PROJECT_DIR$/main1.py" />
-    <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/tokenize.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="451" selection-start-line="451" selection-end-line="451" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/tkinter/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="1276" selection-start-line="1276" selection-end-line="1276" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/tokenize.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/envs/k36_spyder/Lib/tkinter/__init__.py" />
     <entry file="file://$PROJECT_DIR$/testmain.py" />
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/Lib/tkinter/filedialog.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="367">
@@ -395,22 +489,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/conda/common/os/windows.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/conda/common/os/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/conda/common/os/windows.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/conda/common/os/__init__.py" />
     <entry file="file://$PROJECT_DIR$/SetupScript/setup_Test.iss">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="1705" selection-start-line="1705" selection-end-line="1705" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -422,49 +504,99 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/pixruler-master/drawLines.py">
+    <entry file="file://$USER_HOME$/Desktop/pixruler-master/drawLines.py" />
+    <entry file="file://$USER_HOME$/Desktop/pixruler-master/pixruler.py" />
+    <entry file="file://$USER_HOME$/Desktop/screenruler-master/main.py" />
+    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/typing.pyi">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="51" column="78" selection-start-line="51" selection-start-column="78" selection-end-line="51" selection-end-column="78" />
+        <state relative-caret-position="198">
+          <caret line="491" column="45" lean-forward="true" selection-start-line="491" selection-start-column="44" selection-end-line="491" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/pixruler-master/pixruler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/test resize borderless.py" />
+    <entry file="file://$PROJECT_DIR$/main1.py" />
+    <entry file="file://$PROJECT_DIR$/aboutWindow.py" />
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/screenruler-master/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/processImage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2958">
-          <caret line="180" column="8" selection-start-line="180" selection-start-column="8" selection-end-line="180" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/readScale.py" />
+    <entry file="file://$PROJECT_DIR$/rullerWindow.py" />
+    <entry file="file://$PROJECT_DIR$/License.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-          <folding>
-            <element signature="e#38675#40547#0" />
-            <element signature="e#40577#43847#0" />
-          </folding>
+          <caret column="11" lean-forward="true" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/update libraries.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="20" selection-start-column="20" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/k36/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="1282" selection-start-line="1282" selection-end-line="1282" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/setup/Lib/tkinter/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/processImage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="64" column="22" selection-start-line="64" selection-start-column="22" selection-end-line="64" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/popupWindows.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="841">
+          <caret line="289" column="27" selection-start-line="289" selection-start-column="27" selection-end-line="289" selection-end-column="27" />
+          <folding>
+            <element signature="e#412#2328#0" />
+            <element signature="e#448#1960#0" />
+            <element signature="e#819#967#0" />
+            <element signature="e#1028#1186#0" />
+            <element signature="e#1992#2328#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/topFrame_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="259" column="11" selection-start-line="259" selection-start-column="11" selection-end-line="259" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="83" column="39" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
         </state>
       </provider>
     </entry>
