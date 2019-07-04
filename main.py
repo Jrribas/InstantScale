@@ -479,7 +479,7 @@ class InstantScale(Tk):
         self.config(menu=self.menu)
 
         self.center()
-        
+
     def center(self):
         # Center About window in any display resolution
         self.update_idletasks()

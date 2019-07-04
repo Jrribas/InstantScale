@@ -14,6 +14,7 @@ def getBar(img):
 
     # Look pixel by pixel for the white bar
 
+    # Look pixel by pixel for the white bar
     try:
         for i in reversed(range(height)):
             if list(img[i, width - 3]) >= [254, 254, 254] and startRow is None:
