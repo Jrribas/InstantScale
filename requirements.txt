@@ -1,8 +1,6 @@
-certifi==2019.3.9
 numpy==1.16.4
 opencv-python==4.1.0.25
 Pillow==6.0.0
 pytesseract==0.2.6
-wincertstore==0.2
 
 # pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
