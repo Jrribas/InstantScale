@@ -6,12 +6,12 @@ base = None
 if sys.platform == 'win32':
     base = 'Win32GUI'
 
-os.environ['TCL_LIBRARY'] = r'C:\Users\joaor\Anaconda3\envs\setup\tcl\tcl8.6'
-os.environ['TK_LIBRARY'] = r'C:\Users\joaor\Anaconda3\envs\setup\tcl\tk8.6'
+os.environ['TCL_LIBRARY'] = r'C:\Users\jrribas\AppData\Local\Continuum\anaconda3\envs\Iscale\tcl\tcl8.6'
+os.environ['TK_LIBRARY'] = r'C:\Users\jrribas\AppData\Local\Continuum\anaconda3\envs\Iscale\tcl\tk8.6'
 
 includes = []
-include_files = [r"C:\Users\joaor\Anaconda3\DLLs\tcl86t.dll",
-                 r"C:\Users\joaor\Anaconda3\DLLs\tk86t.dll",
+include_files = [r"C:\Users\jrribas\AppData\Local\Continuum\anaconda3\DLLs\tcl86t.dll",
+                 r"C:\Users\jrribas\AppData\Local\Continuum\anaconda3\DLLs\tk86t.dll",
                  'Tesseract-OCR/',
                  'images/',
                  r"icon.ico"]
