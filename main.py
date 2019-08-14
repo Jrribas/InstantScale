@@ -191,8 +191,6 @@ class TopFrame(Frame):
         self.parent = parent
 
         # Frame assignment
-        self.configure(height=190, width=800)
-        self.grid_propagate(False)
         self.grid(row=1, column=1, sticky="nw")
 
         # Frame configuration
